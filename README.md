@@ -3,4 +3,8 @@ TicketGuru
 
 # Käyttäjäroolit & Käyttäjätarinat
 
-##
+## Lipunmyyjä
+
+## Asiakas
+
+## Tapahtumanjärjestäjä
