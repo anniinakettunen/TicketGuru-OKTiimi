@@ -52,3 +52,7 @@ Roolissani tapahtumanjärjestäjä, tahdon lisätä eri lipputyyppejä sekä hin
 + Myymättä jääneet liput tulostetaan
 + Lipuissa on koodi, jolla lippu voidaan ovella merkitä käytetyksi
 + Verkkokauppa, jossa asiakkaat voivat ostaa lippuja
+
+## Käyttöliittymä
+
+![Käyttöliittymäkuva](public/kayttoliittyma.png)
