@@ -1,5 +1,5 @@
-# TicketGuru-OKTiimi
-OK-Tiimi
+# TicketGuru
+OK-Tiimi: Anniina, Erkka, Maria, Teppo, Thu, Ville
 
 # Johdanto
 Kehitettävä ohjelmisto on lippujenmyyntijärjestelmä, johon voi lisätä tapahtumia, määritellä niihin lipputyyppejä ja myydä lippuja tapahtumiin. Järjestelmä rekisteröi myös myytyjen lippujen tiedot tapahtumakohtaisesti. Järjestelmä kehitetään niin, että siihen voidaan jatkokehityksessä lisätä myös verkkokauppa, josta lipputoimiston asiakkaat voivat ostaa itse lippuja.
@@ -14,12 +14,16 @@ Päätelaitteena on pääasiassa desktop, koska aluksi ohjelmaa käytetään vai
 
 ## Käyttäjäryhmät
 
-**Tapahtumanjärjestäjä**
-- omien tapahtumien tietojen muokkaaminen
-- omien tapahtumien lippujen määrien ja tyyppien muokkaaminen
-**Myyjä**
+**Admin**
+- tapahtumien tietojen muokkaaminen
+- tapahtumien lippujen määrien muokkaaminen
+- tapahtumien lipputyyppien muokkaaminen
+
+**Lipunmyyjä**
 - lippujen myyminen ja tulostaminen
 - lippujen määrien ja hintojen tarkastelu
+
+**Lipunostaja**
 
 # Käyttäjätarinat
 > **1.**
