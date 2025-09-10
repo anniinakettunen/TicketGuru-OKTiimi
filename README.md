@@ -55,4 +55,4 @@ Roolissani tapahtumanjärjestäjä, tahdon lisätä eri lipputyyppejä sekä hin
 
 ## Käyttöliittymä
 
-![Käyttöliittymäkuva](public/kayttoliittyma.png)
+![Käyttöliittymäkuva](public/kayttoliittymakuva.jpg)
