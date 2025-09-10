@@ -1,18 +1,18 @@
 # TicketGuru
 OK-Tiimi: Anniina, Erkka, Maria, Teppo, Thu, Ville
 
-# Johdanto
+## Johdanto
 Kehitettävä ohjelmisto on lippujenmyyntijärjestelmä, johon voi lisätä tapahtumia, määritellä niihin lipputyyppejä ja myydä lippuja tapahtumiin. Järjestelmä rekisteröi myös myytyjen lippujen tiedot tapahtumakohtaisesti. Järjestelmä kehitetään niin, että siihen voidaan jatkokehityksessä lisätä myös verkkokauppa, josta lipputoimiston asiakkaat voivat ostaa itse lippuja.
 Asiakas on lipputoimisto, joka on tilannut lipunmyyntijärjestelmän myyntipisteeseensä. 
 Projekti toteutetaan Scrum-mallin mukaisesti.
 
-## Toteutus- ja toimintaympäristö
+### Toteutus- ja toimintaympäristö
 Ohjelmisto toteutetaan Javalla käyttäen Spring Boot -kehystä. 
 Päätelaitteena on pääasiassa desktop, koska aluksi ohjelmaa käytetään vain lipunmyyntipisteessä. Jatkokehitystä varten ohjelmiston tulee olla laajennettavissa myös mobiilikäyttöön.
 
-# Järjestelmän määrittely
+## Järjestelmän määrittely
 
-## Käyttäjäryhmät
+### Käyttäjäryhmät
 
 **Admin**
 - tapahtumien tietojen muokkaaminen
@@ -25,7 +25,7 @@ Päätelaitteena on pääasiassa desktop, koska aluksi ohjelmaa käytetään vai
 
 **Lipunostaja**
 
-# Käyttäjätarinat
+## Käyttäjätarinat
 > **1.**
 > Lipunmyyntitoimistona haluan myydä lippuja eri asiakasryhmille (mm. aikuiset & lapset)
 
@@ -43,6 +43,6 @@ Päätelaitteena on pääasiassa desktop, koska aluksi ohjelmaa käytetään vai
 
 
 
-## Käyttöliittymä
+### Käyttöliittymä
 
 ![Kayttoliittymakuva](ticketguru/public/kayttoliittymakuva.jpg)
