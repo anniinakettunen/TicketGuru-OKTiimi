@@ -23,12 +23,15 @@ Päätelaitteena on pääasiassa desktop, koska aluksi ohjelmaa käytetään vai
 
 # Käyttäjätarinat
 > **1.**
-> Lipunmyyntitoimistona tahdon ominaisuuden myydä ja tulostaa lippuja eri asiakasryhmille (mm. aikuiset & lapset)
+> Lipunmyyntitoimistona tahdon ominaisuuden myydä lippuja eri asiakasryhmille (mm. aikuiset & lapset)
 
->**2.**
+> **2.**
+> Lipunmyyntitoimistona tahdon ominaisuuden tulostaa myydyn lipun
+
+>**3.**
 > Lipunmyyntitoimistona tahdon ominaisuuden muokata tapahtumien tietoja (aika, paikka, kuvaus, kaupunki, lippujen määrä)
 
->**3.** 
+>**4.** 
 > Lipunmyyntitoimistona tahdon ominaisuuden tarkastella myyntiraportteja tapahtumakohtaisesti
 
 ## Käyttöliittymä
