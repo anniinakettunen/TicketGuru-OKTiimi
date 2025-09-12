@@ -57,4 +57,3 @@ Päätelaitteena on pääasiassa desktop, koska aluksi ohjelmaa käytetään vai
 
 ![Tietokanta](ticketguru/public/Tietokanta.jpg)
 
->>>>>>> 9635623 (Tietokanta)
