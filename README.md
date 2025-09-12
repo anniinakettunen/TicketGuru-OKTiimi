@@ -56,4 +56,5 @@ Päätelaitteena on pääasiassa desktop, koska aluksi ohjelmaa käytetään vai
 ## Tietokantamalli
 
 ![Tietokanta](ticketguru/public/Tietokanta.jpg)
+![Tietokanta](ticketguru/public/Tietokanta.jpg)
 
