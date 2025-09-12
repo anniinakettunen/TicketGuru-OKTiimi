@@ -46,4 +46,4 @@ Päätelaitteena on pääasiassa desktop, koska aluksi ohjelmaa käytetään vai
 ### Käyttöliittymä
 
 ![Kayttoliittymakuva](ticketguru/public/kayttoliittymakuva.jpg)
-![Kayttoliittymakuva2](ticketguru/public/kayttoliittyma2.jpg)
+![Kayttoliittymakuva2](ticketguru/public/kayttoliityma2.jpg)
