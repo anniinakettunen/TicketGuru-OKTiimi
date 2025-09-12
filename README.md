@@ -52,10 +52,6 @@ Päätelaitteena on pääasiassa desktop, koska aluksi ohjelmaa käytetään vai
 ![Kayttoliittymakuva](ticketguru/public/kayttoliittymakuva.jpg)
 ![Kayttoliittymakuva2](ticketguru/public/kayttoliityma2.jpg)
 
-## Käyttöliittymä
-
-![Kayttoliittymakuva](ticketguru/public/kayttoliittymakuva.jpg)
-
 
 ## Tietokantamalli
 
