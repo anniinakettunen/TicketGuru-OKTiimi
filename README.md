@@ -42,8 +42,23 @@ Päätelaitteena on pääasiassa desktop, koska aluksi ohjelmaa käytetään vai
 > Lipunmyyntitoimistona haluan tarkastella myyntiraportteja tapahtumakohtaisesti, jotta voin seurata lipunmyynnin kehitystä, kirjata myydyt lipputyypit ja niiden tuottamat tulot sekä tehdä parempia liiketoimintapäätöksiä.
 
 
+>**5.** 
+> Tapahtumanjärjestäjänä haluan luoda uuden tapahtuman järjestelmään (nimi, kuvaus, aika, paikka, kaupunki), jotta voin aloittaa lipunmyynnin ajoissa.
+
+
 
 ### Käyttöliittymä
 
 ![Kayttoliittymakuva](ticketguru/public/kayttoliittymakuva.jpg)
 ![Kayttoliittymakuva2](ticketguru/public/kayttoliityma2.jpg)
+
+## Käyttöliittymä
+
+![Kayttoliittymakuva](ticketguru/public/kayttoliittymakuva.jpg)
+
+
+## Tietokantamalli
+
+![Tietokanta](ticketguru/public/Tietokanta.jpg)
+
+>>>>>>> 9635623 (Tietokanta)
