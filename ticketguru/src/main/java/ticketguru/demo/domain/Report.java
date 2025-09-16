@@ -8,13 +8,14 @@ import jakarta.persistence.Id;
     public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-        private String reportid;
+        private Long reportid;
+        
         private String name;
         private String date;
         private String description;
         private Event eventId;
 
-    public Report(String reportid, String name, String date, String description, Event eventId) {
+    public Report(Long reportid, String name, String date, String description, Event eventId) {
         this.reportid = reportid;
         this.name = name;
         this.date = date;
@@ -22,11 +23,11 @@ import jakarta.persistence.Id;
         this.eventId = eventId;
     }
 
-    public String getReportid() {
+    public Long getReportid() {
         return reportid;
     }
 
-    public void setReportid(String reportid) {
+    public void setReportid(Long reportid) {
         this.reportid = reportid;
     }
 

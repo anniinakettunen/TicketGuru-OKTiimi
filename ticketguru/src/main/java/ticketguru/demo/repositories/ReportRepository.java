@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import ticketguru.demo.domain.Report;
 
-public interface ReportRepository extends JpaRepository<Report, String> {
+public interface ReportRepository extends JpaRepository<Report, Long> {
 
     List<Report> findByReportId(Long reportid);
 
