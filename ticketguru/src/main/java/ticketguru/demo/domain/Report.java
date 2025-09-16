@@ -3,32 +3,41 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
     @Entity
     public class Report {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-        private Long reportid;
-        
+        private Long reportId;
+
         private String name;
         private String date;
         private String description;
+
+        @ManyToOne
+        @JoinColumn(name = "eventId", nullable = false)
         private Event eventId;
 
-    public Report(Long reportid, String name, String date, String description, Event eventId) {
-        this.reportid = reportid;
+    public Report(Long reportId, String name, String date, String description, Event eventId) {
+        this.reportId = reportId;
         this.name = name;
         this.date = date;
         this.description = description;
         this.eventId = eventId;
     }
 
-    public Long getReportid() {
-        return reportid;
+    public Report() {
     }
 
-    public void setReportid(Long reportid) {
-        this.reportid = reportid;
+    public Long getReportId() {
+        return reportId;
+    }
+
+    public void setReportid(Long reportId) {
+        this.reportId = reportId;
     }
 
     public String getName() {
@@ -55,7 +64,7 @@ import jakarta.persistence.Id;
         this.description = description;
     }
 
-    public Event getEventid() {
+    public Event getEventId() {
         return eventId;
     }
 
@@ -65,7 +74,7 @@ import jakarta.persistence.Id;
 
     @Override
     public String toString() {
-    return this.reportid + this.name + this.date + this.description + this.eventId;
+    return this.reportId + this.name + this.date + this.description + this.eventId;
     }
     }
 

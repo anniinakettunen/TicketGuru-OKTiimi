@@ -24,8 +24,8 @@ public class ReportRestController {
 
     // GET: Hae raportti ID:n perusteella
     @GetMapping("/{id}")
-    public ResponseEntity<Report> getReportById(@PathVariable Long id) {
-        Optional<Report> report = reportRepository.findById(id);
+    public ResponseEntity<Report> getReportById(@PathVariable Long reportId) {
+        Optional<Report> report = reportRepository.findById(reportId);
         return report.map(ResponseEntity::ok)
                      .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -38,8 +38,8 @@ public class ReportRestController {
 
     // PUT: Päivitä raportti ID:n perusteella
     @PutMapping("/{id}")
-    public ResponseEntity<Report> updateReport(@PathVariable Long id, @RequestBody Report reportDetails) {
-        Optional<Report> optionalReport = reportRepository.findById(id);
+    public ResponseEntity<Report> updateReport(@PathVariable Long reportId, @RequestBody Report reportDetails) {
+        Optional<Report> optionalReport = reportRepository.findById(reportId);
         if (optionalReport.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -47,18 +47,18 @@ public class ReportRestController {
         report.setName(reportDetails.getName());
         report.setDate(reportDetails.getDate());
         report.setDescription(reportDetails.getDescription());
-        report.setEventId(reportDetails.getEventid());
+        report.setEventId(reportDetails.getEventId());
         Report updatedReport = reportRepository.save(report);
         return ResponseEntity.ok(updatedReport);
     }
 
     // DELETE: Poista raportti ID:n perusteella
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteReport(@PathVariable Long id) {
-        if (!reportRepository.existsById(id)) {
+    public ResponseEntity<Void> deleteReport(@PathVariable Long reportId) {
+        if (!reportRepository.existsById(reportId)) {
             return ResponseEntity.notFound().build();
         }
-        reportRepository.deleteById(id);
+        reportRepository.deleteById(reportId);
         return ResponseEntity.noContent().build();
     }
 }

@@ -24,8 +24,8 @@ public class TicketSaleRestController {
 
     // GET: Hae ticket sale ID:n perusteella
     @GetMapping("/{id}")
-    public ResponseEntity<TicketSale> getTicketSaleById(@PathVariable Long id) {
-        Optional<TicketSale> ticketSale = ticketSaleRepository.findById(id);
+    public ResponseEntity<TicketSale> getTicketSaleById(@PathVariable Long saleId) {
+        Optional<TicketSale> ticketSale = ticketSaleRepository.findById(saleId);
         return ticketSale.map(ResponseEntity::ok)
                          .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -38,8 +38,8 @@ public class TicketSaleRestController {
 
     // PUT: Päivitä ticket sale ID:n perusteella
     @PutMapping("/{id}")
-    public ResponseEntity<TicketSale> updateTicketSale(@PathVariable Long id, @RequestBody TicketSale ticketSaleDetails) {
-        Optional<TicketSale> optionalTicketSale = ticketSaleRepository.findById(id);
+    public ResponseEntity<TicketSale> updateTicketSale(@PathVariable Long saleId, @RequestBody TicketSale ticketSaleDetails) {
+        Optional<TicketSale> optionalTicketSale = ticketSaleRepository.findById(saleId);
         if (optionalTicketSale.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -53,11 +53,11 @@ public class TicketSaleRestController {
 
     // DELETE: Poista ticket sale ID:n perusteella
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTicketSale(@PathVariable Long id) {
-        if (!ticketSaleRepository.existsById(id)) {
+    public ResponseEntity<Void> deleteTicketSale(@PathVariable Long saleId) {
+        if (!ticketSaleRepository.existsById(saleId)) {
             return ResponseEntity.notFound().build();
         }
-        ticketSaleRepository.deleteById(id);
+        ticketSaleRepository.deleteById(saleId);
         return ResponseEntity.noContent().build();
     }
 }

@@ -24,8 +24,8 @@ public class EventRestController {
 
     // GET: Hae event ID:n perusteella
     @GetMapping("/{id}")
-    public ResponseEntity<Event> getEventById(@PathVariable Long id) {
-        Optional<Event> event = eventRepository.findById(id);
+    public ResponseEntity<Event> getEventById(@PathVariable Long eventId) {
+        Optional<Event> event = eventRepository.findById(eventId);
         return event.map(ResponseEntity::ok)
                     .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -38,8 +38,8 @@ public class EventRestController {
 
     // PUT: Päivitä event ID:n perusteella
     @PutMapping("/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event eventDetails) {
-        Optional<Event> optionalEvent = eventRepository.findById(id);
+    public ResponseEntity<Event> updateEvent(@PathVariable Long eventId, @RequestBody Event eventDetails) {
+        Optional<Event> optionalEvent = eventRepository.findById(eventId);
         if (optionalEvent.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -56,11 +56,11 @@ public class EventRestController {
 
     // DELETE: Poista Event ID:n perusteella
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
-        if (!eventRepository.existsById(id)) {
+    public ResponseEntity<Void> deleteEvent(@PathVariable Long eventId) {
+        if (!eventRepository.existsById(eventId)) {
             return ResponseEntity.notFound().build();
         }
-        eventRepository.deleteById(id);
+        eventRepository.deleteById(eventId);
         return ResponseEntity.noContent().build();
     }
 }
