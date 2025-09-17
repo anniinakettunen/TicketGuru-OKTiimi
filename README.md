@@ -59,7 +59,7 @@ Päätelaitteena on pääasiassa desktop, koska aluksi ohjelmaa käytetään vai
 ## Tietohakemistokuvaukset
 
 ![tk_kayttaja](ticketguru/public/tk_kayttaja.jpg)
-[tk_rooli](ticketguru/public/tk_rooli.jpg)
+![tk_rooli](ticketguru/public/tk_rooli.jpg)
 ![tk_lippu](ticketguru/public/tk_lippu.jpg)
 ![tk_lipputyypit](ticketguru/public/tk_lipputyypit.jpg)
 ![tk_lipunmyynti](ticketguru/public/tk_lipunmyynti.jpg)
