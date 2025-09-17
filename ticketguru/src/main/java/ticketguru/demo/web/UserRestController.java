@@ -24,8 +24,8 @@ public class UserRestController {
 
     // GET: Hae käyttäjä ID:n perusteella
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> user = userRepository.findById(id);
+    public ResponseEntity<User> getUserById(@PathVariable Long userId) {
+        Optional<User> user = userRepository.findById(userId);
         return user.map(ResponseEntity::ok)
                    .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -38,8 +38,8 @@ public class UserRestController {
 
     // PUT: Päivitä käyttäjä ID:n perusteella
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
-        Optional<User> optionalUser = userRepository.findById(id);
+    public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody User userDetails) {
+        Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -55,11 +55,11 @@ public class UserRestController {
 
     // DELETE: Poista käyttäjä ID:n perusteella
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        if (!userRepository.existsById(id)) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
+        if (!userRepository.existsById(userId)) {
             return ResponseEntity.notFound().build();
         }
-        userRepository.deleteById(id);
+        userRepository.deleteById(userId);
         return ResponseEntity.noContent().build();
     }
 }
