@@ -12,11 +12,11 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long eventId;
-    private String name;
+    private String eventName;
     private String eventLocation;
-    private String city;
-    private LocalDate date;
-    private String description;
+    private String eventCity;
+    private LocalDate eventDate;
+    private String eventDescription;
     private Integer maxNumberOfTickets;
 
     public Event() {
@@ -30,12 +30,12 @@ public class Event {
         this.eventId = eventId;
     }
 
-    public String getName() {
-        return name;
+    public String getEventName() {
+        return eventName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
     }
 
     public String getEventLocation() {
@@ -46,28 +46,28 @@ public class Event {
         this.eventLocation = eventLocation;
     }
 
-    public String getCity() {
-        return city;
+    public String getEventCity() {
+        return eventCity;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setEventCity(String eventCity) {
+        this.eventCity = eventCity;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getEventDate() {
+        return eventDate;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setEventDate(LocalDate eventDate) {
+        this.eventDate = eventDate;
     }
 
-    public String getDescription() {
-        return description;
+    public String getEventDescription() {
+        return eventDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setEventDescription(String eventDescription) {
+        this.eventDescription = eventDescription;
     }
 
     public Integer getMaxNumberOfTickets() {
@@ -82,11 +82,11 @@ public class Event {
     public String toString() {
         return "Event{" +
                 "eventId=" + eventId +
-                ", name='" + name + '\'' +
+                ", name='" + eventName + '\'' +
                 ", eventLocation='" + eventLocation + '\'' +
-                ", city='" + city + '\'' +
-                ", date=" + date +
-                ", description='" + description + '\'' +
+                ", city='" + eventCity + '\'' +
+                ", date=" + eventDate +
+                ", description='" + eventDescription + '\'' +
                 ", maxNumberOfTickets=" + maxNumberOfTickets +
                 '}';
     }
