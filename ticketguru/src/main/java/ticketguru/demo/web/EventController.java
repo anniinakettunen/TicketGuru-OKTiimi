@@ -90,11 +90,11 @@ public String showEvents(@RequestParam(required = false) String keyword, Model m
             return ResponseEntity.notFound().build();
         }
         Event event = optionalEvent.get();
-        event.setName(eventDetails.getName());
+        event.setEventName(eventDetails.getEventName());
         event.setEventLocation(eventDetails.getEventLocation());
-        event.setCity(eventDetails.getCity());
-        event.setDate(eventDetails.getDate());
-        event.setDescription(eventDetails.getDescription());
+        event.setEventCity(eventDetails.getEventCity());
+        event.setEventDate(eventDetails.getEventDate());
+        event.setEventDescription(eventDetails.getEventDescription());
         event.setMaxNumberOfTickets(eventDetails.getMaxNumberOfTickets());
         Event updatedEvent = eventRepository.save(event);
         return ResponseEntity.ok(updatedEvent);
