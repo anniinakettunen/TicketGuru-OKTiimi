@@ -1,0 +1,35 @@
+<form th:object="${event}" th:action="@{/saveevent}" method="post" class="needs-validation">
+    <input type="hidden" th:field="*{eventId}" />
+
+    <div class="mb-3">
+        <label class="form-label">Nimi</label>
+        <input type="text" th:field="*{name}" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Paikka</label>
+        <input type="text" th:field="*{eventLocation}" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Kaupunki</label>
+        <input type="text" th:field="*{city}" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Päivämäärä</label>
+        <input type="date" th:field="*{date}" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Kuvaus</label>
+        <textarea th:field="*{description}" class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Lippujen enimmäismäärä</label>
+        <input type="number" th:field="*{maxNumberOfTickets}" class="form-control" min="1" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Tallenna tapahtuma</button>
+</form>

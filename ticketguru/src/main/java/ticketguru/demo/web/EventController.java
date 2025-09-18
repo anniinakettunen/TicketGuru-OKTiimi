@@ -1,0 +1,113 @@
+package ticketguru.demo.web;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import ticketguru.demo.domain.Event;
+import ticketguru.demo.repositories.EventRepository;
+
+@Controller
+@RequestMapping("/events")
+public class EventController {
+
+    @Autowired
+    private EventRepository eventRepository;
+
+    // 🔹 HTML-näkymä: Lomake uuden tapahtuman lisäämiseen
+    @GetMapping("/add")
+    public String showAddEventForm(Model model) {
+        model.addAttribute("event", new Event());
+        return "addevents"; // templates/addevents.html
+    }
+
+    // 🔹 HTML-näkymä: Tallenna uusi tapahtuma
+    @PostMapping("/save")
+    public String saveEvent(@ModelAttribute Event event) {
+        eventRepository.save(event);
+        return "redirect:/events/list";
+    }
+
+    // 🔹 HTML-näkymä: Kaikki tapahtumat ja suodatetut tapahtumat
+ @GetMapping("/list")
+public String showEvents(@RequestParam(required = false) String keyword, Model model) {
+    List<Event> events;
+    if (keyword != null && !keyword.isBlank()) {
+        events = eventRepository.findByNameContainingIgnoreCaseOrCityContainingIgnoreCase(keyword, keyword);
+    } else {
+        events = eventRepository.findAll();
+    }
+    model.addAttribute("events", events);
+    return "eventslist"; // templates/eventslist.html
+}
+
+
+    // 🔹 REST: Hae kaikki eventit JSON-muodossa
+    @GetMapping("/api")
+    @ResponseBody
+    public List<Event> getAllEvents() {
+        return eventRepository.findAll();
+    }
+
+    // 🔹 REST: Hae event ID:n perusteella
+    @GetMapping("/api/{id}")
+    @ResponseBody
+    public ResponseEntity<Event> getEventById(@PathVariable Long id) {
+        Optional<Event> event = eventRepository.findById(id);
+        return event.map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    
+
+    // 🔹 REST: Luo uusi event
+    @PostMapping("/api")
+    @ResponseBody
+    public Event createEvent(@RequestBody Event event) {
+        return eventRepository.save(event);
+    }
+
+    // 🔹 REST: Päivitä event ID:n perusteella
+    @PutMapping("/api/{id}")
+    @ResponseBody
+    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event eventDetails) {
+        Optional<Event> optionalEvent = eventRepository.findById(id);
+        if (optionalEvent.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Event event = optionalEvent.get();
+        event.setName(eventDetails.getName());
+        event.setEventLocation(eventDetails.getEventLocation());
+        event.setCity(eventDetails.getCity());
+        event.setDate(eventDetails.getDate());
+        event.setDescription(eventDetails.getDescription());
+        event.setMaxNumberOfTickets(eventDetails.getMaxNumberOfTickets());
+        Event updatedEvent = eventRepository.save(event);
+        return ResponseEntity.ok(updatedEvent);
+    }
+
+    // 🔹 REST: Poista Event ID:n perusteella
+    @DeleteMapping("/api/{id}")
+    @ResponseBody
+    public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
+        if (!eventRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        eventRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+}
