@@ -10,9 +10,12 @@ import ticketguru.demo.domain.Event;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
 
-    List<Event> findByID(Long eventId);
+    List<Event> findByEventId(Long eventId);
 
     List<Event> findByName(String name);
 
     List<Event> findByEventLocation(String eventLocation);
+
+    List<Event> findByNameContainingIgnoreCaseOrCityContainingIgnoreCase(String name, String city);
+
 }
