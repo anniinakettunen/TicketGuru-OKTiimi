@@ -43,17 +43,18 @@ public class EventController {
     }
 
     // 🔹 HTML-näkymä: Kaikki tapahtumat ja suodatetut tapahtumat
- @GetMapping("/list")
+@GetMapping("/list")
 public String showEvents(@RequestParam(required = false) String keyword, Model model) {
     List<Event> events;
     if (keyword != null && !keyword.isBlank()) {
-        events = eventRepository.findByNameContainingIgnoreCaseOrCityContainingIgnoreCase(keyword, keyword);
+        events = eventRepository.findByEventNameContainingIgnoreCaseOrEventCityContainingIgnoreCase(keyword, keyword);
     } else {
         events = eventRepository.findAll();
     }
     model.addAttribute("events", events);
-    return "eventslist"; // templates/eventslist.html
+    return "eventslist";
 }
+
 
 
     // 🔹 REST: Hae kaikki eventit JSON-muodossa

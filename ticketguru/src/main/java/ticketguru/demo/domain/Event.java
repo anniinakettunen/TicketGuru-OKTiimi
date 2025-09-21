@@ -1,10 +1,11 @@
 package ticketguru.demo.domain;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.time.LocalDate;
 
 @Entity
 public class Event {
@@ -19,8 +20,18 @@ public class Event {
     private String eventDescription;
     private Integer maxNumberOfTickets;
 
+    
     public Event() {
     }
+
+    public Event(String eventName, String eventLocation, String eventCity, LocalDate eventDate, String eventDescription, Integer maxNumberOfTickets) {
+    this.eventName = eventName;
+    this.eventLocation = eventLocation;
+    this.eventCity = eventCity;
+    this.eventDate = eventDate;
+    this.eventDescription = eventDescription;
+    this.maxNumberOfTickets = maxNumberOfTickets;
+}
 
     public Long getEventId() {
         return eventId;

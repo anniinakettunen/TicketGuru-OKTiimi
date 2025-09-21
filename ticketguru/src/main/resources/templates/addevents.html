@@ -1,35 +1,74 @@
-<form th:object="${event}" th:action="@{/saveevent}" method="post" class="needs-validation">
-    <input type="hidden" th:field="*{eventId}" />
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lisää tapahtuma</title>
+    <link rel="stylesheet" th:href="@{/css/bookstart.css}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+</head>
+<body class="container mt-5">
 
-    <div class="mb-3">
-        <label class="form-label">Nimi</label>
-        <input type="text" th:field="*{name}" class="form-control" required />
-    </div>
+    <h2 class="mb-4">Lisää uusi tapahtuma</h2>
 
-    <div class="mb-3">
-        <label class="form-label">Paikka</label>
-        <input type="text" th:field="*{eventLocation}" class="form-control" required />
-    </div>
+    <form th:object="${event}" th:action="@{/events/save}" method="post" class="needs-validation" novalidate>
+        <input type="hidden" th:field="*{eventId}" />
 
-    <div class="mb-3">
-        <label class="form-label">Kaupunki</label>
-        <input type="text" th:field="*{city}" class="form-control" required />
-    </div>
+        <div class="mb-3">
+            <label for="eventName" class="form-label">Nimi</label>
+            <input type="text" th:field="*{eventName}" class="form-control" id="eventName" required />
+            <div class="invalid-feedback">Anna tapahtuman nimi.</div>
+        </div>
 
-    <div class="mb-3">
-        <label class="form-label">Päivämäärä</label>
-        <input type="date" th:field="*{date}" class="form-control" required />
-    </div>
+        <div class="mb-3">
+            <label for="eventLocation" class="form-label">Paikka</label>
+            <input type="text" th:field="*{eventLocation}" class="form-control" id="eventLocation" required />
+            <div class="invalid-feedback">Anna tapahtumapaikka.</div>
+        </div>
 
-    <div class="mb-3">
-        <label class="form-label">Kuvaus</label>
-        <textarea th:field="*{description}" class="form-control" rows="3"></textarea>
-    </div>
+        <div class="mb-3">
+            <label for="eventCity" class="form-label">Kaupunki</label>
+            <input type="text" th:field="*{eventCity}" class="form-control" id="eventCity" required />
+            <div class="invalid-feedback">Anna kaupunki.</div>
+        </div>
 
-    <div class="mb-3">
-        <label class="form-label">Lippujen enimmäismäärä</label>
-        <input type="number" th:field="*{maxNumberOfTickets}" class="form-control" min="1" required />
-    </div>
+        <div class="mb-3">
+            <label for="eventDate" class="form-label">Päivämäärä</label>
+            <input type="date" th:field="*{eventDate}" class="form-control" id="eventDate" required />
+            <div class="invalid-feedback">Valitse päivämäärä.</div>
+        </div>
 
-    <button type="submit" class="btn btn-primary">Tallenna tapahtuma</button>
-</form>
+        <div class="mb-3">
+            <label for="eventDescription" class="form-label">Kuvaus</label>
+            <textarea th:field="*{eventDescription}" class="form-control" id="eventDescription" rows="3"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="maxNumberOfTickets" class="form-label">Lippujen enimmäismäärä</label>
+            <input type="number" th:field="*{maxNumberOfTickets}" class="form-control" id="maxNumberOfTickets" min="1" required />
+            <div class="invalid-feedback">Anna vähintään yksi lippu.</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Tallenna tapahtuma</button>
+        <a th:href="@{/events/list}" class="btn btn-outline-secondary ms-2">Takaisin listaukseen</a>
+    </form>
+
+    <script>
+        (() => {
+            'use strict';
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+
+</body>
+</html>
+
+

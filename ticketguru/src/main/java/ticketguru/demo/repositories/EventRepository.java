@@ -12,10 +12,10 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     List<Event> findByEventId(Long eventId);
 
-    List<Event> findByName(String name);
+    List<Event> findByEventName(String eventName);
 
     List<Event> findByEventLocation(String eventLocation);
 
-    List<Event> findByNameContainingIgnoreCaseOrCityContainingIgnoreCase(String name, String city);
-
+    List<Event> findByEventNameContainingIgnoreCaseOrEventCityContainingIgnoreCase(String name, String city);
 }
+
