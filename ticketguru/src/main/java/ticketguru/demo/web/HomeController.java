@@ -1,15 +1,23 @@
 package ticketguru.demo.web;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-@RestController  
+@Controller
 public class HomeController {
 
-    @GetMapping("/")  
-    public String home() {
-        return "Hello, TicketGuru is running!";
+    @GetMapping("/")
+    public String showHomePage() {
+        return "home"; 
     }
 
+   
+    @GetMapping("/status")
+    @ResponseBody
+    public String status() {
+        return "Hello, TicketGuru is running!";
+    }
 }
+
 
