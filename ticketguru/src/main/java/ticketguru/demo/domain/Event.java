@@ -20,7 +20,6 @@ public class Event {
     private String eventDescription;
     private Integer maxNumberOfTickets;
 
-    
     public Event() {
     }
 

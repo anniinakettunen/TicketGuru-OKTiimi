@@ -43,19 +43,39 @@ public class EventController {
     }
 
     // 🔹 HTML-näkymä: Kaikki tapahtumat ja suodatetut tapahtumat
-@GetMapping("/list")
-public String showEvents(@RequestParam(required = false) String keyword, Model model) {
-    List<Event> events;
-    if (keyword != null && !keyword.isBlank()) {
-        events = eventRepository.findByEventNameContainingIgnoreCaseOrEventCityContainingIgnoreCase(keyword, keyword);
-    } else {
-        events = eventRepository.findAll();
+    @GetMapping("/list")
+    public String showEvents(@RequestParam(required = false) String keyword, Model model) {
+        List<Event> events;
+        if (keyword != null && !keyword.isBlank()) {
+            events = eventRepository.findByEventNameContainingIgnoreCaseOrEventCityContainingIgnoreCase(keyword, keyword);
+        } else {
+            events = eventRepository.findAll();
+        }
+        model.addAttribute("events", events);
+        return "eventslist";
     }
-    model.addAttribute("events", events);
-    return "eventslist";
-}
-
-
+    // 🔹 HTML-näkymä: Muokkaa tapahtumaa -lomake
+    @GetMapping("/edit/{id}")
+    public String showEditEventForm(@PathVariable("id") Long id, Model model) {
+        @GetMapping("/edit/{id}")
+    public String showEditEventForm(@PathVariable Long id, Model model) {
+        Event event = eventRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid event Id:" + id));
+        model.addAttribute("event", event);
+        return "editevent"; // templates/editevent.html
+    }
+    // 🔹 HTML-näkymä: Tallenna muokattu tapahtuma
+    @PostMapping("/update/{id}")
+    public String updateEventForm(@PathVariable Long id, @ModelAttribute Event eventDetails) {
+        Event event = eventRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid event Id:" + id));
+        event.setEventName(eventDetails.getEventName());
+        event.setEventLocation(eventDetails.getEventLocation());
+        event.setEventCity(eventDetails.getEventCity());
+        event.setEventDate(eventDetails.getEventDate());
+        event.setEventDescription(eventDetails.getEventDescription());
+        event.setMaxNumberOfTickets(eventDetails.getMaxNumberOfTickets());
+        eventRepository.save(event);
+        return "redirect:/events/list";
+    }
 
     // 🔹 REST: Hae kaikki eventit JSON-muodossa
     @GetMapping("/api")
@@ -111,4 +131,5 @@ public String showEvents(@RequestParam(required = false) String keyword, Model m
         eventRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+}
 }
