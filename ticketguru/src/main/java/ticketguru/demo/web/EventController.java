@@ -57,8 +57,6 @@ public class EventController {
     // 🔹 HTML-näkymä: Muokkaa tapahtumaa -lomake
     @GetMapping("/edit/{id}")
     public String showEditEventForm(@PathVariable("id") Long id, Model model) {
-        @GetMapping("/edit/{id}")
-    public String showEditEventForm(@PathVariable Long id, Model model) {
         Event event = eventRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid event Id:" + id));
         model.addAttribute("event", event);
         return "editevent"; // templates/editevent.html
