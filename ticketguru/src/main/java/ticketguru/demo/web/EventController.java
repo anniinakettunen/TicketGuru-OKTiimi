@@ -54,17 +54,21 @@ public class EventController {
         model.addAttribute("events", events);
         return "eventslist";
     }
+
     // 🔹 HTML-näkymä: Muokkaa tapahtumaa -lomake
     @GetMapping("/edit/{id}")
     public String showEditEventForm(@PathVariable("id") Long id, Model model) {
-        Event event = eventRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid event Id:" + id));
+        Event event = eventRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + id));
         model.addAttribute("event", event);
         return "editevent"; // templates/editevent.html
     }
+
     // 🔹 HTML-näkymä: Tallenna muokattu tapahtuma
     @PostMapping("/update/{id}")
     public String updateEventForm(@PathVariable Long id, @ModelAttribute Event eventDetails) {
-        Event event = eventRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid event Id:" + id));
+        Event event = eventRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + id));
         event.setEventName(eventDetails.getEventName());
         event.setEventLocation(eventDetails.getEventLocation());
         event.setEventCity(eventDetails.getEventCity());
@@ -90,8 +94,6 @@ public class EventController {
         return event.map(ResponseEntity::ok)
                     .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
-    
 
     // 🔹 REST: Luo uusi event
     @PostMapping("/api")
@@ -129,5 +131,21 @@ public class EventController {
         eventRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    // 🔹 HTML-näkymä: Poiston vahvistuslomake
+@GetMapping("/delete/{id}")
+public String showDeleteConfirmation(@PathVariable Long id, Model model) {
+    Event event = eventRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + id));
+    model.addAttribute("event", event);
+    return "deleteevent"; // templates/deleteevent.html
 }
+
+// 🔹 HTML-näkymä: Poista tapahtuma
+@PostMapping("/delete/{id}")
+public String deleteEventHtml(@PathVariable Long id) {
+    eventRepository.deleteById(id);
+    return "redirect:/events/list";
+}
+
 }

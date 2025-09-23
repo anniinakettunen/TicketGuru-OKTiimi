@@ -12,7 +12,8 @@ public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long eventId;
+    private Long id;
+
     private String eventName;
     private String eventLocation;
     private String eventCity;
@@ -20,24 +21,23 @@ public class Event {
     private String eventDescription;
     private Integer maxNumberOfTickets;
 
-    public Event() {
-    }
+    public Event() {}
 
     public Event(String eventName, String eventLocation, String eventCity, LocalDate eventDate, String eventDescription, Integer maxNumberOfTickets) {
-    this.eventName = eventName;
-    this.eventLocation = eventLocation;
-    this.eventCity = eventCity;
-    this.eventDate = eventDate;
-    this.eventDescription = eventDescription;
-    this.maxNumberOfTickets = maxNumberOfTickets;
-}
-
-    public Long getEventId() {
-        return eventId;
+        this.eventName = eventName;
+        this.eventLocation = eventLocation;
+        this.eventCity = eventCity;
+        this.eventDate = eventDate;
+        this.eventDescription = eventDescription;
+        this.maxNumberOfTickets = maxNumberOfTickets;
     }
 
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEventName() {
@@ -91,7 +91,7 @@ public class Event {
     @Override
     public String toString() {
         return "Event{" +
-                "eventId=" + eventId +
+                "id=" + id +
                 ", name='" + eventName + '\'' +
                 ", eventLocation='" + eventLocation + '\'' +
                 ", city='" + eventCity + '\'' +
