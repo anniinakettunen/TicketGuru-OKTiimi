@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.UpdateMapping;
 
 import ticketguru.demo.domain.Event;
 import ticketguru.demo.repositories.EventRepository;
@@ -146,6 +147,12 @@ public String showDeleteConfirmation(@PathVariable Long eventId, Model model) {
 public String deleteEventHtml(@PathVariable Long eventId) {
     eventRepository.deleteById(eventId);
     return "redirect:/events/list";
+}
+
+//    HTML-näkymä: Päivitä tapahtuma
+public String updateEventHtml(@PathVariable Long eventId) {
+eventRepository.updateById(eventId);
+return "redirect:/events/list";
 }
 
 }
