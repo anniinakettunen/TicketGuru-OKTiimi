@@ -66,9 +66,9 @@ public class EventController {
 
     // 🔹 HTML-näkymä: Tallenna muokattu tapahtuma
     @PostMapping("/update/{id}")
-    public String updateEventForm(@PathVariable Long id, @ModelAttribute Event eventDetails) {
-        Event event = eventRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + id));
+    public String updateEventForm(@PathVariable Long eventId, @ModelAttribute Event eventDetails) {
+        Event event = eventRepository.findById(eventId)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + eventId));
         event.setEventName(eventDetails.getEventName());
         event.setEventLocation(eventDetails.getEventLocation());
         event.setEventCity(eventDetails.getEventCity());
@@ -89,8 +89,8 @@ public class EventController {
     // 🔹 REST: Hae event ID:n perusteella
     @GetMapping("/api/{id}")
     @ResponseBody
-    public ResponseEntity<Event> getEventById(@PathVariable Long id) {
-        Optional<Event> event = eventRepository.findById(id);
+    public ResponseEntity<Event> getEventById(@PathVariable Long eventId) {
+        Optional<Event> event = eventRepository.findById(eventId);
         return event.map(ResponseEntity::ok)
                     .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -105,8 +105,8 @@ public class EventController {
     // 🔹 REST: Päivitä event ID:n perusteella
     @PutMapping("/api/{id}")
     @ResponseBody
-    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event eventDetails) {
-        Optional<Event> optionalEvent = eventRepository.findById(id);
+    public ResponseEntity<Event> updateEvent(@PathVariable Long eventId, @RequestBody Event eventDetails) {
+        Optional<Event> optionalEvent = eventRepository.findById(eventId);
         if (optionalEvent.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -124,27 +124,27 @@ public class EventController {
     // 🔹 REST: Poista Event ID:n perusteella
     @DeleteMapping("/api/{id}")
     @ResponseBody
-    public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
-        if (!eventRepository.existsById(id)) {
+    public ResponseEntity<Void> deleteEvent(@PathVariable Long eventId) {
+        if (!eventRepository.existsById(eventId)) {
             return ResponseEntity.notFound().build();
         }
-        eventRepository.deleteById(id);
+        eventRepository.deleteById(eventId);
         return ResponseEntity.noContent().build();
     }
 
     // 🔹 HTML-näkymä: Poiston vahvistuslomake
 @GetMapping("/delete/{id}")
-public String showDeleteConfirmation(@PathVariable Long id, Model model) {
-    Event event = eventRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + id));
+public String showDeleteConfirmation(@PathVariable Long eventId, Model model) {
+    Event event = eventRepository.findById(eventId)
+        .orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + eventId));
     model.addAttribute("event", event);
     return "deleteevent"; // templates/deleteevent.html
 }
 
 // 🔹 HTML-näkymä: Poista tapahtuma
 @PostMapping("/delete/{id}")
-public String deleteEventHtml(@PathVariable Long id) {
-    eventRepository.deleteById(id);
+public String deleteEventHtml(@PathVariable Long eventId) {
+    eventRepository.deleteById(eventId);
     return "redirect:/events/list";
 }
 
