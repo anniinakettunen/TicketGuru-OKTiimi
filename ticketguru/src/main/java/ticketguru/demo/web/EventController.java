@@ -150,6 +150,7 @@ public String deleteEventHtml(@PathVariable Long eventId) {
 }
 
 //    HTML-näkymä: Päivitä tapahtuma
+@PostMapping("/update/{id}")
 public String updateEventHtml(@PathVariable Long eventId) {
 eventRepository.updateById(eventId);
 return "redirect:/events/list";
