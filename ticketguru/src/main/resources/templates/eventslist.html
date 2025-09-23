@@ -39,8 +39,8 @@
             <td th:text="${event.eventDescription}"></td>
             <td th:text="${event.maxNumberOfTickets}"></td>
             <td>
-                <a th:href="@{'/events/edit/' + ${event.id}}" class="btn btn-sm btn-outline-primary me-2">Muokkaa</a>
-                <a th:href="@{'/events/delete/' + ${event.id}}" class="btn btn-sm btn-outline-danger">Poista</a>
+                <a th:href="@{'/events/edit/' + ${event.eventId}}" class="btn btn-sm btn-outline-primary me-2">Muokkaa</a>
+                <a th:href="@{'/events/delete/' + ${event.eventId}}" class="btn btn-sm btn-outline-danger">Poista</a>
             </td>
         </tr>
     </tbody>
