@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.UpdateMapping;
 
 import ticketguru.demo.domain.Event;
 import ticketguru.demo.repositories.EventRepository;
@@ -65,20 +64,7 @@ public class EventController {
         return "editevent"; // templates/editevent.html
     }
 
-    // 🔹 HTML-näkymä: Tallenna muokattu tapahtuma
-    @PostMapping("/update/{id}")
-    public String updateEventForm(@PathVariable Long eventId, @ModelAttribute Event eventDetails) {
-        Event event = eventRepository.findById(eventId)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + eventId));
-        event.setEventName(eventDetails.getEventName());
-        event.setEventLocation(eventDetails.getEventLocation());
-        event.setEventCity(eventDetails.getEventCity());
-        event.setEventDate(eventDetails.getEventDate());
-        event.setEventDescription(eventDetails.getEventDescription());
-        event.setMaxNumberOfTickets(eventDetails.getMaxNumberOfTickets());
-        eventRepository.save(event);
-        return "redirect:/events/list";
-    }
+
 
     // 🔹 REST: Hae kaikki eventit JSON-muodossa
     @GetMapping("/api")
@@ -149,11 +135,26 @@ public String deleteEventHtml(@PathVariable Long eventId) {
     return "redirect:/events/list";
 }
 
-//    HTML-näkymä: Päivitä tapahtuma
-@PostMapping("/update/{id}")
-public String updateEventHtml(@PathVariable Long eventId) {
-eventRepository.updateById(eventId);
-return "redirect:/events/list";
-}
+// //    HTML-näkymä: Päivitä tapahtuma
+// @PostMapping("/update/{id}")
+// public String updateEventHtml(@PathVariable Long eventId) {
+// eventRepository.updateById(eventId);
+// return "redirect:/events/list";
+// }
+
+    // 🔹 HTML-näkymä: Tallenna muokattu tapahtuma
+    @PostMapping("/update/{id}")
+    public String updateEventForm(@PathVariable Long eventId, @ModelAttribute Event eventDetails) {
+        Event event = eventRepository.findById(eventId)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + eventId));
+        event.setEventName(eventDetails.getEventName());
+        event.setEventLocation(eventDetails.getEventLocation());
+        event.setEventCity(eventDetails.getEventCity());
+        event.setEventDate(eventDetails.getEventDate());
+        event.setEventDescription(eventDetails.getEventDescription());
+        event.setMaxNumberOfTickets(eventDetails.getMaxNumberOfTickets());
+        eventRepository.save(event);
+        return "redirect:/events/list";
+    }
 
 }
