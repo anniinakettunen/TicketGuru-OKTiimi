@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lipputyypit</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body class="container mt-5">
+
+    <h2 class="mb-4">Lipputyypit</h2>
+
+    <!-- 🔍 Lipputyyppien taulukko -->
+    <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>Kuvaus</th>
+                <th>Hinta</th>
+                <th>Toiminnot</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="type : ${ticketTypes}">
+                <td th:text="${type.ticketName}">Kuvaus</td>
+                <td th:text="${#numbers.formatDecimal(type.price, 1, 'COMMA', 2, 'POINT')}">Hinta</td>
+                <td>
+                    <a th:href="@{'/edittickettype/' + ${type.ticketTypeId}}" class="btn btn-sm btn-outline-primary me-2">Muokkaa</a>
+                    <a th:href="@{'/deletetickettype/' + ${type.ticketTypeId}}" class="btn btn-sm btn-outline-danger"
+                       onclick="return confirm('Haluatko varmasti poistaa tämän lipputyypin?');">Poista</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4 class="mt-4">Lisää tai muokkaa lipputyyppiä</h4>
+    <form th:action="@{/savetickettype}" th:object="${ticketType}" method="post">
+        <input type="hidden" th:field="*{ticketTypeId}" />
+        
+        <div class="mb-3">
+            <label class="form-label">Kuvaus</label>
+            <input type="text" th:field="*{ticketName}" class="form-control" placeholder="Esim. Aikuinen, Eläkeläinen" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Hinta (€)</label>
+            <input type="number" step="0.01" th:field="*{price}" class="form-control" placeholder="Esim. 15.00" required />
+        </div>
+
+        <button type="submit" class="btn btn-success">Tallenna</button>
+        <a th:href="@{/events/list}" class="btn btn-outline-secondary ms-2">Takaisin tapahtumiin</a>
+    </form>
+
+</body>
+</html>
