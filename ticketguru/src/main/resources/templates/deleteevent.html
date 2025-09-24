@@ -14,12 +14,13 @@
         <p>Haluatko varmasti poistaa tapahtuman <strong th:text="${event.eventName}">Tapahtuma</strong>?</p>
     </div>
 
-    <form th:action="@{'/events/delete/' + ${event.id}}" method="post">
+    <form th:action="@{'/events/delete/' + *{eventId}}" method="post">
+        <input type="hidden" th:field="*{eventId}" />
         <button type="submit" class="btn btn-danger">Poista</button>
         <a th:href="@{/events/list}" class="btn btn-outline-secondary ms-2">Peruuta</a>
     </form>
 
-    <div th:replace="fragments/footer :: footer"></div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
 </html>

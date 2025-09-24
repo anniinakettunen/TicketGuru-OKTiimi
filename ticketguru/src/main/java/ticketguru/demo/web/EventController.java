@@ -120,7 +120,7 @@ public class EventController {
     }
 
     // 🔹 HTML-näkymä: Poiston vahvistuslomake
-@GetMapping("/delete/{id}")
+@GetMapping("/delete/{eventId}")
 public String showDeleteConfirmation(@PathVariable Long eventId, Model model) {
     Event event = eventRepository.findById(eventId)
         .orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + eventId));
@@ -129,7 +129,7 @@ public String showDeleteConfirmation(@PathVariable Long eventId, Model model) {
 }
 
 // 🔹 HTML-näkymä: Poista tapahtuma
-@PostMapping("/delete/{id}")
+@PostMapping("/delete/{eventId}")
 public String deleteEventHtml(@PathVariable Long eventId) {
     eventRepository.deleteById(eventId);
     return "redirect:/events/list";
@@ -143,7 +143,7 @@ public String deleteEventHtml(@PathVariable Long eventId) {
 // }
 
     // 🔹 HTML-näkymä: Tallenna muokattu tapahtuma
-    @PostMapping("/update/{id}")
+    @PostMapping("/update/{eventId}")
     public String updateEventForm(@PathVariable Long eventId, @ModelAttribute Event eventDetails) {
         Event event = eventRepository.findById(eventId)
             .orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + eventId));
