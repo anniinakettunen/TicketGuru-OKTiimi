@@ -15,17 +15,15 @@ public class Role {
     private String RoleName;
     private String Notes;
 
-    // Parametrillinen konstruktori
     public Role(Long RoleId, String RoleName, String Notes) {
         this.RoleId = RoleId;
         this.RoleName = RoleName;
         this.Notes = Notes;
     }
 
-    // Oletuskonstruktori
     public Role() {}
 
-    // Getterit ja setterit
+    
     public Long getRoleId() {
         return RoleId;
     }
@@ -50,7 +48,7 @@ public class Role {
         this.Notes = notes;
     }
 
-    // toString-metodi
+   
     @Override
     public String toString() {
         return "Role [RoleId=" + RoleId + ", RoleName=" + RoleName + ", Notes=" + Notes + "]";
