@@ -1,13 +1,21 @@
 package ticketguru.demo.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import ticketguru.demo.domain.TicketSale;
-import ticketguru.demo.repositories.TicketSaleRepository;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import ticketguru.demo.domain.TicketSale;
+import ticketguru.demo.repositories.TicketSaleRepository;
 
 @RestController
 @RequestMapping("/api/ticketsales")
@@ -46,7 +54,7 @@ public class TicketSaleRestController {
         TicketSale ticketSale = optionalTicketSale.get();
         ticketSale.setDateTime(ticketSaleDetails.getDateTime());
         ticketSale.setPrice(ticketSaleDetails.getPrice());
-        ticketSale.setUserId(ticketSaleDetails.getUserId());
+        ticketSale.setUserId(ticketSaleDetails.getId());
         TicketSale updatedTicketSale = ticketSaleRepository.save(ticketSale);
         return ResponseEntity.ok(updatedTicketSale);
     }

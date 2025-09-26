@@ -10,11 +10,11 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "app_user")
-public class User {
+public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)  
-    private Long id;
+    private Long Id;
 
     private String firstname;
     private String lastname;
@@ -22,10 +22,10 @@ public class User {
     private String phone;
 
     @ManyToOne
-    @JoinColumn(name = "role_id")  // Tämä on FK User-taulussa → Role-tauluun, Tämä tarkoittaa, että jokaisella käyttäjällä on yksi rooli.
+    @JoinColumn(name = "roleId")  // Tämä on FK User-taulussa → Role-tauluun, Tämä tarkoittaa, että jokaisella käyttäjällä on yksi rooli.
     private Role role;
 
-    public User() {
+    public AppUser() {
     }
 
     public String getFirstname() {
@@ -73,7 +73,7 @@ public void setRole(Role role) {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("User{");
-        sb.append("id=").append(id);
+        sb.append("id=").append(Id);
         sb.append(", firstname=").append(firstname);
         sb.append(", lastname=").append(lastname);
         sb.append(", email=").append(email);

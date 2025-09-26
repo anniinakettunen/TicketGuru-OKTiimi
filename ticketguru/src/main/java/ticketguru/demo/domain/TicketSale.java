@@ -1,14 +1,14 @@
 package ticketguru.demo.domain;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-
-import java.time.LocalDateTime;
-import java.math.BigDecimal;
 
 @Entity
 public class TicketSale {
@@ -20,8 +20,8 @@ public class TicketSale {
     private BigDecimal price;
 
     @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
-    private User userId;
+    @JoinColumn(name = "id", nullable = false)
+    private AppUser Id;
 
     public TicketSale() {
     }
@@ -42,12 +42,12 @@ public class TicketSale {
         this.price = price;
     }
 
-    public User getUserId() {
-        return userId;
+    public AppUser getId() {
+        return Id;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUserId(AppUser Id) {
+        this.Id = Id;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class TicketSale {
                 "saleId=" + saleId +
                 ", dateTime=" + dateTime +
                 ", price=" + price +
-                ", userId=" + userId +
+                ", userId=" + Id +
                 '}';
     }
 }
