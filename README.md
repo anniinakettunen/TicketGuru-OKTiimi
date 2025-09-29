@@ -83,11 +83,11 @@ http://localhost:8080/events/api
 
 **1. Hae kaikki tapahtumat**
 
-    **Metodi**: GET
+  - **Metodi**: GET
 
-    **URL**: http://localhost:8080/events/api
+  - **URL**: http://localhost:8080/events/api
 
-    **Vastaus**: 200 OK
+  - **Vastaus**: 200 OK
 
 ```json
 [
@@ -113,13 +113,13 @@ http://localhost:8080/events/api
 ```
 **2. Hae tapahtuma ID:llä**
     
-    **Metodi**: GET
+  - **Metodi**: GET
 
-    **URL**: http://localhost:8080/events/api/{id}
+  - **URL**: http://localhost:8080/events/api/{id}
 
-    **Parametrit**: id = tapahtuman Id (Long)
+  - **Parametrit**: id = tapahtuman Id (Long)
 
-    **Vastaus**: 200 OK
+  - **Vastaus**: 200 OK
 
 ```json
 {
@@ -132,15 +132,16 @@ http://localhost:8080/events/api
   "maxNumberOfTickets": 500
 }
 ```
-  **Virhe**: 404 Not Found 
+  - **Virhe**: 404 Not Found 
 
 **3. Luo uusi tapahtuma**
     
-    **Metodi**: POST
+  - **Metodi**: POST
 
-    **URL**: http://localhost:8080/events/api
+  - **URL**: http://localhost:8080/events/api
 
-    **Request Body (JSON)**: 
+  - **Request Body (JSON)**: 
+
 ```json
   {
     "eventName": "Lapsimessu",
@@ -152,7 +153,7 @@ http://localhost:8080/events/api
 }
 
 ```
-  **Vastaus**: 200 OK
+  - **Vastaus**: 200 OK
 
 ```json
    {
@@ -168,13 +169,14 @@ http://localhost:8080/events/api
   ```
 **4. Päivitä tapahtuma ID:llä**
     
-    **Metodi**: PUT
+  - **Metodi**: PUT
 
-    **URL**: http://localhost:8080/events/api/{id}
+  - **URL**: http://localhost:8080/events/api/{id}
 
-    **Parametrit**: id = tapahtuman Id (Long)
+  - **Parametrit**: id = tapahtuman Id (Long)
 
-    **Request Body (JSON)**: 
+  - **Request Body (JSON)**: 
+
 ```json
   {
     "eventId": 1,
@@ -187,7 +189,8 @@ http://localhost:8080/events/api
 }
 
 ```
-  **Vastaus**: 200 OK
+
+  - **Vastaus**: 200 OK
 
 ```json
    {
@@ -201,19 +204,20 @@ http://localhost:8080/events/api
 }
 
   ```
-**Virhe**: 404 Not Found 
+
+  - **Virhe**: 404 Not Found 
 
 **5. Poista tapahtuma ID:llä**
 
-**Metodi**: DELETE
+  - **Metodi**: DELETE
 
-**URL**: http://localhost:8080/events/api/{id}
+  - **URL**: http://localhost:8080/events/api/{id}
 
-**Parametrit**: id = tapahtuman Id (Long)
+  - **Parametri**: id = tapahtuman Id (Long)
 
-**Vastaus**: 204 No Content
+  - **Vastaus**: 204 No Content
 
-**Virhe**: 404 Not Found 
+  - **Virhe**: 404 Not Found 
 
 ### LIPUNMYYNTI API
 
@@ -230,11 +234,11 @@ http://localhost:8080/ticketsales/api
 
 **1. Hae kaikki tapahtumat**
 
-    **Metodi**: GET
+  - **Metodi**: GET
 
-    **URL**: http://localhost:8080/ticketsales/api
+  - **URL**: http://localhost:8080/ticketsales/api
 
-    **Vastaus**: 200 OK
+  - **Vastaus**: 200 OK
 
 ```json
 [
@@ -276,13 +280,13 @@ http://localhost:8080/ticketsales/api
 ```
 **2. Hae lipunmyynti ID:llä**
     
-    **Metodi**: GET
+  - **Metodi**: GET
 
-    **URL**: http://localhost:8080/ticketsales/api/{id}
+  - **URL**: http://localhost:8080/ticketsales/api/{id}
 
-    **Parametrit**: id = tapahtuman Id (Long)
+  - **Parametrit**: id = tapahtuman Id (Long)
 
-    **Vastaus**: 200 OK
+  - **Vastaus**: 200 OK
 
 ```json
 {
@@ -304,15 +308,16 @@ http://localhost:8080/ticketsales/api
 }
 
 ```
-  **Virhe**: 404 Not Found 
+  - **Virhe**: 404 Not Found 
 
 **3. Luo uusi lipunmyynti**
     
-    **Metodi**: POST
+  - **Metodi**: POST
 
-    **URL**: http://localhost:8080/ticketsales/api
+  - **URL**: http://localhost:8080/ticketsales/api
 
-    **Request Body (JSON)**: 
+  - **Request Body (JSON)**: 
+
 ```json
   {
   "dateTime": "2025-10-10T18:00:00",
@@ -323,7 +328,7 @@ http://localhost:8080/ticketsales/api
 }
 
 ```
-  **Vastaus**: 200 OK
+  - **Vastaus**: 200 OK
 
 ```json
    {
@@ -346,13 +351,14 @@ http://localhost:8080/ticketsales/api
   ```
 **4. Päivitä lipunmyynti ID:llä**
     
-    **Metodi**: PUT
+  - **Metodi**: PUT
 
-    **URL**: http://localhost:8080/ticketsales/api/{id}
+  - **URL**: http://localhost:8080/ticketsales/api/{id}
 
-    **Parametrit**: id = tapahtuman Id (Long)
+  - **Parametrit**: id = tapahtuman Id (Long)
 
-    **Request Body (JSON)**: 
+  - **Request Body (JSON)**: 
+
 ```json
   {
     "saleId": 1,
@@ -373,7 +379,7 @@ http://localhost:8080/ticketsales/api
 }
 
 ```
-  **Vastaus**: 200 OK
+  - **Vastaus**: 200 OK
 
 ```json
    {
@@ -395,19 +401,19 @@ http://localhost:8080/ticketsales/api
 }
 
   ```
-**Virhe**: 404 Not Found 
+  - **Virhe**: 404 Not Found 
 
 **5. Poista tapahtuma ID:llä**
 
-**Metodi**: DELETE
+  - **Metodi**: DELETE
 
-**URL**: http://localhost:8080/ticketsales/api/{id}
+  - **URL**: http://localhost:8080/ticketsales/api/{id}
 
-**Parametrit**: id = tapahtuman Id (Long)
+  - **Parametrit**: id = tapahtuman Id (Long)
 
-**Vastaus**: 204 No Content
+  - **Vastaus**: 204 No Content
 
-**Virhe**: 404 Not Found 
+  - **Virhe**: 404 Not Found 
 
 
 
