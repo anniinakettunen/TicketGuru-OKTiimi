@@ -21,10 +21,17 @@ public class TicketSale {
     private BigDecimal price;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false) // ✅ selkeä nimi
-    private AppUser user; // ✅ pienellä ja kuvaava
+    @JoinColumn(name = "user_id", nullable = false) 
+    private AppUser user; 
 
     public TicketSale() {}
+    public Long getSaleId() {      
+        return saleId;
+    }
+
+    public void setSaleId(Long saleId) { 
+        this.saleId = saleId;
+    }
 
     public LocalDateTime getDateTime() {
         return dateTime;
@@ -33,6 +40,7 @@ public class TicketSale {
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
+
 
     public BigDecimal getPrice() {
         return price;

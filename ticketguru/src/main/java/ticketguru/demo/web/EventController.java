@@ -66,85 +66,55 @@ public class EventController {
 
 
 
-    @GetMapping("/api")
-    @ResponseBody
-    public List<Event> getAllEvents() {
-        return eventRepository.findAll();
-    }
+    // --- API METHODS ---
 
-   
-    @GetMapping("/api/{id}")
-    @ResponseBody
-    public ResponseEntity<Event> getEventById(@PathVariable Long eventId) {
-        Optional<Event> event = eventRepository.findById(eventId);
-        return event.map(ResponseEntity::ok)
-                    .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PostMapping("/api")
-    @ResponseBody
-    public Event createEvent(@RequestBody Event event) {
-        return eventRepository.save(event);
-    }
-
-    @PutMapping("/api/{id}")
-    @ResponseBody
-    public ResponseEntity<Event> updateEvent(@PathVariable Long eventId, @RequestBody Event eventDetails) {
-        Optional<Event> optionalEvent = eventRepository.findById(eventId);
-        if (optionalEvent.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        Event event = optionalEvent.get();
-        event.setEventName(eventDetails.getEventName());
-        event.setEventLocation(eventDetails.getEventLocation());
-        event.setEventCity(eventDetails.getEventCity());
-        event.setEventDate(eventDetails.getEventDate());
-        event.setEventDescription(eventDetails.getEventDescription());
-        event.setMaxNumberOfTickets(eventDetails.getMaxNumberOfTickets());
-        Event updatedEvent = eventRepository.save(event);
-        return ResponseEntity.ok(updatedEvent);
-    }
-
-
-    @DeleteMapping("/api/{id}")
-    @ResponseBody
-    public ResponseEntity<Void> deleteEvent(@PathVariable Long eventId) {
-        if (!eventRepository.existsById(eventId)) {
-            return ResponseEntity.notFound().build();
-        }
-        eventRepository.deleteById(eventId);
-        return ResponseEntity.noContent().build();
-    }
-
-
-@GetMapping("/delete/{eventId}")
-public String showDeleteConfirmation(@PathVariable Long eventId, Model model) {
-    Event event = eventRepository.findById(eventId)
-        .orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + eventId));
-    model.addAttribute("event", event);
-    return "deleteevent"; // templates/deleteevent.html
+@GetMapping("/api")
+@ResponseBody
+public List<Event> getAllEvents() {
+    return eventRepository.findAll();
 }
 
+@GetMapping("/api/{id}")
+@ResponseBody
+public ResponseEntity<Event> getEventById(@PathVariable("id") Long eventId) {
+    Optional<Event> event = eventRepository.findById(eventId);
+    return event.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+}
 
-@PostMapping("/delete/{eventId}")
-public String deleteEventHtml(@PathVariable Long eventId) {
+@PostMapping("/api")
+@ResponseBody
+public Event createEvent(@RequestBody Event event) {
+    return eventRepository.save(event);
+}
+
+@PutMapping("/api/{id}")
+@ResponseBody
+public ResponseEntity<Event> updateEvent(@PathVariable("id") Long eventId,
+                                         @RequestBody Event eventDetails) {
+    Optional<Event> optionalEvent = eventRepository.findById(eventId);
+    if (optionalEvent.isEmpty()) {
+        return ResponseEntity.notFound().build();
+    }
+    Event event = optionalEvent.get();
+    event.setEventName(eventDetails.getEventName());
+    event.setEventLocation(eventDetails.getEventLocation());
+    event.setEventCity(eventDetails.getEventCity());
+    event.setEventDate(eventDetails.getEventDate());
+    event.setEventDescription(eventDetails.getEventDescription());
+    event.setMaxNumberOfTickets(eventDetails.getMaxNumberOfTickets());
+    Event updatedEvent = eventRepository.save(event);
+    return ResponseEntity.ok(updatedEvent);
+}
+
+@DeleteMapping("/api/{id}")
+@ResponseBody
+public ResponseEntity<Void> deleteEvent(@PathVariable("id") Long eventId) {
+    if (!eventRepository.existsById(eventId)) {
+        return ResponseEntity.notFound().build();
+    }
     eventRepository.deleteById(eventId);
-    return "redirect:/events/list";
+    return ResponseEntity.noContent().build();
 }
-
-
-    @PostMapping("/update/{eventId}")
-    public String updateEventForm(@PathVariable Long eventId, @ModelAttribute Event eventDetails) {
-        Event event = eventRepository.findById(eventId)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + eventId));
-        event.setEventName(eventDetails.getEventName());
-        event.setEventLocation(eventDetails.getEventLocation());
-        event.setEventCity(eventDetails.getEventCity());
-        event.setEventDate(eventDetails.getEventDate());
-        event.setEventDescription(eventDetails.getEventDescription());
-        event.setMaxNumberOfTickets(eventDetails.getMaxNumberOfTickets());
-        eventRepository.save(event);
-        return "redirect:/events/list";
-    }
 
 }

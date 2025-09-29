@@ -10,10 +10,10 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long roleId; // ✅ pienellä
+    private Long roleId;
 
-    private String roleName; // ✅ pienellä
-    private String notes;    // ✅ pienellä
+    private String roleName; 
+    private String notes;  
 
     public Role(Long roleId, String roleName, String notes) {
         this.roleId = roleId;
