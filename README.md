@@ -75,13 +75,13 @@ http://localhost:8080/events/api
 
 #### Huomio päivämärästä:
 
-**Päivämäärä**: YYYY-MM-DD (esim. "2025-10-05")
+- Päivämäärä**: YYYY-MM-DD (esim. "2025-10-05")
 
-**Päivämäärä ja aika**: YYYY-MM-DDTHH:MM:SS (esim. "2025-10-10T18:00:00")
+- Päivämäärä ja aika**: YYYY-MM-DDTHH:MM:SS (esim. "2025-10-10T18:00:00")
 
 #### Endpointit
 
-1. Hae kaikki tapahtumat
+**1. Hae kaikki tapahtumat**
 
     **Metodi**: GET
 
@@ -111,7 +111,7 @@ http://localhost:8080/events/api
     },
 ]
 ```
-2. Hae tapahtuma ID:llä
+**2. Hae tapahtuma ID:llä**
     
     **Metodi**: GET
 
@@ -134,7 +134,7 @@ http://localhost:8080/events/api
 ```
   **Virhe**: 404 Not Found 
 
-3. Luo uusi tapahtuma
+**3. Luo uusi tapahtuma**
     
     **Metodi**: POST
 
@@ -166,7 +166,7 @@ http://localhost:8080/events/api
   }   
 
   ```
-4. Päivitä tapahtuma ID:llä 
+**4. Päivitä tapahtuma ID:llä**
     
     **Metodi**: PUT
 
@@ -203,7 +203,8 @@ http://localhost:8080/events/api
   ```
 **Virhe**: 404 Not Found 
 
-5. Poista tapahtuma ID:llä
+**5. Poista tapahtuma ID:llä**
+
 **Metodi**: DELETE
 
 **URL**: http://localhost:8080/events/api/{id}
@@ -221,13 +222,13 @@ http://localhost:8080/ticketsales/api
 
 #### Huomio päivämärästä:
 
-**Päivämäärä**: YYYY-MM-DD (esim. "2025-10-05")
+- Päivämäärä: YYYY-MM-DD (esim. "2025-10-05")
 
-**Päivämäärä ja aika**: YYYY-MM-DDTHH:MM:SS (esim. "2025-10-10T18:00:00")
+- Päivämäärä ja aika: YYYY-MM-DDTHH:MM:SS (esim. "2025-10-10T18:00:00")
 
 #### Endpointit
 
-1. Hae kaikki tapahtumat
+**1. Hae kaikki tapahtumat**
 
     **Metodi**: GET
 
@@ -273,7 +274,7 @@ http://localhost:8080/ticketsales/api
     }
 ]
 ```
-2. Hae lipunmyynti ID:llä
+**2. Hae lipunmyynti ID:llä**
     
     **Metodi**: GET
 
@@ -305,7 +306,7 @@ http://localhost:8080/ticketsales/api
 ```
   **Virhe**: 404 Not Found 
 
-3. Luo uusi lipunmyynti
+**3. Luo uusi lipunmyynti**
     
     **Metodi**: POST
 
@@ -343,7 +344,7 @@ http://localhost:8080/ticketsales/api
     }
 }
   ```
-4. Päivitä lipunmyynti ID:llä 
+**4. Päivitä lipunmyynti ID:llä**
     
     **Metodi**: PUT
 
@@ -396,7 +397,8 @@ http://localhost:8080/ticketsales/api
   ```
 **Virhe**: 404 Not Found 
 
-5. Poista tapahtuma ID:llä
+**5. Poista tapahtuma ID:llä**
+
 **Metodi**: DELETE
 
 **URL**: http://localhost:8080/ticketsales/api/{id}
