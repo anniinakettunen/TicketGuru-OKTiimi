@@ -13,7 +13,7 @@ import ticketguru.demo.repositories.TicketSaleRepository;
 import ticketguru.demo.repositories.UserRepository;
 
 @RestController
-@RequestMapping("/api/ticketsales")
+@RequestMapping("/ticketsales/api")
 public class TicketSaleRestController {
 
     @Autowired
