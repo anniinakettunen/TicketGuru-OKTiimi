@@ -54,7 +54,7 @@ public class TicketSaleRestController {
         TicketSale ticketSale = optionalTicketSale.get();
         ticketSale.setDateTime(ticketSaleDetails.getDateTime());
         ticketSale.setPrice(ticketSaleDetails.getPrice());
-        ticketSale.setUserId(ticketSaleDetails.getId());
+        ticketSale.setUser(ticketSaleDetails.getUser()); 
         TicketSale updatedTicketSale = ticketSaleRepository.save(ticketSale);
         return ResponseEntity.ok(updatedTicketSale);
     }

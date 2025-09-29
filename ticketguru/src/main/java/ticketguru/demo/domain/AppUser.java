@@ -14,7 +14,7 @@ public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)  
-    private Long Id;
+    private Long id;
 
     private String firstname;
     private String lastname;
@@ -73,7 +73,7 @@ public void setRole(Role role) {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("User{");
-        sb.append("id=").append(Id);
+        sb.append("id=").append(id);
         sb.append(", firstname=").append(firstname);
         sb.append(", lastname=").append(lastname);
         sb.append(", email=").append(email);

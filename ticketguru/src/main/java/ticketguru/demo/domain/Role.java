@@ -10,47 +10,45 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long RoleId;
+    private Long roleId; // ✅ pienellä
 
-    private String RoleName;
-    private String Notes;
+    private String roleName; // ✅ pienellä
+    private String notes;    // ✅ pienellä
 
-    public Role(Long RoleId, String RoleName, String Notes) {
-        this.RoleId = RoleId;
-        this.RoleName = RoleName;
-        this.Notes = Notes;
+    public Role(Long roleId, String roleName, String notes) {
+        this.roleId = roleId;
+        this.roleName = roleName;
+        this.notes = notes;
     }
 
     public Role() {}
 
-    
     public Long getRoleId() {
-        return RoleId;
+        return roleId;
     }
 
     public void setRoleId(Long roleId) {
-        this.RoleId = roleId;
+        this.roleId = roleId;
     }
 
     public String getRoleName() {
-        return RoleName;
+        return roleName;
     }
 
     public void setRoleName(String roleName) {
-        this.RoleName = roleName;
+        this.roleName = roleName;
     }
 
     public String getNotes() {
-        return Notes;
+        return notes;
     }
 
     public void setNotes(String notes) {
-        this.Notes = notes;
+        this.notes = notes;
     }
 
-   
     @Override
     public String toString() {
-        return "Role [RoleId=" + RoleId + ", RoleName=" + RoleName + ", Notes=" + Notes + "]";
+        return "Role [roleId=" + roleId + ", roleName=" + roleName + ", notes=" + notes + "]";
     }
 }

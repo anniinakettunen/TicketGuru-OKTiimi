@@ -16,15 +16,15 @@ public class TicketSale {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long saleId;
+
     private LocalDateTime dateTime;
     private BigDecimal price;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
-    private AppUser Id;
+    @JoinColumn(name = "user_id", nullable = false) // ✅ selkeä nimi
+    private AppUser user; // ✅ pienellä ja kuvaava
 
-    public TicketSale() {
-    }
+    public TicketSale() {}
 
     public LocalDateTime getDateTime() {
         return dateTime;
@@ -42,12 +42,12 @@ public class TicketSale {
         this.price = price;
     }
 
-    public AppUser getId() {
-        return Id;
+    public AppUser getUser() {
+        return user;
     }
 
-    public void setUserId(AppUser Id) {
-        this.Id = Id;
+    public void setUser(AppUser user) {
+        this.user = user;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class TicketSale {
                 "saleId=" + saleId +
                 ", dateTime=" + dateTime +
                 ", price=" + price +
-                ", userId=" + Id +
+                ", user=" + user +
                 '}';
     }
 }
