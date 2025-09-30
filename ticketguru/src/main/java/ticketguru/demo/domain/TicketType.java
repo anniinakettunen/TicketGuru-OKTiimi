@@ -16,6 +16,12 @@ public class TicketType {
 
     public TicketType() {}
 
+    public TicketType(String ticketName, double price) {
+        super();
+        this.ticketName = ticketName;
+        this.price = price;
+    }
+
     public Long getTicketTypeId() {
         return ticketTypeId;
     }

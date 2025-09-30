@@ -9,9 +9,12 @@ import org.springframework.context.annotation.Bean;
 
 import ticketguru.demo.domain.Event;
 import ticketguru.demo.domain.Role;
+import ticketguru.demo.domain.Ticket;
+import ticketguru.demo.domain.TicketType;
 import ticketguru.demo.domain.AppUser;
 import ticketguru.demo.repositories.EventRepository;
 import ticketguru.demo.repositories.RoleRepository;
+import ticketguru.demo.repositories.TicketTypeRepository;
 import ticketguru.demo.repositories.UserRepository;
 
 @SpringBootApplication
@@ -24,7 +27,8 @@ public class DemoApplication {
     @Bean
     public CommandLineRunner demo(EventRepository eventRepository,
                                   RoleRepository roleRepository,
-                                  UserRepository userRepository) {
+                                  UserRepository userRepository,
+                                  TicketTypeRepository ticketTypeRepository) {
         return (args) -> {
             // Test events
             eventRepository.save(new Event("Rock Night", "Arena", "Helsinki",
@@ -56,6 +60,14 @@ public class DemoApplication {
             demoUser2.setPhone("87654321");
             demoUser2.setRole(demoRole);
             userRepository.save(demoUser2);
+
+            // Demo ticket types
+            TicketType adult = new TicketType("Adult", 30.0);
+            TicketType child = new TicketType("Child", 15.0);
+            TicketType senior = new TicketType("Senior", 20.0);
+            ticketTypeRepository.save(adult);
+            ticketTypeRepository.save(child);
+            ticketTypeRepository.save(senior);
         };
     }
 }

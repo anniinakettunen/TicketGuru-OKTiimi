@@ -2,6 +2,7 @@ package ticketguru.demo.domain;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,13 +22,12 @@ public class TicketSale {
     private LocalDateTime dateTime;
     private BigDecimal price;
 
-    @ManyToOne
+    @ManyToOne // Yhdellä käyttäjällä voi olla useita TicketSale-tapahtumia
     @JoinColumn(name = "user_id", nullable = false) 
     private AppUser user; 
 
-    @OneToMany
-    @JoinColumn(name = "ticket_id", nullable = false)
-    private Ticket ticketId;
+    @OneToMany(mappedBy = "ticketSale")  // Yksi TicketSale voi sisältää useita lippuja
+    private List<Ticket> tickets;
 
     public TicketSale() {}
 
@@ -65,12 +65,12 @@ public class TicketSale {
         this.user = user;
     }
 
-    public Ticket getTicketId() {
-        return ticketId;
+    public List<Ticket> getTickets() {
+        return tickets;
     }
 
-    public void setTicketId(Ticket ticketId) {
-        this.ticketId = ticketId;
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
     }
 
 

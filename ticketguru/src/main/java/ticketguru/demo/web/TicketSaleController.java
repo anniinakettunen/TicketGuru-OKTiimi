@@ -5,22 +5,34 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import ticketguru.demo.domain.TicketSale;
 import ticketguru.demo.domain.AppUser;
+import ticketguru.demo.repositories.EventRepository;
 import ticketguru.demo.repositories.TicketSaleRepository;
+import ticketguru.demo.repositories.TicketTypeRepository;
 import ticketguru.demo.repositories.UserRepository;
+import org.springframework.web.bind.annotation.GetMapping;
 
-@RestController
-@RequestMapping("/ticketsales/api")
-public class TicketSaleRestController {
+
+@Controller
+@RequestMapping("/ticketsales")
+public class TicketSaleController {
 
     @Autowired
     private TicketSaleRepository ticketSaleRepository;
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
+
+    @Autowired
+    private TicketTypeRepository ticketTypeRepository;
 
     // GET: Hae kaikki ticket salet
     @GetMapping
@@ -34,6 +46,23 @@ public class TicketSaleRestController {
         Optional<TicketSale> ticketSale = ticketSaleRepository.findById(saleId);
         return ticketSale.map(ResponseEntity::ok)
                          .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+
+    // GET: Hae myyntilomake uutta myyntitapahtumaa varten.
+    @GetMapping("/newsale")
+    public String getNewSaleForm(Model model) {
+        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("events", eventRepository.findAll());
+        model.addAttribute("tickettypes", ticketTypeRepository.findAll());
+        model.addAttribute("ticketSale", new TicketSale());
+        return "newsale";  // Palauttaa lomakkeen uutta myyntitapahtumaa varten
+    }
+
+    @PostMapping("/ticketsales")
+    public String saveTicketSale(@ModelAttribute TicketSale ticketSale) {
+        ticketSaleRepository.save(ticketSale);
+        return "redirect:/ticketsales";
     }
 
     // GET: Hae kaikki ticket salet tietylle käyttäjälle
