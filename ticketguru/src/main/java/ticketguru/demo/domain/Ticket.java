@@ -23,6 +23,10 @@ public class Ticket {
     @JoinColumn(name="eventId", nullable=false)
     private Event eventId;
 
+    @ManyToOne
+    @JoinColumn(name="sale_id", nullable=true)
+    private TicketSale ticketSale;
+
     public Ticket() {}
 
     public Long getTicketId() {
