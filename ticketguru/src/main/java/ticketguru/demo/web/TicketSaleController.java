@@ -67,7 +67,7 @@ public class TicketSaleController {
         ticketSale.setUser(user);
         
         ticketSaleRepository.save(ticketSale);
-        return "redirect:/ticketsales";
+        return "home";
     }
 
     // GET: Hae kaikki ticket salet tietylle käyttäjälle
