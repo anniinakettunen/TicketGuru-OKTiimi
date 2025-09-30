@@ -59,8 +59,13 @@ public class TicketSaleController {
         return "newsale";  // Palauttaa lomakkeen uutta myyntitapahtumaa varten
     }
 
-    @PostMapping("/ticketsales")
-    public String saveTicketSale(@ModelAttribute TicketSale ticketSale) {
+    @PostMapping("/savesale")
+    public String saveTicketSale(@ModelAttribute TicketSale ticketSale, @RequestParam Long userId) {
+        // Find the user by ID and set it to the ticketSale
+        AppUser user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        ticketSale.setUser(user);
+        
         ticketSaleRepository.save(ticketSale);
         return "redirect:/ticketsales";
     }
