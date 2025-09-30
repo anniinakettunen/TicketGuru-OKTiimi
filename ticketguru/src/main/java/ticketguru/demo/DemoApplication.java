@@ -45,18 +45,18 @@ public class DemoApplication {
 
             // Demo user 1
             AppUser demoUser1 = new AppUser();
-            demoUser1.setFirstname("Demo1");
-            demoUser1.setLastname("User1");
-            demoUser1.setEmail("demo1@example.com");
+            demoUser1.setFirstname("Oskari");
+            demoUser1.setLastname("Uninen");
+            demoUser1.setEmail("oskari.uninen@gmail.com");
             demoUser1.setPhone("12345678");
             demoUser1.setRole(demoRole);
             userRepository.save(demoUser1);
 
             // Demo user 2
             AppUser demoUser2 = new AppUser();
-            demoUser2.setFirstname("Demo2");
-            demoUser2.setLastname("User2");
-            demoUser2.setEmail("demo2@example.com");
+            demoUser2.setFirstname("Jaska");
+            demoUser2.setLastname("Jokunen");
+            demoUser2.setEmail("jaska.jokunen@hotmail.com");
             demoUser2.setPhone("87654321");
             demoUser2.setRole(demoRole);
             userRepository.save(demoUser2);
