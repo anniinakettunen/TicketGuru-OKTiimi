@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import ticketguru.demo.domain.Ticket;
 
+import java.util.List;
+
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
 List<Ticket> findByTicketId(Long ticketId);
