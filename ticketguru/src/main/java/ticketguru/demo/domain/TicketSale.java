@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
@@ -22,6 +23,10 @@ public class TicketSale {
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
     private User userId;
+
+    @OneToMany
+    @JoinColumn(name = "ticketId", nullable = false)
+    private Ticket ticketId;
 
     public TicketSale() {
     }
@@ -48,6 +53,21 @@ public class TicketSale {
 
     public void setUserId(User userId) {
         this.userId = userId;
+    }
+
+    public Ticket getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(Ticket ticketId) {
+        this.ticketId = ticketId;
+    }
+
+    public Long getSaleId() {
+        return saleId;
+    }
+    public void setSaleId(Long saleId) {
+        this.saleId = saleId;
     }
 
     @Override

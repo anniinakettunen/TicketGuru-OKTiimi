@@ -13,4 +13,5 @@ public interface TicketSaleRepository extends JpaRepository<TicketSale, Long> {
 
     List<TicketSale> findBySaleId(TicketSale saleId);
 
+    
 }
