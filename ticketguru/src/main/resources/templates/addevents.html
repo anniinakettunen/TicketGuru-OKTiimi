@@ -11,7 +11,7 @@
     <h2 class="mb-4">Lisää uusi tapahtuma</h2>
 
     <form th:object="${event}" th:action="@{/events/save}" method="post" class="needs-validation" novalidate>
-        <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:field="*{eventId}" />
 
         <div class="mb-3">
             <label for="eventName" class="form-label">Nimi</label>

@@ -1,5 +1,8 @@
 package ticketguru.demo.domain;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,27 +11,33 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
-import java.time.LocalDateTime;
-import java.math.BigDecimal;
-
 @Entity
 public class TicketSale {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long saleId;
+
     private LocalDateTime dateTime;
     private BigDecimal price;
 
     @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
-    private User userId;
+    @JoinColumn(name = "user_id", nullable = false) 
+    private AppUser user; 
 
     @OneToMany
-    @JoinColumn(name = "ticketId", nullable = false)
+    @JoinColumn(name = "ticket_id", nullable = false)
     private Ticket ticketId;
 
-    public TicketSale() {
+    public TicketSale() {}
+
+
+    public Long getSaleId() {      
+        return saleId;
+    }
+
+    public void setSaleId(Long saleId) { 
+        this.saleId = saleId;
     }
 
     public LocalDateTime getDateTime() {
@@ -39,6 +48,7 @@ public class TicketSale {
         this.dateTime = dateTime;
     }
 
+
     public BigDecimal getPrice() {
         return price;
     }
@@ -47,12 +57,12 @@ public class TicketSale {
         this.price = price;
     }
 
-    public User getUserId() {
-        return userId;
+    public AppUser getUser() {
+        return user;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUser(AppUser user) {
+        this.user = user;
     }
 
     public Ticket getTicketId() {
@@ -63,12 +73,6 @@ public class TicketSale {
         this.ticketId = ticketId;
     }
 
-    public Long getSaleId() {
-        return saleId;
-    }
-    public void setSaleId(Long saleId) {
-        this.saleId = saleId;
-    }
 
     @Override
     public String toString() {
@@ -76,7 +80,7 @@ public class TicketSale {
                 "saleId=" + saleId +
                 ", dateTime=" + dateTime +
                 ", price=" + price +
-                ", userId=" + userId +
+                ", user=" + user +
                 '}';
     }
 }

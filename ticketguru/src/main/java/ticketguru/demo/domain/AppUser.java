@@ -4,11 +4,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "app_user")
-public class User {
+public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)  
@@ -18,9 +20,12 @@ public class User {
     private String lastname;
     private String email;
     private String phone;
-    private String role;
 
-    public User() {
+    @ManyToOne
+    @JoinColumn(name = "roleId")  // Tämä on FK User-taulussa → Role-tauluun, Tämä tarkoittaa, että jokaisella käyttäjällä on yksi rooli.
+    private Role role;
+
+    public AppUser() {
     }
 
     public String getFirstname() {
@@ -55,12 +60,19 @@ public class User {
         this.phone = phone;
     }
 
-    public String getRole() {
-        return role;
+   public Role getRole() {
+    return role;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+public void setRole(Role role) {
+    this.role = role;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    public Long getId() {
+        return id;
     }
 
     @Override

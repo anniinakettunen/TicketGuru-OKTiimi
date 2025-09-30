@@ -10,47 +10,46 @@
 
     <h2 class="mb-4">Muokkaa tapahtumaa</h2>
 
-    <form th:object="${event}" th:action="@{'/events/update/' + ${event.id}}" method="post" class="needs-validation" novalidate>
-        <input type="hidden" th:field="*{id}" />
+    <form th:object="${event}" th:action="@{'/events/update/' + *{eventId}}" method="post" class="needs-validation" novalidate>
+        <input type="hidden" th:field="*{eventId}" />
 
         <div class="mb-3">
-            <label for="eventName" class="form-label">Nimi</label>
-            <input type="text" th:field="*{eventName}" class="form-control" id="eventName" required />
+            <label class="form-label">Nimi</label>
+            <input type="text" th:field="*{eventName}" class="form-control" placeholder="Tapahtuman nimi" required />
             <div class="invalid-feedback">Anna tapahtuman nimi.</div>
         </div>
 
         <div class="mb-3">
-            <label for="eventLocation" class="form-label">Paikka</label>
-            <input type="text" th:field="*{eventLocation}" class="form-control" id="eventLocation" required />
+            <label class="form-label">Paikka</label>
+            <input type="text" th:field="*{eventLocation}" class="form-control" placeholder="Tapahtumapaikka" required />
             <div class="invalid-feedback">Anna tapahtumapaikka.</div>
         </div>
 
         <div class="mb-3">
-            <label for="eventCity" class="form-label">Kaupunki</label>
-            <input type="text" th:field="*{eventCity}" class="form-control" id="eventCity" required />
+            <label class="form-label">Kaupunki</label>
+            <input type="text" th:field="*{eventCity}" class="form-control" placeholder="Kaupunki" required />
             <div class="invalid-feedback">Anna kaupunki.</div>
         </div>
 
         <div class="mb-3">
-            <label for="eventDate" class="form-label">Päivämäärä</label>
-            <input type="date" th:field="*{eventDate}" class="form-control" id="eventDate" required />
+            <label class="form-label">Päivämäärä</label>
+            <input type="date" th:field="*{eventDate}" class="form-control" required />
             <div class="invalid-feedback">Valitse päivämäärä.</div>
         </div>
 
         <div class="mb-3">
-            <label for="eventDescription" class="form-label">Kuvaus</label>
-            <textarea th:field="*{eventDescription}" class="form-control" id="eventDescription" rows="3"></textarea>
+            <label class="form-label">Kuvaus</label>
+            <textarea th:field="*{eventDescription}" class="form-control" rows="3" placeholder="Lyhyt kuvaus tapahtumasta"></textarea>
         </div>
 
         <div class="mb-3">
-            <label for="maxNumberOfTickets" class="form-label">Lippujen enimmäismäärä</label>
-            <input type="number" th:field="*{maxNumberOfTickets}" class="form-control" id="maxNumberOfTickets" min="1" required />
+            <label class="form-label">Lippujen enimmäismäärä</label>
+            <input type="number" th:field="*{maxNumberOfTickets}" class="form-control" min="1" required />
             <div class="invalid-feedback">Anna vähintään yksi lippu.</div>
         </div>
 
         <button type="submit" class="btn btn-primary">Päivitä tapahtuma</button>
         <a th:href="@{/events/list}" class="btn btn-outline-secondary ms-2">Takaisin listaukseen</a>
-        <div th:replace="fragments/footer :: footer"></div>
     </form>
 
     <script>

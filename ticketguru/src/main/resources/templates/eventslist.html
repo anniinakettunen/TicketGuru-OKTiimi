@@ -10,7 +10,6 @@
 
     <h1>Tapahtumat</h1>
 
-    <!-- 🔍 Hakulomake -->
     <form th:action="@{/events/list}" method="get" class="mb-4">
         <div class="input-group">
             <input type="text" name="keyword" class="form-control" placeholder="Hae tapahtumaa nimellä tai kaupungilla" />
@@ -18,37 +17,39 @@
         </div>
     </form>
 
-   <table class="table table-striped">
-    <thead class="table-dark">
-        <tr>
-            <th>Nimi</th>
-            <th>Paikka</th>
-            <th>Kaupunki</th>
-            <th>Päivämäärä</th>
-            <th>Kuvaus</th>
-            <th>Lippuja</th>
-            <th>Toiminnot</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:each="event : ${events}">
-            <td th:text="${event.eventName}"></td>
-            <td th:text="${event.eventLocation}"></td>
-            <td th:text="${event.eventCity}"></td>
-            <td th:text="${event.eventDate}"></td>
-            <td th:text="${event.eventDescription}"></td>
-            <td th:text="${event.maxNumberOfTickets}"></td>
-            <td>
-                <a th:href="@{'/events/edit/' + ${event.id}}" class="btn btn-sm btn-outline-primary me-2">Muokkaa</a>
-                <a th:href="@{'/events/delete/' + ${event.id}}" class="btn btn-sm btn-outline-danger">Poista</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Nimi</th>
+                <th>Paikka</th>
+                <th>Kaupunki</th>
+                <th>Päivämäärä</th>
+                <th>Kuvaus</th>
+                <th>Lippuja</th>
+                <th>Toiminnot</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="event : ${events}">
+                <td th:text="${event.eventName}"></td>
+                <td th:text="${event.eventLocation}"></td>
+                <td th:text="${event.eventCity}"></td>
+                <td th:text="${event.eventDate}"></td>
+                <td th:text="${event.eventDescription}"></td>
+                <td th:text="${event.maxNumberOfTickets}"></td>
+                <td>
+                    <a th:href="@{'/tickettypes?eventId=' + ${event.eventId}}" class="btn btn-sm btn-outline-secondary me-2">Lipputyypit</a>
+                    <a th:href="@{'/events/edit/' + ${event.eventId}}" class="btn btn-sm btn-outline-primary me-2">Muokkaa</a>
+                    <a th:href="@{'/events/delete/' + ${event.eventId}}" class="btn btn-sm btn-outline-danger">Poista</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
+    
     <a th:href="@{/events/add}" class="btn btn-success">Lisää uusi tapahtuma</a>
-<div th:replace="fragments/footer :: footer"></div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
 </html>
-
