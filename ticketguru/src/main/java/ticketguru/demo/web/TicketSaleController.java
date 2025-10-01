@@ -14,7 +14,7 @@ import ticketguru.demo.domain.AppUser;
 import ticketguru.demo.repositories.*;
 
 @Controller  // Use @Controller to allow returning views AND JSON
-@RequestMapping("/ticketsales")
+@RequestMapping("/api")
 public class TicketSaleController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class TicketSaleController {
     private TicketTypeRepository ticketTypeRepository;
 
     // ===== Thymeleaf endpoints (HTML) =====
-    @GetMapping("/newsale")
+    @GetMapping("/ticketsales/newsale") // GET /api/ticketsales/newsale
     public String getNewSaleForm(Model model) {
         model.addAttribute("users", userRepository.findAll());
         model.addAttribute("events", eventRepository.findAll());
@@ -36,7 +36,7 @@ public class TicketSaleController {
         return "newsale";
     }
 
-    @PostMapping("/savesale")
+    @PostMapping("/ticketsales/savesale") // POST /api/ticketsales/savesale
     public String saveTicketSale(@ModelAttribute TicketSale ticketSale, @RequestParam Long userId) {
         AppUser user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -46,13 +46,13 @@ public class TicketSaleController {
     }
 
     // ===== JSON REST API endpoints =====
-    @GetMapping("/api")  // GET /ticketsales/api
+    @GetMapping("/ticketsales")  // GET /api/ticketsales
     @ResponseBody
     public List<TicketSale> getAllTicketSalesJson() {
         return ticketSaleRepository.findAll();
     }
 
-    @GetMapping("/api/{saleId}")  // GET /ticketsales/api/{id}
+    @GetMapping("/ticketsales/{saleId}")  // GET /api/ticketsales/{id}
     @ResponseBody
     public ResponseEntity<TicketSale> getTicketSaleByIdJson(@PathVariable Long saleId) {
         Optional<TicketSale> ticketSale = ticketSaleRepository.findById(saleId);
@@ -60,7 +60,7 @@ public class TicketSaleController {
                          .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/api")  // POST /ticketsales/api
+    @PostMapping("/ticketsales")  // POST /api/ticketsales
     @ResponseBody
     public ResponseEntity<TicketSale> createTicketSaleJson(@RequestBody TicketSale ticketSale) {
         if (ticketSale.getUser() != null && ticketSale.getUser().getId() != null) {
@@ -74,7 +74,7 @@ public class TicketSaleController {
         return ResponseEntity.ok(savedSale);
     }
 
-    @PutMapping("/api/{saleId}")  // PUT /ticketsales/api/{id}
+    @PutMapping("/ticketsales/{saleId}")  // PUT /api/ticketsales/{id}
     @ResponseBody
     public ResponseEntity<TicketSale> updateTicketSaleJson(@PathVariable Long saleId,
                                                            @RequestBody TicketSale ticketSaleDetails) {
@@ -95,7 +95,7 @@ public class TicketSaleController {
         return ResponseEntity.ok(updatedTicketSale);
     }
 
-    @DeleteMapping("/api/{saleId}")  // DELETE /ticketsales/api/{id}
+    @DeleteMapping("/ticketsales/{saleId}")  // DELETE /api/Sticketsales/{id}
     @ResponseBody
     public ResponseEntity<Void> deleteTicketSaleJson(@PathVariable Long saleId) {
         if (!ticketSaleRepository.existsById(saleId)) return ResponseEntity.notFound().build();
