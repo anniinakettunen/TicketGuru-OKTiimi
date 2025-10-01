@@ -61,6 +61,13 @@ public class Ticket {
         this.eventId = eventId;
     }
 
+    public TicketSale getTicketSale() {
+        return ticketSale;
+    }
+    
+    public void setTicketSale(TicketSale ticketSale) {
+        this.ticketSale = ticketSale;
+    }
     @Override
     public String toString() {
         return "Ticket [ticketId=" + ticketId + ", ticketCode=" + ticketCode + "]";
