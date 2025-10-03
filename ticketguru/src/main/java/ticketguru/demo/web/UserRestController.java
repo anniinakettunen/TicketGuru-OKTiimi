@@ -1,17 +1,24 @@
 package ticketguru.demo.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import ticketguru.demo.domain.AppUser;
-import ticketguru.demo.domain.Role;
-import ticketguru.demo.repositories.UserRepository;
-import ticketguru.demo.repositories.RoleRepository;
-
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+import ticketguru.demo.domain.AppUser;
+import ticketguru.demo.domain.Role;
+import ticketguru.demo.repositories.RoleRepository;
+import ticketguru.demo.repositories.UserRepository;
 
 @RestController
 @RequestMapping("/api/users")
@@ -22,7 +29,7 @@ public class UserRestController {
 
     @Autowired
     private RoleRepository roleRepository;
-    
+
     // GET: Hae kaikki käyttäjät
     @GetMapping
     public List<AppUser> getAllUsers() {
@@ -39,19 +46,20 @@ public class UserRestController {
 
     // POST: Luo uusi käyttäjä
     @PostMapping
-public ResponseEntity<AppUser> createUser(@RequestBody AppUser user) {
-    if (user.getRole() != null && user.getRole().getRoleId() != null) {
-        Long roleId = user.getRole().getRoleId();
-        Role role = roleRepository.findById(roleId)
-                .orElseThrow(() -> new RuntimeException("Role not found with id " + roleId));
-        user.setRole(role); 
+    public ResponseEntity<AppUser> createUser(@Valid @RequestBody AppUser user) {
+        if (user.getRole() != null && user.getRole().getRoleId() != null) {
+            Long roleId = user.getRole().getRoleId();
+            Role role = roleRepository.findById(roleId)
+                    .orElseThrow(() -> new RuntimeException("Role not found with id " + roleId));
+            user.setRole(role);
+        }
+        AppUser savedUser = userRepository.save(user);
+        return ResponseEntity.ok(savedUser);
     }
-    AppUser savedUser = userRepository.save(user);
-    return ResponseEntity.ok(savedUser);
-}
+
     // PUT: Päivitä käyttäjä ID:n perusteella
     @PutMapping("/{id}")
-    public ResponseEntity<AppUser> updateUser(@PathVariable("id") Long userId, @RequestBody AppUser userDetails) {
+    public ResponseEntity<AppUser> updateUser(@PathVariable("id") Long userId, @Valid @RequestBody AppUser userDetails) {
         Optional<AppUser> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty()) {
             return ResponseEntity.notFound().build();
