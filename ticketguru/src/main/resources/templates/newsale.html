@@ -113,7 +113,7 @@
 <body>
     <div class="container mt-4">
         <h1>New Ticket Sale</h1>
-        <form th:action="@{/ticketsales/savesale}" th:object="${ticketSale}" method="post">
+        <form th:action="@{/api/ticketsales/savesale}" method="post">
             
             <div class="mb-3">
                 <label for="userSearch" class="form-label">User:</label>
@@ -150,7 +150,7 @@
                            onfocus="showEventDropdown()"
                            required>
                     <input type="hidden" id="eventId" name="eventId" required>
-                    <input type="hidden" id="dateTime" th:field="*{dateTime}">
+                    <input type="hidden" id="dateTime" name="dateTime">
                     <div id="eventDropdown" class="event-dropdown">
                         <div th:each="event : ${events}" 
                              class="event-option" 
@@ -194,11 +194,11 @@
 
             <div class="mb-3">
                 <label for="price" class="form-label">Total Price:</label>
-                <input type="number" id="price" th:field="*{price}" step="0.01" min="0" class="form-control" readonly>
+                <input type="number" id="price" name="price" step="0.01" min="0" class="form-control" readonly>
             </div>
 
             <button type="submit" class="btn btn-primary" onclick="showSaleCompletedPopup()">Submit Sale</button>
-            <a href="/ticketsales" class="btn btn-secondary ms-2">Cancel</a>
+            <a href="http://localhost:8080/" class="btn btn-secondary ms-2">Cancel</a>
         </form>
 
         <!-- Success Popup Modal -->

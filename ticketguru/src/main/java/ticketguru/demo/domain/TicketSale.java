@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,9 +15,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
@@ -26,7 +26,6 @@ public class TicketSale {
     private Long saleId;
 
     @NotNull(message = "Date and time are required")
-    @PastOrPresent(message = "Sale date cannot be in the future")
     private LocalDateTime dateTime;
 
     @NotNull(message = "Price is required")
@@ -41,7 +40,7 @@ public class TicketSale {
     private AppUser user; 
 
     @OneToMany(mappedBy = "ticketSale")  // Yksi TicketSale voi sisältää useita lippuja
-    @Min(value = 1, message = "A ticket sale must contain at least 1 ticket")
+    @JsonManagedReference
     private List<Ticket> tickets;
 
     public TicketSale() {}

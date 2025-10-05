@@ -1,5 +1,7 @@
 package ticketguru.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +27,7 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(name="sale_id", nullable=true)
+    @JsonBackReference
     private TicketSale ticketSale;
 
     public Ticket() {}
