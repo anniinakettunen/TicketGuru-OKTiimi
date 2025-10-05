@@ -11,6 +11,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 public class TicketSale {
@@ -19,14 +25,23 @@ public class TicketSale {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long saleId;
 
+    @NotNull(message = "Date and time are required")
+    @PastOrPresent(message = "Sale date cannot be in the future")
     private LocalDateTime dateTime;
+
+    @NotNull(message = "Price is required")
+    @PositiveOrZero(message = "Price must be zero or positive")
+    @DecimalMax(value = "999999.99", message = "Price cannot exceed €999,999.99")
+    @Digits(integer = 6, fraction = 2, message = "Price must have at most 6 digits before decimal and 2 after")
     private BigDecimal price;
 
     @ManyToOne // Yhdellä käyttäjällä voi olla useita TicketSale-tapahtumia
+    @NotNull(message = "User is required")
     @JoinColumn(name = "user_id", nullable = false) 
     private AppUser user; 
 
     @OneToMany(mappedBy = "ticketSale")  // Yksi TicketSale voi sisältää useita lippuja
+    @Min(value = 1, message = "A ticket sale must contain at least 1 ticket")
     private List<Ticket> tickets;
 
     public TicketSale() {}

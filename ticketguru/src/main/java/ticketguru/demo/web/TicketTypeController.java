@@ -35,19 +35,19 @@ public class TicketTypeController {
         return "redirect:/tickettypes";
     }
 
-  @GetMapping("/edittickettype/{id}")
-public String editTicketType(@PathVariable("id") Long id, Model model) {
-    TicketType ticketType = ticketTypeRepository.findById(id).orElse(new TicketType()); // korjattu
-    model.addAttribute("ticketType", ticketType);
-    model.addAttribute("ticketTypes", ticketTypeRepository.findAll());
-    return "tickettypes";
-}
+    @GetMapping("/edittickettype/{id}")
+    public String editTicketType(@PathVariable("id") Long id, Model model) {
+        TicketType ticketType = ticketTypeRepository.findById(id).orElse(new TicketType()); // korjattu
+        model.addAttribute("ticketType", ticketType);
+        model.addAttribute("ticketTypes", ticketTypeRepository.findAll());
+        return "tickettypes";
+    }
 
     @GetMapping("/deletetickettype/{id}")
-public String deleteTicketType(@PathVariable("id") Long id) {
-    ticketTypeRepository.deleteById(id);
-    return "redirect:/tickettypes";
-}
+    public String deleteTicketType(@PathVariable("id") Long id) {
+        ticketTypeRepository.deleteById(id);
+        return "redirect:/tickettypes";
+    }
 
     
 }
