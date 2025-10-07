@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.*;
+
 
 @Entity
 public class Event {
@@ -14,11 +16,25 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long eventId;
 
+    @NotBlank(message = "Event name is required")
+    @Size(min = 2, max = 100, message = "Event name must be between 2 and 100 characters")
     private String eventName;
+
+    @NotBlank(message = "Event location is required")
     private String eventLocation;
+
+    @NotBlank(message = "Event city is required")
     private String eventCity;
+
+    @NotNull(message = "Event date is required")
+    @FutureOrPresent(message = "Event date must be today or in the future")
     private LocalDate eventDate;
+
+    @Size(max = 500, message = "Description cannot exceed 500 characters")
     private String eventDescription;
+
+    @NotNull(message = "Maximum number of tickets is required")
+    @Min(value = 1, message = "There must be at least 1 ticket")
     private Integer maxNumberOfTickets;
 
     public Event() {}
