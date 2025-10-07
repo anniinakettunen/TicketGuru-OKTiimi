@@ -39,11 +39,11 @@ public class DemoApplication {
         return (args) -> {
             // --- Create events ---
             Event rockEvent = eventRepository.save(new Event("Rock Night", "Arena", "Helsinki",
-                    LocalDate.of(2025, 10, 5), "Live rock music", 500));
+                    LocalDate.of(2025, 10, 10), "Live rock music", 500));
             Event jazzEvent = eventRepository.save(new Event("Jazz Sunday", "Jazz Club", "Tampere",
                     LocalDate.of(2025, 11, 2), "Smooth jazz evening", 150));
             Event techEvent = eventRepository.save(new Event("Tech Expo", "Messukeskus", "Espoo",
-                    LocalDate.of(2025, 9, 28), "Technology and innovation fair", 1000));
+                    LocalDate.of(2025, 12,20 ), "Technology and innovation fair", 1000));
 
             // --- Create roles ---
             Role demoRole = new Role();

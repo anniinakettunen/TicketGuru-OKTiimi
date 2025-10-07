@@ -1,4 +1,5 @@
 package ticketguru.demo.web;
+
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,21 +36,39 @@ public class TicketRestController {
     @Autowired
     private EventRepository eventRepository;
 
+    // Get all tickets
     @GetMapping
     public List<Ticket> getAllTickets() {
         return ticketRepository.findAll();
     }
 
+    // Get ticket by ID
     @GetMapping("/{ticketId}")
     public Optional<Ticket> getTicketById(@PathVariable Long ticketId) {
         return ticketRepository.findById(ticketId);
     }
 
+    // Create a new ticket
     @PostMapping
-    public Ticket createTicket(@RequestBody Ticket ticket) {
+    public Ticket createTicket(@RequestBody Ticket ticketDetails) {
+        // Fetch managed TicketType
+        TicketType ticketType = ticketTypeRepository.findById(ticketDetails.getTicketTypeId().getTicketTypeId())
+                .orElseThrow(() -> new RuntimeException("TicketType not found"));
+
+        // Fetch managed Event
+        Event event = eventRepository.findById(ticketDetails.getEventId().getEventId())
+                .orElseThrow(() -> new RuntimeException("Event not found"));
+
+        // Create new Ticket entity
+        Ticket ticket = new Ticket();
+        ticket.setTicketCode(ticketDetails.getTicketCode());
+        ticket.setTicketTypeId(ticketType);
+        ticket.setEventId(event);
+
         return ticketRepository.save(ticket);
     }
 
+    // Update an existing ticket
     @PutMapping("/{id}")
     public ResponseEntity<Ticket> updateTicket(@PathVariable Long id, @RequestBody Ticket ticketDetails) {
         Ticket ticket = ticketRepository.findById(id)
@@ -77,6 +96,7 @@ public class TicketRestController {
         return ResponseEntity.ok(updatedTicket);
     }
 
+    // Delete a ticket
     @DeleteMapping("/{ticketId}")
     public void deleteTicket(@PathVariable Long ticketId) {
         ticketRepository.deleteById(ticketId);
