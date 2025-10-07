@@ -4,6 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class TicketType {
@@ -11,23 +14,23 @@ public class TicketType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long ticketTypeId;
+
+    @NotBlank(message = "Ticket name cannot be blank")
     private String ticketName;
-    private double price;
+
+    @NotNull(message = "Price cannot be null")
+    @Min(value = 0, message = "Price must be positive")
+    private Double price;
 
     public TicketType() {}
 
-    public TicketType(String ticketName, double price) {
-        super();
+    public TicketType(String ticketName, Double price) {
         this.ticketName = ticketName;
         this.price = price;
     }
 
     public Long getTicketTypeId() {
         return ticketTypeId;
-    }
-
-    public void setTicketTypeId(Long ticketTypeId) {
-        this.ticketTypeId = ticketTypeId;
     }
 
     public String getTicketName() {
@@ -38,11 +41,11 @@ public class TicketType {
         this.ticketName = ticketName;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
