@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import ticketguru.demo.domain.Event;
 import ticketguru.demo.repositories.EventRepository;
@@ -84,14 +89,15 @@ public ResponseEntity<Event> getEventById(@PathVariable("id") Long eventId) {
 
 @PostMapping("/api")
 @ResponseBody
-public Event createEvent(@RequestBody Event event) {
-    return eventRepository.save(event);
+public ResponseEntity<?> createEvent(@Valid @RequestBody Event event) {
+    Event savedEvent = eventRepository.save(event);
+    return ResponseEntity.status(HttpStatus.CREATED).body(savedEvent);
 }
 
 @PutMapping("/api/{id}")
 @ResponseBody
-public ResponseEntity<Event> updateEvent(@PathVariable("id") Long eventId,
-                                         @RequestBody Event eventDetails) {
+public ResponseEntity<?> updateEvent(@PathVariable("id") Long eventId,
+                                     @Valid @RequestBody Event eventDetails) {
     Optional<Event> optionalEvent = eventRepository.findById(eventId);
     if (optionalEvent.isEmpty()) {
         return ResponseEntity.notFound().build();
@@ -115,6 +121,14 @@ public ResponseEntity<Void> deleteEvent(@PathVariable("id") Long eventId) {
     }
     eventRepository.deleteById(eventId);
     return ResponseEntity.noContent().build();
+}
+
+// Validation error handler
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+@ExceptionHandler(MethodArgumentNotValidException.class)
+@ResponseBody
+public String handleValidationExceptions(MethodArgumentNotValidException ex) {
+    return ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
 }
 
 }

@@ -32,11 +32,11 @@ public class DemoApplication {
         return (args) -> {
             // Test events
             eventRepository.save(new Event("Rock Night", "Arena", "Helsinki",
-                    LocalDate.of(2025, 10, 5), "Live rock music", 500));
+                    LocalDate.of(2026, 10, 5), "Live rock music", 500));
             eventRepository.save(new Event("Jazz Sunday", "Jazz Club", "Tampere",
-                    LocalDate.of(2025, 11, 2), "Smooth jazz evening", 150));
+                    LocalDate.of(2026, 11, 2), "Smooth jazz evening", 150));
             eventRepository.save(new Event("Tech Expo", "Messukeskus", "Espoo",
-                    LocalDate.of(2025, 9, 28), "Technology and innovation fair", 1000));
+                    LocalDate.of(2026, 9, 28), "Technology and innovation fair", 1000));
 
             // Demo role
             Role demoRole = new Role();
