@@ -221,20 +221,29 @@ http://localhost:8080/api/users
 
 ```json
 [
-    {
-        "ticketTypeId": 1,
-        "ticketName": "Adult",
-        "price": 30.0
+     {
+        "id": 1,
+        "firstname": "Oskari",
+        "lastname": "Uninen",
+        "email": "oskari.uninen@gmail.com",
+        "phone": "12345678",
+        "role": {
+            "roleId": 1,
+            "roleName": "myyjä",
+            "notes": "Full access to all ticket sales, no access to user management"
+        }
     },
     {
-        "ticketTypeId": 2,
-        "ticketName": "Child",
-        "price": 15.0
-    },
-    {
-        "ticketTypeId": 3,
-        "ticketName": "Senior",
-        "price": 20.0
+        "id": 2,
+        "firstname": "Jaska",
+        "lastname": "Jokunen",
+        "email": "jaska.jokunen@hotmail.com",
+        "phone": "87654321",
+        "role": {
+            "roleId": 1,
+            "roleName": "myyjä",
+            "notes": "Full access to all ticket sales, no access to user management"
+        }
     }
 ]
 ```
