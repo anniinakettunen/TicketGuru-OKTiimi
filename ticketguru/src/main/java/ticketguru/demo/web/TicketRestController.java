@@ -44,35 +44,43 @@ public class TicketRestController {
 
     // Get ticket by ID
     @GetMapping("/{ticketId}")
-    public Optional<Ticket> getTicketById(@PathVariable Long ticketId) {
-        return ticketRepository.findById(ticketId);
+    public ResponseEntity<Ticket> getTicketById(@PathVariable Long ticketId) {
+        Optional<Ticket> ticket = ticketRepository.findById(ticketId);
+        return ticket.map(ResponseEntity::ok)
+                     .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // Create a new ticket
     @PostMapping
-    public Ticket createTicket(@RequestBody Ticket ticketDetails) {
-        // Fetch managed TicketType
+    public ResponseEntity<?> createTicket(@RequestBody Ticket ticketDetails) {
+        if (ticketDetails.getTicketTypeId() == null || ticketDetails.getTicketTypeId().getTicketTypeId() == null) {
+            return ResponseEntity.badRequest().body("Ticket must have a valid ticketTypeId");
+        }
         TicketType ticketType = ticketTypeRepository.findById(ticketDetails.getTicketTypeId().getTicketTypeId())
-                .orElseThrow(() -> new RuntimeException("TicketType not found"));
+                .orElse(null);
+        if (ticketType == null) return ResponseEntity.badRequest().body("TicketType not found");
 
-        // Fetch managed Event
+        if (ticketDetails.getEventId() == null || ticketDetails.getEventId().getEventId() == null) {
+            return ResponseEntity.badRequest().body("Ticket must have a valid eventId");
+        }
         Event event = eventRepository.findById(ticketDetails.getEventId().getEventId())
-                .orElseThrow(() -> new RuntimeException("Event not found"));
+                .orElse(null);
+        if (event == null) return ResponseEntity.badRequest().body("Event not found");
 
-        // Create new Ticket entity
         Ticket ticket = new Ticket();
         ticket.setTicketCode(ticketDetails.getTicketCode());
         ticket.setTicketTypeId(ticketType);
         ticket.setEventId(event);
 
-        return ticketRepository.save(ticket);
+        Ticket savedTicket = ticketRepository.save(ticket);
+        return ResponseEntity.ok(savedTicket);
     }
 
     // Update an existing ticket
     @PutMapping("/{id}")
-    public ResponseEntity<Ticket> updateTicket(@PathVariable Long id, @RequestBody Ticket ticketDetails) {
-        Ticket ticket = ticketRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Ticket not found"));
+    public ResponseEntity<?> updateTicket(@PathVariable Long id, @RequestBody Ticket ticketDetails) {
+        Ticket ticket = ticketRepository.findById(id).orElse(null);
+        if (ticket == null) return ResponseEntity.notFound().build();
 
         if (ticketDetails.getTicketCode() != null) {
             ticket.setTicketCode(ticketDetails.getTicketCode());
@@ -80,16 +88,19 @@ public class TicketRestController {
 
         if (ticketDetails.getTicketTypeId() != null && ticketDetails.getTicketTypeId().getTicketTypeId() != null) {
             TicketType ticketType = ticketTypeRepository.findById(
-                    ticketDetails.getTicketTypeId().getTicketTypeId())
-                    .orElseThrow(() -> new RuntimeException("TicketType not found"));
+                    ticketDetails.getTicketTypeId().getTicketTypeId()).orElse(null);
+            if (ticketType == null) return ResponseEntity.badRequest().body("TicketType not found");
             ticket.setTicketTypeId(ticketType);
+        } else {
+            return ResponseEntity.badRequest().body("Ticket must have a valid ticketTypeId");
         }
 
         if (ticketDetails.getEventId() != null && ticketDetails.getEventId().getEventId() != null) {
-            Event event = eventRepository.findById(
-                    ticketDetails.getEventId().getEventId())
-                    .orElseThrow(() -> new RuntimeException("Event not found"));
+            Event event = eventRepository.findById(ticketDetails.getEventId().getEventId()).orElse(null);
+            if (event == null) return ResponseEntity.badRequest().body("Event not found");
             ticket.setEventId(event);
+        } else {
+            return ResponseEntity.badRequest().body("Ticket must have a valid eventId");
         }
 
         Ticket updatedTicket = ticketRepository.save(ticket);
@@ -98,7 +109,9 @@ public class TicketRestController {
 
     // Delete a ticket
     @DeleteMapping("/{ticketId}")
-    public void deleteTicket(@PathVariable Long ticketId) {
+    public ResponseEntity<Void> deleteTicket(@PathVariable Long ticketId) {
+        if (!ticketRepository.existsById(ticketId)) return ResponseEntity.notFound().build();
         ticketRepository.deleteById(ticketId);
+        return ResponseEntity.noContent().build();
     }
 }

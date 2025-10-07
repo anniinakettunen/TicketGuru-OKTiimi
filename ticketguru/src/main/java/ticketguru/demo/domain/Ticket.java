@@ -2,12 +2,8 @@ package ticketguru.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Ticket {
@@ -15,23 +11,27 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long ticketId;
-    private Long ticketCode;
+
+    private Long ticketCode; // Optional, can be generated if missing
 
     @ManyToOne
-    @JoinColumn(name="ticketTypeId", nullable=false)
+    @JoinColumn(name = "ticketTypeId", nullable = false)
+    @NotNull(message = "TicketType must not be null")
     private TicketType ticketTypeId;
 
     @ManyToOne
-    @JoinColumn(name="eventId", nullable=false)
+    @JoinColumn(name = "eventId", nullable = false)
+    @NotNull(message = "Event must not be null")
     private Event eventId;
 
     @ManyToOne
-    @JoinColumn(name="sale_id", nullable=true)
+    @JoinColumn(name = "sale_id", nullable = true)
     @JsonBackReference
     private TicketSale ticketSale;
 
     public Ticket() {}
 
+    // ===== Getters and Setters =====
     public Long getTicketId() {
         return ticketId;
     }
@@ -67,10 +67,11 @@ public class Ticket {
     public TicketSale getTicketSale() {
         return ticketSale;
     }
-    
+
     public void setTicketSale(TicketSale ticketSale) {
         this.ticketSale = ticketSale;
     }
+
     @Override
     public String toString() {
         return "Ticket [ticketId=" + ticketId + ", ticketCode=" + ticketCode + "]";

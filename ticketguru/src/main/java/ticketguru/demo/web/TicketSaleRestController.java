@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import ticketguru.demo.domain.*;
 import ticketguru.demo.repositories.*;
 
@@ -47,37 +48,52 @@ public class TicketSaleRestController {
     // ===== CREATE new sale =====
     @PostMapping
     @Transactional
-    public ResponseEntity<TicketSale> createSale(@RequestBody TicketSale ticketSale) {
-        // Set full user
-        if (ticketSale.getUser() == null || ticketSale.getUser().getId() == null)
-            throw new RuntimeException("TicketSale must have a valid user");
+    public ResponseEntity<?> createSale(@Valid @RequestBody TicketSale ticketSale) {
 
-        AppUser user = userRepository.findById(ticketSale.getUser().getId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        // 1️⃣ Validate user
+        if (ticketSale.getUser() == null || ticketSale.getUser().getId() == null) {
+            return ResponseEntity.badRequest().body("TicketSale must have a valid user");
+        }
+        AppUser user = userRepository.findById(ticketSale.getUser().getId()).orElse(null);
+        if (user == null) return ResponseEntity.badRequest().body("User not found");
         ticketSale.setUser(user);
 
-        // Save sale first
+        // 2️⃣ Validate tickets
+        if (ticketSale.getTickets() == null || ticketSale.getTickets().isEmpty()) {
+            return ResponseEntity.badRequest().body("TicketSale must have at least one ticket");
+        }
+
+        // 3️⃣ Save sale first
         TicketSale savedSale = ticketSaleRepository.save(ticketSale);
 
-        // Process tickets if provided
-        if (ticketSale.getTickets() != null) {
-            for (Ticket ticket : ticketSale.getTickets()) {
-                Event event = eventRepository.findById(ticket.getEventId().getEventId())
-                        .orElseThrow(() -> new RuntimeException("Event not found"));
-                TicketType type = ticketTypeRepository.findById(ticket.getTicketTypeId().getTicketTypeId())
-                        .orElseThrow(() -> new RuntimeException("TicketType not found"));
+        // 4️⃣ Validate & save tickets
+        for (Ticket ticket : ticketSale.getTickets()) {
 
-                ticket.setEventId(event);
-                ticket.setTicketTypeId(type);
-                ticket.setTicketSale(savedSale);
-
-                // Generate ticket code if not provided
-                if (ticket.getTicketCode() == null) {
-                    ticket.setTicketCode(System.currentTimeMillis());
-                }
-
-                ticketRepository.save(ticket);
+            // Validate event
+            if (ticket.getEventId() == null || ticket.getEventId().getEventId() == null) {
+                return ResponseEntity.badRequest().body("Ticket must have an eventId");
             }
+            Event event = eventRepository.findById(ticket.getEventId().getEventId()).orElse(null);
+            if (event == null) return ResponseEntity.badRequest().body("Event not found");
+            ticket.setEventId(event);
+
+            // Validate ticket type
+            if (ticket.getTicketTypeId() == null || ticket.getTicketTypeId().getTicketTypeId() == null) {
+                return ResponseEntity.badRequest().body("Ticket must have a ticketTypeId");
+            }
+            TicketType type = ticketTypeRepository.findById(ticket.getTicketTypeId().getTicketTypeId()).orElse(null);
+            if (type == null) return ResponseEntity.badRequest().body("TicketType not found");
+            ticket.setTicketTypeId(type);
+
+            // Associate with sale
+            ticket.setTicketSale(savedSale);
+
+            // Generate ticket code if missing
+            if (ticket.getTicketCode() == null) {
+                ticket.setTicketCode(System.currentTimeMillis());
+            }
+
+            ticketRepository.save(ticket);
         }
 
         return ResponseEntity.ok(savedSale);
@@ -86,43 +102,55 @@ public class TicketSaleRestController {
     // ===== UPDATE sale =====
     @PutMapping("/{saleId}")
     @Transactional
-    public ResponseEntity<TicketSale> updateSale(@PathVariable Long saleId,
-                                                 @RequestBody TicketSale saleDetails) {
-        TicketSale sale = ticketSaleRepository.findById(saleId)
-                .orElseThrow(() -> new RuntimeException("TicketSale not found"));
+    public ResponseEntity<?> updateSale(@PathVariable Long saleId, @Valid @RequestBody TicketSale saleDetails) {
+        TicketSale sale = ticketSaleRepository.findById(saleId).orElse(null);
+        if (sale == null) return ResponseEntity.notFound().build();
 
+        // Update basic fields
         sale.setDateTime(saleDetails.getDateTime());
         sale.setPrice(saleDetails.getPrice());
 
+        // Update user if provided
         if (saleDetails.getUser() != null && saleDetails.getUser().getId() != null) {
-            AppUser user = userRepository.findById(saleDetails.getUser().getId())
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+            AppUser user = userRepository.findById(saleDetails.getUser().getId()).orElse(null);
+            if (user == null) return ResponseEntity.badRequest().body("User not found");
             sale.setUser(user);
         }
 
-        if (saleDetails.getTickets() != null) {
-            for (Ticket updatedTicket : saleDetails.getTickets()) {
-                Ticket ticket;
-                if (updatedTicket.getTicketId() != null) {
-                    ticket = ticketRepository.findById(updatedTicket.getTicketId())
-                            .orElseThrow(() -> new RuntimeException("Ticket not found"));
-                } else {
-                    ticket = new Ticket();
-                    ticket.setTicketSale(sale);
-                }
+        // Validate tickets (cannot be empty)
+        if (saleDetails.getTickets() == null || saleDetails.getTickets().isEmpty()) {
+            return ResponseEntity.badRequest().body("TicketSale must have at least one ticket");
+        }
 
-                ticket.setTicketCode(updatedTicket.getTicketCode());
+        // Update tickets
+        for (Ticket updatedTicket : saleDetails.getTickets()) {
+            Ticket ticket;
 
-                Event event = eventRepository.findById(updatedTicket.getEventId().getEventId())
-                        .orElseThrow(() -> new RuntimeException("Event not found"));
-                ticket.setEventId(event);
-
-                TicketType type = ticketTypeRepository.findById(updatedTicket.getTicketTypeId().getTicketTypeId())
-                        .orElseThrow(() -> new RuntimeException("TicketType not found"));
-                ticket.setTicketTypeId(type);
-
-                ticketRepository.save(ticket);
+            if (updatedTicket.getTicketId() != null) {
+                ticket = ticketRepository.findById(updatedTicket.getTicketId()).orElse(null);
+                if (ticket == null) return ResponseEntity.badRequest().body("Ticket not found");
+            } else {
+                ticket = new Ticket();
+                ticket.setTicketSale(sale);
             }
+
+            ticket.setTicketCode(updatedTicket.getTicketCode());
+
+            // Validate event
+            if (updatedTicket.getEventId() == null || updatedTicket.getEventId().getEventId() == null)
+                return ResponseEntity.badRequest().body("Ticket must have an eventId");
+            Event event = eventRepository.findById(updatedTicket.getEventId().getEventId()).orElse(null);
+            if (event == null) return ResponseEntity.badRequest().body("Event not found");
+            ticket.setEventId(event);
+
+            // Validate ticket type
+            if (updatedTicket.getTicketTypeId() == null || updatedTicket.getTicketTypeId().getTicketTypeId() == null)
+                return ResponseEntity.badRequest().body("Ticket must have a ticketTypeId");
+            TicketType type = ticketTypeRepository.findById(updatedTicket.getTicketTypeId().getTicketTypeId()).orElse(null);
+            if (type == null) return ResponseEntity.badRequest().body("TicketType not found");
+            ticket.setTicketTypeId(type);
+
+            ticketRepository.save(ticket);
         }
 
         TicketSale updatedSale = ticketSaleRepository.save(sale);
