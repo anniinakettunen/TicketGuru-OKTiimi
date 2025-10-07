@@ -211,7 +211,7 @@ http://localhost:8080/api/users
 
 #### Endpointit
 
-**1. Hae kaikki lipuntyypit**
+**1. Hae kaikki käyttäjät**
 
   - **Metodi**: GET
 
