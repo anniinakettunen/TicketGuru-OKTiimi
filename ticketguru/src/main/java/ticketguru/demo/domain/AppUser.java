@@ -21,6 +21,14 @@ public class AppUser {
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
+    @NotEmpty(message = "Username is required")
+    @Column(name = "username", nullable = false, unique = true)
+    private String username;
+
+    @NotEmpty(message = "Password is required")
+    @Column(name = "password_hash", nullable = false)
+    private String passwordHash;
+
     @NotEmpty(message = "First name is required")
     @Column(name = "firstname", nullable = false)
     private String firstname;
@@ -51,6 +59,20 @@ public class AppUser {
     }
     public void setId(Long id) {
         this.id = id;
+    }
+
+     public String getUsername() {
+        return username;
+    }
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public String getFirstname() {
@@ -92,6 +114,8 @@ public class AppUser {
     public String toString() {
         return "AppUser{" +
                 "id=" + id +
+                ", username='" + username + '\'' +
+                ", passwordHash='" + passwordHash + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +

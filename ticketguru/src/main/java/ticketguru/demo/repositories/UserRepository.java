@@ -9,8 +9,8 @@ import ticketguru.demo.domain.AppUser;
 
 @Repository
 public interface UserRepository extends JpaRepository<AppUser, Long> {
-    
-    Optional<AppUser> findByEmail(String email);
+
+    Optional<AppUser> findByUsername(String username);
 
     AppUser findByFirstnameAndLastname(String firstname, String lastname);
 
