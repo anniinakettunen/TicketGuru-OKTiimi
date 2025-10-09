@@ -52,6 +52,8 @@ public class DemoApplication {
 
             // --- Create users ---
             AppUser demoUser1 = new AppUser();
+            demoUser1.setUsername("oskari");
+            demoUser1.setPasswordHash("demo1");
             demoUser1.setFirstname("Oskari");
             demoUser1.setLastname("Uninen");
             demoUser1.setEmail("oskari.uninen@gmail.com");
@@ -60,6 +62,8 @@ public class DemoApplication {
             userRepository.save(demoUser1);
 
             AppUser demoUser2 = new AppUser();
+            demoUser2.setUsername("jaska");
+            demoUser2.setPasswordHash("demo2");
             demoUser2.setFirstname("Jaska");
             demoUser2.setLastname("Jokunen");
             demoUser2.setEmail("jaska.jokunen@hotmail.com");
