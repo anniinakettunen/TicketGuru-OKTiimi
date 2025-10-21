@@ -8,6 +8,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+
 
 import ticketguru.demo.domain.AppUser;
 import ticketguru.demo.domain.Event;
@@ -39,36 +43,43 @@ public class DemoApplication {
         return (args) -> {
             // --- Create events ---
             Event rockEvent = eventRepository.save(new Event("Rock Night", "Arena", "Helsinki",
-                    LocalDate.of(2025, 10, 10), "Live rock music", 500));
+                    LocalDate.of(2026, 10, 10), "Live rock music", 500));
             Event jazzEvent = eventRepository.save(new Event("Jazz Sunday", "Jazz Club", "Tampere",
-                    LocalDate.of(2025, 11, 2), "Smooth jazz evening", 150));
+                    LocalDate.of(2026, 11, 2), "Smooth jazz evening", 150));
             Event techEvent = eventRepository.save(new Event("Tech Expo", "Messukeskus", "Espoo",
-                    LocalDate.of(2025, 12,20 ), "Technology and innovation fair", 1000));
+                    LocalDate.of(2026, 12,20 ), "Technology and innovation fair", 1000));
 
+            
             // --- Create roles ---
-            Role demoRole = new Role();
-            demoRole.setRoleName("myyjä");
-            roleRepository.save(demoRole);
+            Role sellerRole = new Role();
+            sellerRole.setRoleName("MYYJÄ");
+            roleRepository.save(sellerRole);
+
+            Role adminRole = new Role();
+            adminRole.setRoleName("ADMIN");
+            roleRepository.save(adminRole);
+
+            PasswordEncoder encoder = new BCryptPasswordEncoder();
 
             // --- Create users ---
             AppUser demoUser1 = new AppUser();
             demoUser1.setUsername("oskari");
-            demoUser1.setPasswordHash("demo1");
+            demoUser1.setPasswordHash(encoder.encode("demo1"));
             demoUser1.setFirstname("Oskari");
             demoUser1.setLastname("Uninen");
             demoUser1.setEmail("oskari.uninen@gmail.com");
             demoUser1.setPhone("12345678");
-            demoUser1.setRole(demoRole);
+            demoUser1.setRole(sellerRole);
             userRepository.save(demoUser1);
 
             AppUser demoUser2 = new AppUser();
             demoUser2.setUsername("jaska");
-            demoUser2.setPasswordHash("demo2");
+            demoUser2.setPasswordHash(encoder.encode("demo2"));
             demoUser2.setFirstname("Jaska");
             demoUser2.setLastname("Jokunen");
             demoUser2.setEmail("jaska.jokunen@hotmail.com");
             demoUser2.setPhone("87654321");
-            demoUser2.setRole(demoRole);
+            demoUser2.setRole(adminRole);
             userRepository.save(demoUser2);
 
             // --- Create ticket types ---
