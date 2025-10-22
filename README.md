@@ -1,5 +1,5 @@
 # TicketGuru
-OK-Tiimi: Anniina, Erkka, Maria, Teppo, Thu, Ville
+OK-Tiimi: Anniina, Erkka, Teppo, Thu, Ville
 
 ## Johdanto
 Kehitettävä ohjelmisto on lippujenmyyntijärjestelmä, johon voi lisätä tapahtumia, määritellä niihin lipputyyppejä ja myydä lippuja tapahtumiin. Järjestelmä rekisteröi myös myytyjen lippujen tiedot tapahtumakohtaisesti. Järjestelmä kehitetään niin, että siihen voidaan jatkokehityksessä lisätä myös verkkokauppa, josta lipputoimiston asiakkaat voivat ostaa itse lippuja.
@@ -1291,3 +1291,30 @@ http://localhost:8080/api/tickets
   - **Virhe**: 
     - **404 Not Found**
 
+
+## Turvallisuusratkaisu
+
+--------------------------------------
+
+- Sovelluksen tietoturva on toteutettu **Spring Security -kirjastolla (WebSecurityConfig)**.
+
+- Käytössä on **HTTP Basic -autentikointi**, jossa käyttäjät tunnistautuvat **käyttäjätunnuksella ja salasanalla**.
+
+- Salasanat turvallisesti BCryptPasswordEncoder:lla.
+
+- Käyttöoikeudet määritellään käyttäjäroolien mukaan:
+
+    - **/api/tickettypes:** 
+        - **GET** : julkinen, ei vaadi kirjautumista
+
+        - **POST, PUT, DELETE** : vaatii kirjautumisen
+
+    - **/api/users/** ja **/api/roles :** 
+
+       - kaikki **GET, POST, PUT, DELETE** ovat vain ADMIN-roolin käyttäjille.
+
+    - **Muut endpointit:**
+       
+        - Vaativat autentikoinnin.
+
+- Tämä ratkaisu varmistaa, että hallinnolliset ja käyttäjätiedot pysyvät suojattuina. 
