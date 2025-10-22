@@ -19,14 +19,15 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/roles", "/api/ticketsales", "/api/tickettypes").permitAll()
-                .requestMatchers("/api/users/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-            )
-            .httpBasic();
-        return http.build();
-    }
+    http
+        .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(authorize -> authorize
+            .requestMatchers("/api/tickettypes").permitAll()      // public endpoint
+            .requestMatchers("/api/users/**", "/api/roles").hasRole("ADMIN") // admin only
+            .anyRequest().authenticated()                         // all others require login
+        )
+        .httpBasic();
+    return http.build();
+}
+
 }
