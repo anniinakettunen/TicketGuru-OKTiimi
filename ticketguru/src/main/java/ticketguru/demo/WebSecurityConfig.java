@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.HttpMethod;
+
 
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
@@ -22,7 +24,14 @@ public class WebSecurityConfig {
     http
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/api/tickettypes").permitAll()      // public endpoint
+              // GET is public
+              .requestMatchers(HttpMethod.GET, "/api/tickettypes").permitAll()
+
+              // POST, PUT, DELETE require authentication
+              .requestMatchers(HttpMethod.POST, "/api/tickettypes").authenticated()
+              .requestMatchers(HttpMethod.PUT, "/api/tickettypes/**").authenticated()
+              .requestMatchers(HttpMethod.DELETE, "/api/tickettypes/**").authenticated()
+
             .requestMatchers("/api/users/**", "/api/roles").hasRole("ADMIN") // admin only
             .anyRequest().authenticated()                         // all others require login
         )
