@@ -24,14 +24,6 @@ public class WebSecurityConfig {
     http
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(authorize -> authorize
-              // GET is public
-              .requestMatchers(HttpMethod.GET, "/api/tickettypes").permitAll()
-
-              // POST, PUT, DELETE require authentication
-              .requestMatchers(HttpMethod.POST, "/api/tickettypes").authenticated()
-              .requestMatchers(HttpMethod.PUT, "/api/tickettypes/**").authenticated()
-              .requestMatchers(HttpMethod.DELETE, "/api/tickettypes/**").authenticated()
-
             .requestMatchers("/api/users/**", "/api/roles").hasRole("ADMIN") // admin only
             .anyRequest().authenticated()                         // all others require login
         )
