@@ -13,7 +13,7 @@ import jakarta.validation.constraints.*;
 public class Event {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long eventId;
 
     @NotBlank(message = "Event name is required")

@@ -22,7 +22,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 public class TicketSale {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long saleId;
 
     @NotNull(message = "Date and time are required")

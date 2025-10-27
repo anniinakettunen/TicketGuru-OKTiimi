@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 public class Ticket {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ticketId;
 
     private Long ticketCode; // Optional, can be generated if missing
