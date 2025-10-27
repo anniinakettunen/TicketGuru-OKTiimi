@@ -1314,6 +1314,10 @@ http://localhost:8080/api/tickets
        - kaikki **GET, POST, PUT, DELETE** ovat vain ADMIN-roolin käyttäjille.
 
     - **Muut endpointit:**
+       
+        - Vaativat autentikoinnin.
+
+- Tämä ratkaisu varmistaa, että hallinnolliset ja käyttäjätiedot pysyvät suojattuina. 
  
 
 
@@ -1325,8 +1329,3 @@ http://localhost:8080/api/tickets
 
 - Kehitysvaiheen testausta varten projektiin on lisätty tiedosto src/main/resources/testdata.sql, joka sisältää esimerkkidataa eri tauluihin.
 Tämä mahdollistaa tietokantatoimintojen ja rajapintojen testaamisen ilman manuaalista tietojen syöttöä.
-
-       
-        - Vaativat autentikoinnin.
-
-- Tämä ratkaisu varmistaa, että hallinnolliset ja käyttäjätiedot pysyvät suojattuina. 
