@@ -1314,6 +1314,18 @@ http://localhost:8080/api/tickets
        - kaikki **GET, POST, PUT, DELETE** ovat vain ADMIN-roolin käyttäjille.
 
     - **Muut endpointit:**
+ 
+
+
+## Tietokannan pysyvä ratkaisu
+
+--------------------------------------
+
+- Sovelluken pysyvä tietokanta on toteutettu käyttäen **PostgreSQL**, koska se integroituu sujuvasti Springbootin/JPA:n kanssa 
+
+- Kehitysvaiheen testausta varten projektiin on lisätty tiedosto src/main/resources/testdata.sql, joka sisältää esimerkkidataa eri tauluihin.
+Tämä mahdollistaa tietokantatoimintojen ja rajapintojen testaamisen ilman manuaalista tietojen syöttöä.
+
        
         - Vaativat autentikoinnin.
 
