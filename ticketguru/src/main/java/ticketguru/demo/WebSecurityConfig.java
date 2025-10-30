@@ -26,7 +26,7 @@ public class WebSecurityConfig {
         .authorizeHttpRequests(authorize -> authorize
             
             .requestMatchers("/api/users/**", "/api/roles").hasRole("ADMIN") // admin only
-            .requestMatchers("/", "/status", /).permitAll() // public
+            .requestMatchers("/", "/status").permitAll() // public
             .anyRequest().authenticated()                         // all others require login
         )
         .httpBasic();
