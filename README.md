@@ -1290,6 +1290,14 @@ http://localhost:8080/api/tickets
 
   - **Virhe**: 
     - **404 Not Found**
+   
+**6. Etsi lippu ticketCodella**
+  - **URL**: api/tickets/check?ticketCode={ticketCode}
+  - **Vastaus** 200 OK
+  - **Virhe** 404 Not Found
+
+**7. Merkitse lippu käytetyksi**
+  -**URL**: /api/tickets/use?ticketCode={ticketCode} 
 
 
 ## Turvallisuusratkaisu
