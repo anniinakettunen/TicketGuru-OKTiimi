@@ -1300,32 +1300,49 @@ http://localhost:8080/api/tickets
 
 - Käytössä on **HTTP Basic -autentikointi**, jossa käyttäjät tunnistautuvat **käyttäjätunnuksella ja salasanalla**.
 
-- Salasanat turvallisesti BCryptPasswordEncoder:lla.
+- Salasanat turvallisesti **BCryptPasswordEncoder**:lla.
 
-- Käyttöoikeudet määritellään käyttäjäroolien mukaan:
+- Kaikki API-endpointit vaativat **autentikoinnin**.
 
-    - **/api/tickettypes:** 
-        - **GET** : julkinen, ei vaadi kirjautumista
+- **Käyttöoikeudet** määritellään käyttäjäroolien mukaan:
 
-        - **POST, PUT, DELETE** : vaatii kirjautumisen
+    - **Admin**: käyttäjä, jolla on täydet oikeudet.
 
-    - **/api/users/** ja **/api/roles :** 
+    - **Myyjä**: käyttäjä, jolla on rajatut oikeudet.
 
-       - kaikki **GET, POST, PUT, DELETE** ovat vain ADMIN-roolin käyttäjille.
+   | API Endpoint | Käyttöoikeudet |
+  |---------------|----------------|
+  | /api/users/** | vain ADMIN     |
+  | /api/roles/** | vain ADMIN     |
+  | Muut /api/**  | ADMIN ja MYYJÄ |
 
-    - **Muut endpointit:**
-       
-        - Vaativat autentikoinnin.
+- **Odotetut vastaukset**:
 
-- Tämä ratkaisu varmistaa, että hallinnolliset ja käyttäjätiedot pysyvät suojattuina. 
- 
+    - **200 OK**: kirjautuminen onnistuu ja käyttäjällä on riittävät käyttöoikeudet kyseiseen endpointiin.
+
+        Esim.
+
+        - Myyjä-käyttäjä kirjautuu endpointiin /api/events
+
+        - Admin-käyttäjä kirjautuu onnistuneesti kaikkiin endpointteihin
+
+    - **403 Forbidden**: kirjautuminen onnistuu, mutta käyttöoikeudet eivät riitä kyseiseen endpointiin.
+
+        Esim.
+
+        - Myyjä-käyttäjä yrittää kirjautua endpointiin /api/roles tai /api/users
+
+    - **401 Unauthorized**: käyttäjä ei ole kirjautunut, tai kirjautuminen epäonnistuu. 
+
+        Esim.
+
+        - Käyttäjä yrittää avata /api/events ilman tunnistautumista.
+
 
 
 ## Tietokannan pysyvä ratkaisu
 
 --------------------------------------
 
-- Sovelluken pysyvä tietokanta on toteutettu käyttäen **PostgreSQL**, koska se integroituu sujuvasti Springbootin/JPA:n kanssa 
+- Sovelluken pysyvä tietokanta on toteutettu käyttäen **PostgreSQL**, koska se integroituu sujuvasti Springbootin/JPA:n kanssa.
 
-- Kehitysvaiheen testausta varten projektiin on lisätty tiedosto src/main/resources/testdata.sql, joka sisältää esimerkkidataa eri tauluihin.
-Tämä mahdollistaa tietokantatoimintojen ja rajapintojen testaamisen ilman manuaalista tietojen syöttöä.
