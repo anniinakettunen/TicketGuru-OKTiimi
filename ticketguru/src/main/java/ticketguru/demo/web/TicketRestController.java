@@ -1,6 +1,8 @@
 package ticketguru.demo.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,15 +116,29 @@ public class TicketRestController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/check")
-    public ResponseEntity<?> checkTicket(@RequestParam String ticketCode) {
+   @GetMapping("/check")
+    public ResponseEntity<Map<String, Object>> checkTicket(@RequestParam String ticketCode) {
+    Map<String, Object> response = new HashMap<>();
+
     try {
         Long code = Long.parseLong(ticketCode);
+
         return ticketRepository.findByTicketCode(code)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .map(ticket -> {
+                    response.put("status", "FOUND");
+                    response.put("ticket", ticket);
+                    return ResponseEntity.ok(response);
+                })
+                .orElseGet(() -> {
+                    response.put("status", "NOT_FOUND");
+                    response.put("ticketCode", code);
+                    return ResponseEntity.status(404).body(response);
+                });
+
     } catch (NumberFormatException e) {
-        return ResponseEntity.badRequest().body("Invalid ticketCode format");
+        response.put("status", "ERROR");
+        response.put("message", "Invalid ticket code format");
+        return ResponseEntity.badRequest().body(response);
     }
 }
 
