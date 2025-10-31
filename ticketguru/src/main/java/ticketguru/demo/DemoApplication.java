@@ -103,6 +103,7 @@ public class DemoApplication {
             ticket1.setTicketTypeId(adult);
             ticket1.setEventId(rockEvent);
             ticket1.setTicketSale(sale1);
+            ticket1.setUsed(false);
             ticketRepository.save(ticket1);
 
             Ticket ticket2 = new Ticket();
@@ -110,6 +111,7 @@ public class DemoApplication {
             ticket2.setTicketTypeId(adult);
             ticket2.setEventId(rockEvent);
             ticket2.setTicketSale(sale1);
+            ticket2.setUsed(false);
             ticketRepository.save(ticket2);
 
             // Sale 2 for demoUser2
@@ -124,6 +126,7 @@ public class DemoApplication {
             ticket3.setTicketTypeId(adult);
             ticket3.setEventId(jazzEvent);
             ticket3.setTicketSale(sale2);
+            ticket3.setUsed(false);
             ticketRepository.save(ticket3);
 
             Ticket ticket4 = new Ticket();
@@ -131,6 +134,7 @@ public class DemoApplication {
             ticket4.setTicketTypeId(child);
             ticket4.setEventId(jazzEvent);
             ticket4.setTicketSale(sale2);
+            ticket4.setUsed(false);
             ticketRepository.save(ticket4);
         };
     }
