@@ -2,7 +2,12 @@ package ticketguru.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -29,7 +34,21 @@ public class Ticket {
     @JsonBackReference
     private TicketSale ticketSale;
 
+    private boolean used;
+
     public Ticket() {}
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public Ticket(boolean used) {
+        this.used = used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
 
     // ===== Getters and Setters =====
     public Long getTicketId() {
@@ -74,6 +93,9 @@ public class Ticket {
 
     @Override
     public String toString() {
-        return "Ticket [ticketId=" + ticketId + ", ticketCode=" + ticketCode + "]";
+        return "Ticket [ticketId=" + ticketId + ", ticketCode=" + ticketCode + ", ticketTypeId=" + ticketTypeId
+                + ", eventId=" + eventId + ", ticketSale=" + ticketSale + ", used=" + used + "]";
     }
+
+    
 }

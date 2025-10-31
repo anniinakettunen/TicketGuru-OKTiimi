@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+-- Test data
+INSERT INTO event (event_name, event_location, event_city, event_date, event_description, max_number_of_tickets)
+VALUES 
+('Rock Night', 'Hartwall Arena', 'Helsinki', '2026-06-15', 'An electrifying evening of live rock music', 500),
+
+('Jazz & Chill', 'Tampere Hall', 'Tampere', '2026-07-20', 'Smooth jazz performances by top Finnish artists', 300),
+
+('Summer Beats Festival', 'Ruisrock Park', 'Turku', '2026-08-05', 'A weekend-long outdoor music festival with multiple stages', 1500),
+
+('Classical Evening', 'Finlandia Hall', 'Helsinki', '2026-09-10', 'An elegant classical concert featuring top orchestras', 400),
+
+('Indie Vibes', 'Nosturi', 'Helsinki', '2026-10-01', 'An intimate gig for indie and alternative music lovers', 250);
+=======
 -- =========================================
 -- Drop tables if they exist (fresh start)
 -- =========================================
@@ -131,3 +145,4 @@ VALUES
 (2001,(SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Adult'),(SELECT event_id FROM event WHERE event_name='Jazz Sunday'),(SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='jaska') ORDER BY date_time DESC LIMIT 1)),
 (2002,(SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Child'),(SELECT event_id FROM event WHERE event_name='Jazz Sunday'),(SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='jaska') ORDER BY date_time DESC LIMIT 1))
 ON CONFLICT (ticket_code) DO NOTHING;
+>>>>>>> b42a7877cba54b9a0e26b4b12b4fcca0e00bf6a2
