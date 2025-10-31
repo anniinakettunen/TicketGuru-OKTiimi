@@ -2,6 +2,7 @@ package ticketguru.demo.web;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -114,4 +115,12 @@ public class TicketRestController {
         ticketRepository.deleteById(ticketId);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/check")
+    public ResponseEntity<?> checkTicket(@RequestParam Long ticketCode) {
+        return ticketRepository.findByTicketCode(ticketCode)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+}
+
 }
