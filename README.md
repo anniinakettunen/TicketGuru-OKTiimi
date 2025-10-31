@@ -1297,7 +1297,7 @@ http://localhost:8080/api/tickets
   - **Virhe** 404 Not Found
 
 **7. Merkitse lippu käytetyksi**
-  -**URL**: /api/tickets/use?ticketCode={ticketCode} 
+  - **URL**: /api/tickets/use?ticketCode={ticketCode} 
 
 
 ## Turvallisuusratkaisu
