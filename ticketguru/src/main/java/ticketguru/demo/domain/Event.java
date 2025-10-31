@@ -7,9 +7,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+
 
 
 @Entity
+@Table(name = "event",
+       uniqueConstraints = @UniqueConstraint(columnNames = {"event_name", "event_date"}))
 public class Event {
 
     @Id
