@@ -117,10 +117,15 @@ public class TicketRestController {
     }
 
     @GetMapping("/check")
-    public ResponseEntity<?> checkTicket(@RequestParam Long ticketCode) {
-        return ticketRepository.findByTicketCode(ticketCode)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> checkTicket(@RequestParam String ticketCode) {
+    try {
+        Long code = Long.parseLong(ticketCode);
+        return ticketRepository.findByTicketCode(code)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    } catch (NumberFormatException e) {
+        return ResponseEntity.badRequest().body("Invalid ticketCode format");
+    }
 }
 
 }
