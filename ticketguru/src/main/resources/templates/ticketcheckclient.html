@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ticket Check</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    input {
+      padding: 8px;
+      margin-right: 10px;
+    }
+
+    button {
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    #ticketInfo {
+      margin-top: 15px;
+    }
+
+    #useButton {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .success {
+      color: blue;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    .error {
+      color: red;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Check Ticket</h2>
+
+  <input type="text" id="ticketId" placeholder="Enter ticket ID" />
+  <button onclick="fetchTicket()">Hae tiedot</button>
+
+  <div id="ticketInfo"></div>
+  <button id="useButton" style="display:none" onclick="markUsed()">Merkitse käytetyksi</button>
+
+  <script>
+    const API_BASE_URL = 'https://ticketguru-git-ticketguru.2.rahtiapp.fi/api';
+    let currentTicketId = null;
+
+    async function fetchTicket() {
+      const ticketId = document.getElementById("ticketId").value;
+      const ticketDiv = document.getElementById("ticketInfo");
+      const useBtn = document.getElementById("useButton");
+      ticketDiv.textContent = "Haetaan...";
+      ticketDiv.className = "";
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/liput/${ticketId}`);
+
+        if (response.status === 404) {
+          ticketDiv.textContent = "Lippua ei löytynyt.";
+          ticketDiv.className = "error";
+          useBtn.style.display = "none";
+          return;
+        }
+
+        const data = await response.json();
+        currentTicketId = ticketId;
+
+        ticketDiv.innerHTML = `
+          <p><b>Lipun ID:</b> ${data.liput_id}</p>
+          <p><b>${data.kaytettyna ? `Lippu ${ticketId} on käytetty.` : `Lippu ${ticketId} ei ole käytetty.`}</b></p>
+        `;
+        ticketDiv.className = "";
+
+        useBtn.style.display = data.kaytettyna ? "none" : "inline";
+      } catch (err) {
+        ticketDiv.textContent = "Lippua ei löytynyt.";
+        ticketDiv.className = "error";
+        useBtn.style.display = "none";
+      }
+    }
+
+    async function markUsed() {
+      if (!currentTicketId) return;
+      const ticketDiv = document.getElementById("ticketInfo");
+      const useBtn = document.getElementById("useButton");
+
+      ticketDiv.textContent = "Päivitetään...";
+      ticketDiv.className = "";
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/liput/${currentTicketId}`, {
+          method: "PATCH",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "kaytettyna": true
+          })
+        });
+
+        if (response.ok) {
+          ticketDiv.textContent = `Lippu ${currentTicketId} merkitty käytetyksi!`;
+          ticketDiv.className = "success";
+          useBtn.style.display = "none";
+        } else {
+          ticketDiv.textContent = "Virhe päivityksessä.";
+          ticketDiv.className = "error";
+        }
+      } catch (err) {
+        ticketDiv.textContent = "Virhe päivityksessä.";
+        ticketDiv.className = "error";
+      }
+    }
+  </script>
+</body>
+</html>
