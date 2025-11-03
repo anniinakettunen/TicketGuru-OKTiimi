@@ -1,40 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fi">
 <head>
   <meta charset="UTF-8" />
   <title>Ticket Check</title>
-
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
     }
-
     input {
       padding: 8px;
       margin-right: 10px;
     }
-
     button {
       padding: 8px 12px;
       cursor: pointer;
     }
-
     #ticketInfo {
       margin-top: 15px;
     }
-
     #useButton {
       margin-top: 10px;
       margin-bottom: 10px;
     }
-
     .success {
       color: blue;
       font-weight: bold;
       margin-top: 15px;
     }
-
     .error {
       color: red;
       font-weight: bold;
@@ -45,7 +38,7 @@
 <body>
   <h2>Check Ticket</h2>
 
-  <input type="text" id="ticketId" placeholder="Enter ticket ID" />
+  <input type="text" id="lippu_id" placeholder="Enter ticket ID" />
   <button onclick="fetchTicket()">Hae tiedot</button>
 
   <div id="ticketInfo"></div>
@@ -53,17 +46,28 @@
 
   <script>
     const API_BASE_URL = 'https://ticketguru-git-ticketguru.2.rahtiapp.fi/api';
+    const username = "admin";   
+    const password = "admin";  
+
+    const headers = new Headers();
+    headers.set("Authorization", "Basic " + btoa(username + ":" + password));
+    headers.set("Content-Type", "application/json");
+
     let currentTicketId = null;
 
+    // --- FETCH TICKET INFO ---
     async function fetchTicket() {
-      const ticketId = document.getElementById("ticketId").value;
+      const ticketId = document.getElementById("lippu_id").value.trim();
       const ticketDiv = document.getElementById("ticketInfo");
       const useBtn = document.getElementById("useButton");
       ticketDiv.textContent = "Haetaan...";
       ticketDiv.className = "";
 
       try {
-        const response = await fetch(`${API_BASE_URL}/liput/${ticketId}`);
+        const response = await fetch(`${API_BASE_URL}/liput/${ticketId}`, {
+          method: "GET",
+          headers: headers,
+        });
 
         if (response.status === 404) {
           ticketDiv.textContent = "Lippua ei löytynyt.";
@@ -72,23 +76,31 @@
           return;
         }
 
+        if (!response.ok) {
+          throw new Error("Virhe haussa");
+        }
+
         const data = await response.json();
         currentTicketId = ticketId;
 
         ticketDiv.innerHTML = `
-          <p><b>Lipun ID:</b> ${data.liput_id}</p>
-          <p><b>${data.kaytettyna ? `Lippu ${ticketId} on käytetty.` : `Lippu ${ticketId} ei ole käytetty.`}</b></p>
+          <p><b>Lipun ID:</b> ${data.lippu_id}</p>
+          <p><b>Paikka:</b> ${data.paikka}</p>
+          <p><b>Tapahtuma:</b> ${data.tapahtuma.nimi}</p>
+          <p><b>Lipputyyppi:</b> ${data.lipputyyppi.nimi}</p>
+          <p><b>${data.kaytetty ? `Lippu ${ticketId} on käytetty.` : `Lippu ${ticketId} ei ole vielä käytetty.`}</b></p>
         `;
         ticketDiv.className = "";
 
-        useBtn.style.display = data.kaytettyna ? "none" : "inline";
+        useBtn.style.display = data.kaytetty ? "none" : "inline";
       } catch (err) {
-        ticketDiv.textContent = "Lippua ei löytynyt.";
+        ticketDiv.textContent = "Virhe haussa tai lippua ei löytynyt.";
         ticketDiv.className = "error";
         useBtn.style.display = "none";
       }
     }
 
+    // --- MARK AS USED ---
     async function markUsed() {
       if (!currentTicketId) return;
       const ticketDiv = document.getElementById("ticketInfo");
@@ -100,12 +112,8 @@
       try {
         const response = await fetch(`${API_BASE_URL}/liput/${currentTicketId}`, {
           method: "PATCH",
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            "kaytettyna": true
-          })
+          headers: headers,
+          body: JSON.stringify({ "kaytetty": true })
         });
 
         if (response.ok) {

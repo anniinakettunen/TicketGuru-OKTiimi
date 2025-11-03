@@ -23,6 +23,6 @@ public class TicketCheckController {
             ticketRepository.findByTicketCode(ticketCode)
                     .ifPresent(ticket -> model.addAttribute("ticket", ticket));
         }
-        return "ticketcheck"; // looks for src/main/resources/templates/ticketcheck.html
+        return "ticketcheckclient"; // looks for src/main/resources/templates/ticketcheck.html
     }
 }
