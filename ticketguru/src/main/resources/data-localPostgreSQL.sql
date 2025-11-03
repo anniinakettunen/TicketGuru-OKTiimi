@@ -1,80 +1,81 @@
 -- =========================================
 -- Drop tables if they exist (fresh start)
 -- =========================================
--- DROP TABLE IF EXISTS ticket CASCADE;
--- DROP TABLE IF EXISTS ticket_sale CASCADE;
--- DROP TABLE IF EXISTS ticket_type CASCADE;
--- DROP TABLE IF EXISTS event CASCADE;
--- DROP TABLE IF EXISTS app_user CASCADE;
--- DROP TABLE IF EXISTS role CASCADE;
+DROP TABLE IF EXISTS ticket CASCADE;
+DROP TABLE IF EXISTS ticket_sale CASCADE;
+DROP TABLE IF EXISTS ticket_type CASCADE;
+DROP TABLE IF EXISTS event CASCADE;
+DROP TABLE IF EXISTS app_user CASCADE;
+DROP TABLE IF EXISTS role CASCADE;
 
 -- =========================================
 -- Roles table
 -- =========================================
--- CREATE TABLE role (
---     role_id SERIAL PRIMARY KEY,
---     role_name VARCHAR(50) UNIQUE NOT NULL,
---     notes TEXT
--- );
+CREATE TABLE role (
+    role_id SERIAL PRIMARY KEY,
+    role_name VARCHAR(50) UNIQUE NOT NULL,
+    notes TEXT
+);
 
 -- =========================================
 -- Users table
 -- =========================================
--- CREATE TABLE app_user (
---     id SERIAL PRIMARY KEY,
---     username VARCHAR(50) UNIQUE NOT NULL,
---     password_hash VARCHAR(255) NOT NULL,
---     firstname VARCHAR(50) NOT NULL,
---     lastname VARCHAR(50) NOT NULL,
---     email VARCHAR(100) NOT NULL,
---     phone VARCHAR(20),
---     role_id INT NOT NULL REFERENCES role(role_id)
--- );
+CREATE TABLE app_user (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    firstname VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    phone VARCHAR(20),
+    role_id INT NOT NULL REFERENCES role(role_id)
+);
 
 -- =========================================
 -- Events table
 -- =========================================
--- CREATE TABLE event (
---     event_id SERIAL PRIMARY KEY,
---     event_name VARCHAR(100) NOT NULL,
---     event_location VARCHAR(100) NOT NULL,
---     event_city VARCHAR(50) NOT NULL,
---     event_date DATE NOT NULL,
---     event_description TEXT,
---     max_number_of_tickets INT NOT NULL,
---     CONSTRAINT unique_event UNIQUE(event_name, event_date)
--- );
+CREATE TABLE event (
+    event_id SERIAL PRIMARY KEY,
+    event_name VARCHAR(100) NOT NULL,
+    event_location VARCHAR(100) NOT NULL,
+    event_city VARCHAR(50) NOT NULL,
+    event_date DATE NOT NULL,
+    event_description TEXT,
+    max_number_of_tickets INT NOT NULL,
+    CONSTRAINT unique_event UNIQUE(event_name, event_date)
+);
 
 -- =========================================
 -- Ticket types table
 -- =========================================
--- CREATE TABLE ticket_type (
---     ticket_type_id SERIAL PRIMARY KEY,
---     ticket_name VARCHAR(50) UNIQUE NOT NULL,
---     price NUMERIC(10,2) NOT NULL
--- );
+CREATE TABLE ticket_type (
+    ticket_type_id SERIAL PRIMARY KEY,
+    ticket_name VARCHAR(50) UNIQUE NOT NULL,
+    price NUMERIC(10,2) NOT NULL
+);
 
 -- =========================================
 -- Ticket sales table
 -- =========================================
--- CREATE TABLE ticket_sale (
---     sale_id SERIAL PRIMARY KEY,
---     user_id INT NOT NULL REFERENCES app_user(id),
---     date_time TIMESTAMP NOT NULL,
---     price NUMERIC(10,2) NOT NULL
--- );
+CREATE TABLE ticket_sale (
+    sale_id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES app_user(id),
+    date_time TIMESTAMP NOT NULL,
+    price NUMERIC(10,2) NOT NULL
+);
 
 -- =========================================
 -- Tickets table
 -- =========================================
--- CREATE TABLE ticket (
---     ticket_id SERIAL PRIMARY KEY,
---     ticket_code INT UNIQUE NOT NULL,
---     ticket_type_id INT NOT NULL REFERENCES ticket_type(ticket_type_id),
---     event_id INT NOT NULL REFERENCES event(event_id),
---     sale_id INT REFERENCES ticket_sale(sale_id),
---     used BOOLEAN DEFAULT FALSE
--- );
+CREATE TABLE ticket (
+    ticket_id SERIAL PRIMARY KEY,
+    ticket_code INT UNIQUE NOT NULL,
+    ticket_type_id INT NOT NULL REFERENCES ticket_type(ticket_type_id),
+    event_id INT NOT NULL REFERENCES event(event_id),
+    sale_id INT REFERENCES ticket_sale(sale_id)
+    used BOOLEAN DEFAULT FALSE
+);
+
 
 -- =========================================
 -- Insert initial roles
@@ -127,16 +128,8 @@ ON CONFLICT DO NOTHING;
 -- =========================================
 INSERT INTO ticket (ticket_code, ticket_type_id, event_id, sale_id)
 VALUES 
-(1001,(SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Adult'),
-      (SELECT event_id FROM event WHERE event_name='Rock Night'),
-      (SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='oskari') ORDER BY date_time DESC LIMIT 1)),
-(1002,(SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Adult'),
-      (SELECT event_id FROM event WHERE event_name='Rock Night'),
-      (SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='oskari') ORDER BY date_time DESC LIMIT 1)),
-(2001,(SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Adult'),
-      (SELECT event_id FROM event WHERE event_name='Jazz Sunday'),
-      (SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='jaska') ORDER BY date_time DESC LIMIT 1)),
-(2002,(SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Child'),
-      (SELECT event_id FROM event WHERE event_name='Jazz Sunday'),
-      (SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='jaska') ORDER BY date_time DESC LIMIT 1))
+(1001,(SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Adult'),(SELECT event_id FROM event WHERE event_name='Rock Night'),(SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='oskari') ORDER BY date_time DESC LIMIT 1)),
+(1002,(SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Adult'),(SELECT event_id FROM event WHERE event_name='Rock Night'),(SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='oskari') ORDER BY date_time DESC LIMIT 1)),
+(2001,(SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Adult'),(SELECT event_id FROM event WHERE event_name='Jazz Sunday'),(SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='jaska') ORDER BY date_time DESC LIMIT 1)),
+(2002,(SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Child'),(SELECT event_id FROM event WHERE event_name='Jazz Sunday'),(SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='jaska') ORDER BY date_time DESC LIMIT 1))
 ON CONFLICT (ticket_code) DO NOTHING;

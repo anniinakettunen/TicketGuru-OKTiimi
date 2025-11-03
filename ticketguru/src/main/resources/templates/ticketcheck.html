@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ticket Check</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    input {
+      padding: 8px;
+      margin-right: 10px;
+    }
+
+    button {
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    #ticketInfo {
+      margin-top: 15px;
+    }
+
+    #useButton {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .success {
+      color: blue;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    .error {
+      color: red;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Check Ticket</h2>
+
+  <input type="text" id="ticketCode" placeholder="Enter ticket code" />
+  <button onclick="fetchTicket()">Hae tiedot</button>
+
+  <div id="ticketInfo"></div>
+  <button id="useButton" style="display:none" onclick="markUsed()">Merkitse käytetyksi</button>
+
+  <script>
+    let currentTicketCode = null;
+
+    async function fetchTicket() {
+      const code = document.getElementById("ticketCode").value;
+      const ticketDiv = document.getElementById("ticketInfo");
+      const useBtn = document.getElementById("useButton");
+      ticketDiv.textContent = "Haetaan...";
+      ticketDiv.className = "";
+
+      try {
+        const response = await fetch(`/api/tickets/check?ticketCode=${code}`);
+        const data = await response.json();
+
+        if (response.status === 404 || data.status === "NOT_FOUND") {
+          ticketDiv.textContent = "Lippua ei löytynyt.";
+          ticketDiv.className = "error";
+          useBtn.style.display = "none";
+          return;
+        }
+
+        if (data.status === "FOUND" && data.ticket) {
+          const t = data.ticket;
+          currentTicketCode = t.ticketCode;
+
+          // Show full info
+          ticketDiv.innerHTML = `
+            <p><b>Lipun ID:</b> ${t.ticketId}</p>
+            <p><b>Lippukoodi:</b> ${t.ticketCode}</p>
+            <p><b>${t.used ? `Lippu ${t.ticketCode} on käytetty.` : `Lippu ${t.ticketCode} ei ole käytetty.`}</b></p>
+
+          `;
+          ticketDiv.className = "";
+
+          useBtn.style.display = t.used ? "none" : "inline";
+        }
+      } catch (err) {
+        ticketDiv.textContent = "Virhe: " + err.message;
+        ticketDiv.className = "error";
+      }
+    }
+
+    async function markUsed() {
+      if (!currentTicketCode) return;
+      const ticketDiv = document.getElementById("ticketInfo");
+      const useBtn = document.getElementById("useButton");
+
+      ticketDiv.textContent = "Päivitetään...";
+      ticketDiv.className = "";
+
+      try {
+        const response = await fetch(`/api/tickets/use?ticketCode=${currentTicketCode}`, {
+          method: "POST",
+        });
+        const data = await response.json();
+
+        if (response.ok && data.status === "SUCCESS") {
+          // Replace full info with only one success line
+          ticketDiv.textContent = `Lippu ${currentTicketCode} merkitty käytetyksi!`;
+          ticketDiv.className = "success";
+          useBtn.style.display = "none";
+        } else {
+          ticketDiv.textContent = "Virhe: " + (data.message || "Tuntematon virhe");
+          ticketDiv.className = "error";
+        }
+      } catch (err) {
+        ticketDiv.textContent = "Virhe: " + err.message;
+        ticketDiv.className = "error";
+      }
+    }
+  </script>
+</body>
+</html>
