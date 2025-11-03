@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -117,57 +118,7 @@ public class TicketRestController {
         return ResponseEntity.noContent().build();
     }
 
-    // Mark ticket as used - Accept both GET and POST for testing
-    @RequestMapping(value = "/use", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json")
-    public ResponseEntity<Map<String, Object>> useTicket(@RequestParam String ticketCode) {
-        Map<String, Object> response = new HashMap<>();
-        
-        try {
-            Long code = Long.parseLong(ticketCode);
-            
-            Optional<Ticket> optionalTicket = ticketRepository.findByTicketCode(code);
-            
-            if (optionalTicket.isEmpty()) {
-                response.put("status", "ERROR");
-                response.put("message", "Ticket not found with code: " + code);
-                return ResponseEntity.status(404).body(response);
-            }
-            
-            Ticket foundTicket = optionalTicket.get();
-            
-            Long ticketId = foundTicket.getTicketId();
-            response.put("foundTicketId", ticketId);
-            
-            if (foundTicket.isUsed()) {
-                response.put("status", "ERROR");
-                response.put("message", "Ticket is already used");
-                response.put("ticketId", ticketId);
-                return ResponseEntity.badRequest().body(response);
-            }
-            
-            Optional<Ticket> ticketToUpdate = ticketRepository.findById(ticketId);
-            if (ticketToUpdate.isPresent()) {
-                Ticket ticket = ticketToUpdate.get();
-                ticket.setUsed(true);
-                Ticket updatedTicket = ticketRepository.save(ticket);
-                
-                response.put("status", "SUCCESS");
-                response.put("message", "Ticket marked as used using ID: " + ticketId);
-                response.put("ticket", updatedTicket);
-                
-                return ResponseEntity.ok(response);
-            } else {
-                response.put("status", "ERROR");
-                response.put("message", "Ticket ID not found during update: " + ticketId);
-                return ResponseEntity.status(500).body(response);
-            }
-            
-        } catch (NumberFormatException e) {
-            response.put("status", "ERROR");
-            response.put("message", "Invalid ticket code format");
-            return ResponseEntity.badRequest().body(response);
-        }
-    }
+    
 
     @GetMapping("/check")
     public ResponseEntity<Map<String, Object>> checkTicket(@RequestParam String ticketCode) {
@@ -195,4 +146,42 @@ public class TicketRestController {
         }
     }
 
+    // Mark ticket as used by ticketCode
+    @PatchMapping("/use/{ticketCode}")
+    public ResponseEntity<Map<String, Object>> markTicketAsUsed(@PathVariable String ticketCode) {
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            Long code = Long.parseLong(ticketCode);
+
+            return ticketRepository.findByTicketCode(code)
+                    .map(ticket -> {
+                        if (ticket.isUsed()) {
+                            response.put("status", "ALREADY_USED");
+                            response.put("message", "Ticket has already been used");
+                            response.put("ticket", ticket);
+                            return ResponseEntity.badRequest().body(response);
+                        }
+
+                        ticket.setUsed(true);
+                        Ticket updatedTicket = ticketRepository.save(ticket);
+
+                        response.put("status", "SUCCESS");
+                        response.put("message", "Ticket marked as used successfully");
+                        response.put("ticket", updatedTicket);
+                        return ResponseEntity.ok(response);
+                    })
+                    .orElseGet(() -> {
+                        response.put("status", "NOT_FOUND");
+                        response.put("message", "Ticket not found");
+                        response.put("ticketCode", code);
+                        return ResponseEntity.status(404).body(response);
+                    });
+
+        } catch (NumberFormatException e) {
+            response.put("status", "ERROR");
+            response.put("message", "Invalid ticket code format");
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 }

@@ -102,8 +102,8 @@
       ticketDiv.className = "";
 
       try {
-        const response = await fetch(`/api/tickets/use?ticketCode=${currentTicketCode}`, {
-          method: "POST",
+        const response = await fetch(`/api/tickets/use/${currentTicketCode}`, {
+          method: "PATCH",
         });
         const data = await response.json();
 
