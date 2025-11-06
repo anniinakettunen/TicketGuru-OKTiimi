@@ -30,6 +30,16 @@ public class WebSecurityConfig {
         .cors().and()
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(authorize -> authorize
+                
+                // Salli POST-pyynnöt myyntitapahtuman luontiin
+                .requestMatchers(HttpMethod.POST, "/api/ticketsales").permitAll()
+
+                // Salli GET-pyynnöt tapahtumille ja lipputyypeille (tapahtumien listaus)
+                .requestMatchers(HttpMethod.GET, "/api/events").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/tickettypes").permitAll()
+                
+                // Salli POST-pyynnöt myyntitapahtuman luontiin
+                .requestMatchers(HttpMethod.POST, "/api/ticketsales").permitAll()
             
             .requestMatchers("/api/users/**", "/api/roles").hasRole("ADMIN") // admin only
             .requestMatchers("/", "/status").permitAll() // public
