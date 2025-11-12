@@ -1,6 +1,7 @@
 package ticketguru.demo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
+import ticketguru.demo.domain.Role;
 public class RoleTest {
 @Test
 void testGetRoleId() {
@@ -18,3 +19,4 @@ var checker = new Role(3, "checker", "makes sure that everything is done well in
 assertEquals("makes sure that everything is done well in the project", checker.getNotes());
 }
 }
+
