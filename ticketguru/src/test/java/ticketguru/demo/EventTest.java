@@ -1,6 +1,7 @@
 package ticketguru.demo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
+import ticketguru.demo.domain.Event;
 public class EventTest {
 @Test
 void testGetEventId() {
@@ -38,3 +39,4 @@ var marathon = new Event(7, "marathon", "Great Britain", "London", "1.6.2026", "
 assertEquals(3500, marathon.getMaxNumberOfTickets);
 }
 }
+
