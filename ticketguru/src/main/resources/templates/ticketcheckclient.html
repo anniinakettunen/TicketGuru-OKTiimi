@@ -63,11 +63,19 @@
       ticketDiv.textContent = "Haetaan...";
       ticketDiv.className = "";
 
+      if (!ticketId) {
+        ticketDiv.textContent = "Anna lipun ID.";
+        ticketDiv.className = "error";
+        return;
+      }
+
       try {
         const response = await fetch(`${API_BASE_URL}/liput/${ticketId}`, {
           method: "GET",
           headers: headers,
         });
+
+        console.log("Fetch response:", response);
 
         if (response.status === 404) {
           ticketDiv.textContent = "Lippua ei löytynyt.";
@@ -77,23 +85,28 @@
         }
 
         if (!response.ok) {
+          const errorText = await response.text();
+          console.error("Error response:", errorText);
           throw new Error("Virhe haussa");
         }
 
         const data = await response.json();
-        currentTicketId = ticketId;
+        console.log("Ticket data:", data);
+
+        currentTicketId = data.lippu_id || ticketId;
 
         ticketDiv.innerHTML = `
-          <p><b>Lipun ID:</b> ${data.lippu_id}</p>
-          <p><b>Paikka:</b> ${data.paikka}</p>
-          <p><b>Tapahtuma:</b> ${data.tapahtuma.nimi}</p>
-          <p><b>Lipputyyppi:</b> ${data.lipputyyppi.nimi}</p>
+          <p><b>Lipun ID:</b> ${data.lippu_id || data.id || "–"}</p>
+          <p><b>Paikka:</b> ${data.paikka || "–"}</p>
+          <p><b>Tapahtuma:</b> ${data.tapahtuma?.nimi || "–"}</p>
+          <p><b>Lipputyyppi:</b> ${data.lipputyyppi?.nimi || "–"}</p>
           <p><b>${data.kaytetty ? `Lippu ${ticketId} on käytetty.` : `Lippu ${ticketId} ei ole vielä käytetty.`}</b></p>
         `;
         ticketDiv.className = "";
 
         useBtn.style.display = data.kaytetty ? "none" : "inline";
       } catch (err) {
+        console.error("Fetch error:", err);
         ticketDiv.textContent = "Virhe haussa tai lippua ei löytynyt.";
         ticketDiv.className = "error";
         useBtn.style.display = "none";
@@ -116,15 +129,20 @@
           body: JSON.stringify({ "kaytetty": true })
         });
 
+        console.log("PATCH response:", response);
+
         if (response.ok) {
           ticketDiv.textContent = `Lippu ${currentTicketId} merkitty käytetyksi!`;
           ticketDiv.className = "success";
           useBtn.style.display = "none";
         } else {
+          const errorText = await response.text();
+          console.error("Error updating:", errorText);
           ticketDiv.textContent = "Virhe päivityksessä.";
           ticketDiv.className = "error";
         }
       } catch (err) {
+        console.error("PATCH error:", err);
         ticketDiv.textContent = "Virhe päivityksessä.";
         ticketDiv.className = "error";
       }
