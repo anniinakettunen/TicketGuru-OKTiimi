@@ -1,6 +1,7 @@
 package ticketguru.demo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
+import ticketguru.demo.domain.TicketSale;
 public class TicketSaleTest {
 @Test
 void testGetSaleId() {
@@ -28,4 +29,5 @@ var five = new TicketSale(5, "2.5.2026 18:00", 500.0, 5, 5);
 assertEquals(5, five.getTickets());
 }
 }
+
 
