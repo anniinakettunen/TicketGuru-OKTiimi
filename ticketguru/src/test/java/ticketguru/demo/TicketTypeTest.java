@@ -1,6 +1,7 @@
 package ticketguru.demo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
+import ticketguru.demo.domain.TicketType;
 public class TicketTypeTest {
 @Test
 void testGetTicketTypeId() {
@@ -18,4 +19,3 @@ var pensionersticket = new TicketType(3, "pensionersticket", 15.0);
 assertEquals(15.0, pensionersticket.getPrice());
 }
 }
-
