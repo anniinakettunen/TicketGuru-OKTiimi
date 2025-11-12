@@ -17,7 +17,7 @@ import ticketguru.demo.repositories.TicketRepository;
 
 @SpringBootTest
 @ActiveProfiles("dev")
-public class LippuIntegrationTest {
+public class EventIntegrationTest {
 
     @Autowired
     private EventRepository eventRepository;
