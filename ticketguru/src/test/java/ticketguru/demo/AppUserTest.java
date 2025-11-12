@@ -1,6 +1,7 @@
 package ticketguru.demo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
+import ticketguru.demo.domain.AppUser;
 public class AppUserTest {
 @Test
 void testGetId() {
@@ -43,4 +44,5 @@ var andreapirlo = new AppUser(8, "andreapirlo", "Vwx3637383940", "Andrea", "Pirl
 assertEquals(8, andreapirlo.getRole());
 }   
 }
+
 
