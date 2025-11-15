@@ -19,8 +19,7 @@
 </head>
 <body>
 
-    <h1>🎫 Tapahtumien Lipunmyynti (MVP Client)</h1>
-    <p>Tämä client käyttää suoraan Back-endin REST-rajapintoja.</p>
+    <h1>🎫 Tapahtumien Lipunmyynti</h1>
     
     <hr>
 
@@ -220,9 +219,9 @@
 
             if (response.ok) {
                 messageArea.className = 'success';
-                messageArea.innerHTML = `✅ **Osto onnistui!** Myynti ID: ${responseData.saleId}. 
+                messageArea.innerHTML = `Osto onnistui! Myynti ID: ${responseData.saleId}. 
                     Lippuja ostettu: ${totalTickets} kpl. Hinta: €${totalPrice.toFixed(2)}. 
-                    <br> (Tämä vahvistaa, että kaikki ID:t olivat oikein.)`;
+                    `;
                 
                 // Tyhjennä lomake
                 form.reset();

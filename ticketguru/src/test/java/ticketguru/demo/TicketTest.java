@@ -1,4 +1,6 @@
+
 package ticketguru.demo;
+import ticketguru.demo.domain.Ticket;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 public class TicketTest {
