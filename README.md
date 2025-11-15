@@ -72,7 +72,7 @@ Päätelaitteena on pääasiassa desktop, koska aluksi ohjelmaa käytetään vai
 ### ROOLIT API
 
 #### Base-URL:
-http://localhost:8080/api/roles
+https://demo-ticketguru-oktiimi.2.rahtiapp.fi
 
 
 #### Endpointit
@@ -81,7 +81,7 @@ http://localhost:8080/api/roles
 
   - **Metodi**: GET
 
-  - **URL**: http://localhost:8080/api/roles
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/roles
 
   - **Vastaus: 200 OK**
 
@@ -98,7 +98,7 @@ http://localhost:8080/api/roles
     
   - **Metodi**: GET
 
-  - **URL**: http://localhost:8080/api/roles/{id}
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/roles/{id}
 
   - **Parametrit**: id = roleId (Long)
   
@@ -121,7 +121,7 @@ http://localhost:8080/api/roles
     
   - **Metodi**: POST
 
-  - **URL**: http://localhost:8080/api/roles
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/roles
 
   - **Request Body (JSON)**: 
 
@@ -154,7 +154,7 @@ http://localhost:8080/api/roles
     
   - **Metodi**: PUT
 
-  - **URL**: http://localhost:8080/api/roles/{id}
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/roles/{id}
 
   - **Parametrit**: id = roleId (Long)
 
@@ -192,7 +192,7 @@ http://localhost:8080/api/roles
 
   - **Metodi**: DELETE
 
-  - **URL**: http://localhost:8080/api/users/{id}
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/users/{id}
 
   - **Parametrit**: id = käyttäjän Id (Long)
 
@@ -206,7 +206,7 @@ http://localhost:8080/api/roles
 ### KÄYTTÄJÄT API
 
 #### Base-URL:
-http://localhost:8080/api/users
+https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/users
 
 
 #### Endpointit
@@ -215,7 +215,7 @@ http://localhost:8080/api/users
 
   - **Metodi**: GET
 
-  - **URL**: http://localhost:8080/api/users
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/users
 
   - **Vastaus: 200 OK**
 
@@ -251,7 +251,7 @@ http://localhost:8080/api/users
     
   - **Metodi**: GET
 
-  - **URL**: http://localhost:8080/api/users/{id}
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/users/{id}
 
   - **Parametrit**: id = käyttäjän id (Long)
   
@@ -281,7 +281,7 @@ http://localhost:8080/api/users
     
   - **Metodi**: POST
 
-  - **URL**: http://localhost:8080/api/users
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/users
 
   - **Request Body (JSON)**: 
 
@@ -329,7 +329,7 @@ http://localhost:8080/api/users
     
   - **Metodi**: PUT
 
-  - **URL**: http://localhost:8080/api/users/{id}
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/users/{id}
 
   - **Parametrit**: id = käyttäjän Id (Long)
 
@@ -381,7 +381,7 @@ http://localhost:8080/api/users
 
   - **Metodi**: DELETE
 
-  - **URL**: http://localhost:8080/api/users/{id}
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/users/{id}
 
   - **Parametrit**: id = käyttäjän Id (Long)
 
@@ -395,7 +395,7 @@ http://localhost:8080/api/users
 ### LIPUNTYYPIT API
 
 #### Base-URL:
-http://localhost:8080/api/ticketTypes
+https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/ticketTypes
 
 
 #### Endpointit
@@ -404,7 +404,7 @@ http://localhost:8080/api/ticketTypes
 
   - **Metodi**: GET
 
-  - **URL**: http://localhost:8080/api/tickettypes
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickettypes
 
   - **Vastaus: 200 OK**
 
@@ -431,7 +431,7 @@ http://localhost:8080/api/ticketTypes
     
   - **Metodi**: GET
 
-  - **URL**: http://localhost:8080/api/tickettypes/{id}
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickettypes/{id}
 
   - **Parametrit**: id = ticketTypeId (Long)
   
@@ -454,7 +454,7 @@ http://localhost:8080/api/ticketTypes
     
   - **Metodi**: POST
 
-  - **URL**: http://localhost:8080/api/tickettypes
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickettypes
 
   - **Request Body (JSON)**: 
 
@@ -488,7 +488,7 @@ http://localhost:8080/api/ticketTypes
     
   - **Metodi**: PUT
 
-  - **URL**: http://localhost:8080/api/tickettypes/{id}
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickettypes/{id}
 
   - **Parametrit**: id = ticketTypeId (Long)
 
@@ -525,7 +525,7 @@ http://localhost:8080/api/ticketTypes
 
   - **Metodi**: DELETE
 
-  - **URL**: http://localhost:8080/api/tickettypes/{id}
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickettypes/{id}
 
   - **Parametrit**: id = ticketTypeId (Long)
 
@@ -554,7 +554,7 @@ http://localhost:8080/api/events
 
   - **Metodi**: GET
 
-  - **URL**: http://localhost:8080/api/events
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/events
 
   - **Vastaus: 200 OK**
 
@@ -584,7 +584,7 @@ http://localhost:8080/api/events
     
   - **Metodi**: GET
 
-  - **URL**: http://localhost:8080/api/events/{id}
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/events/{id}
 
   - **Parametrit**: id = tapahtuman Id (Long)
 
@@ -608,7 +608,7 @@ http://localhost:8080/api/events
     
   - **Metodi**: POST
 
-  - **URL**: http://localhost:8080/api/events
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/events
 
   - **Request Body (JSON)**: 
 
@@ -656,7 +656,7 @@ http://localhost:8080/api/events
     
   - **Metodi**: PUT
 
-  - **URL**: http://localhost:8080/api/events/{id}
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/events/{id}
 
   - **Parametrit**: id = tapahtuman Id (Long)
 
@@ -694,7 +694,7 @@ http://localhost:8080/api/events
 
   - **Metodi**: DELETE
 
-  - **URL**: http://localhost:8080/events/api/{id}
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/events/api/{id}
 
   - **Parametri**: id = tapahtuman Id (Long)
 
@@ -709,7 +709,7 @@ http://localhost:8080/api/events
 ### LIPUNMYYNTI API
 
 #### Base-URL:
-http://localhost:8080/api/ticketsales
+https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/ticketsales
 
 #### Huomio päivämärästä:
 
@@ -723,7 +723,7 @@ http://localhost:8080/api/ticketsales
 
   - **Metodi**: GET
 
-  - **URL**: http://localhost:8080/api/ticketsales
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/ticketsales
 
   - **Vastaus: 200 OK**
 
@@ -790,7 +790,7 @@ http://localhost:8080/api/ticketsales
     
   - **Metodi**: GET
 
-  - **URL**: http://localhost:8080/ticketsales/api/{id}
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/ticketsales/api/{id}
 
   - **Parametrit**: id = saleId (Long)
   
@@ -879,7 +879,7 @@ http://localhost:8080/api/ticketsales
     
   - **Metodi**: POST
 
-  - **URL**: http://localhost:8080/ticketsales/api
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/ticketsales/api
 
   - **Request Body (JSON)**: 
 
@@ -982,7 +982,7 @@ http://localhost:8080/api/ticketsales
     
   - **Metodi**: PUT
 
-  - **URL**: http://localhost:8080/ticketsales/api/{id}
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/ticketsales/api/{id}
 
   - **Parametrit**: id = tapahtuman Id (Long)
 
@@ -1075,7 +1075,7 @@ http://localhost:8080/api/ticketsales
 
   - **Metodi**: DELETE
 
-  - **URL**: http://localhost:8080/ticketsales/api/{id}
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/ticketsales/api/{id}
 
   - **Parametrit**: id = saleId (Long)
 
@@ -1089,7 +1089,7 @@ http://localhost:8080/api/ticketsales
 ### LIPUT API
 
 #### Base-URL:
-http://localhost:8080/api/tickets
+https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickets
 
 
 #### Endpointit
@@ -1098,7 +1098,7 @@ http://localhost:8080/api/tickets
 
   - **Metodi**: GET
 
-  - **URL**: http://localhost:8080/api/tickets
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickets
 
   - **Vastaus: 200 OK**
 
@@ -1146,7 +1146,7 @@ http://localhost:8080/api/tickets
     
   - **Metodi**: GET
 
-  - **URL**: http://localhost:8080/api/tickets/{id}
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickets/{id}
 
   - **Parametrit**: id = ticketId (Long)
   
@@ -1177,11 +1177,19 @@ http://localhost:8080/api/tickets
 
     - **null**
 
-**3. Luo uusi myyty lippu**
+**3. Etsi lippu ticketCodella**
+  - **URL**: api/tickets/check?ticketCode={ticketCode}
+  - **Vastaus** 200 OK
+  - **Virhe** 404 Not Found
+
+**. Merkitse lippu käytetyksi**
+  - **URL**: /api/tickets/use?ticketCode={ticketCode} 
+
+**4. Luo uusi myyty lippu**
     
   - **Metodi**: POST
 
-  - **URL**: http://localhost:8080/api/tickets
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickets
 
   - **Request Body (JSON)**: 
 
@@ -1229,11 +1237,11 @@ http://localhost:8080/api/tickets
   - **virhe**:
      - esim. **400 Bad request** TicketType not found
 
-**4. Päivitä myydyn lipun ID:llä**
+**5. Päivitä myydyn lipun ID:llä**
     
   - **Metodi**: PUT
 
-  - **URL**: http://localhost:8080/api/tickets/{id}
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickets/{id}
 
   - **Parametrit**: id = ticketId (Long)
 
@@ -1278,11 +1286,11 @@ http://localhost:8080/api/tickets
   - **Virhe**: 
     - esim. **400 Bad Request** Event not found
 
-**5. Poista myydyn lipun ID:llä**
+**6. Poista myydyn lipun ID:llä**
 
   - **Metodi**: DELETE
 
-  - **URL**: http://localhost:8080/api/tickets/{id}
+  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickets/{id}
 
   - **Parametrit**: id = ticketId (Long)
 
@@ -1291,12 +1299,9 @@ http://localhost:8080/api/tickets
   - **Virhe**: 
     - **404 Not Found**
    
-**6. Etsi lippu ticketCodella**
-  - **URL**: api/tickets/check?ticketCode={ticketCode}
-  - **Vastaus** 200 OK
-  - **Virhe** 404 Not Found
 
-**7. Merkitse lippu käytetyksi**
+
+**8. Merkitse lippu käytetyksi**
   - **URL**: /api/tickets/use?ticketCode={ticketCode} 
 
 
