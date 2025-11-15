@@ -20,6 +20,12 @@
 <body>
 
     <h1>🎫 Tapahtumien Lipunmyynti</h1>
+
+    <div style="margin-bottom: 20px;">
+        <a href="http://localhost:8080/salesreport" target="_blank" class="buy-button" style="background-color: #333;">
+    Avaa Myyntiraportti
+</a>
+    </div>
     
     <hr>
 
@@ -32,7 +38,7 @@
 <script>
     // HUOM: KÄYTÄ ABSOLUUTTISTA URL-osoitetta LOCALHOSTISSA!
     // KORVAA TÄMÄ, KUN JULKAISET RAHTIIN!
-    const API_BASE_URL = 'https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api'; 
+    const API_BASE_URL = "http://localhost:8080/api";
     
     let allTicketTypes = []; 
     let sellerUserId = 1; // Oletusarvo, joka täytyy muuttaa

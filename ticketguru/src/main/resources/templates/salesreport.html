@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Myyntiraportti</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body class="container mt-4">
+
+    <h2 class="mb-4">Myyntiraportti</h2>
+
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">Yhteenveto</div>
+        <div class="card-body">
+            <p><strong>Kokonaislippumäärä:</strong> <span th:text="${totalTicketsSold}">0</span> kpl</p>
+            <p><strong>Kokonaislipputulo:</strong> <span th:text="${#numbers.formatDecimal(totalRevenue, 1, 2)}">0.00</span> €</p>
+        </div>
+    </div>
+    
+    <h3>Myyntitapahtumat</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Päivämäärä</th>
+                <th>Myyjä</th>
+                <th>Lippuja (kpl)</th>
+                <th>Hinta (€)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="sale : ${sales}">
+                <td th:text="${sale.saleId}">1</td>
+                <td th:text="${#temporals.format(sale.dateTime, 'dd.MM.yyyy HH:mm')}">01.01.2025 12:00</td>
+                <td th:text="${sale.user.username}">oskari</td>
+                <td th:text="${sale.tickets.size()}">2</td>
+                <td th:text="${#numbers.formatDecimal(sale.price, 1, 2)}">50.00</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="/" class="btn btn-secondary">Takaisin etusivulle</a>
+</body>
+</html>
