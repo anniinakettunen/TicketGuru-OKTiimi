@@ -1358,4 +1358,14 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickets
 --------------------------------------
 
 - Sovelluken pysyvä tietokanta on toteutettu käyttäen **PostgreSQL**, koska se integroituu sujuvasti Springbootin/JPA:n kanssa.
+- Ohjelmistomme aikaisempi H2-tietokanta on jätetty myös käytettäväksi kehitysvaiheessa, jotta datan tallennusta voidaan testata.
 
+
+
+## Testaus
+
+--------------------------------------
+
+TicketGuru-ohjelmiston testaus toteutettiin monitasoisesti, jotta järjestelmän toimivuus, luotettavuus ja laadukkuus voitiin varmistaa kaikilla tasoilla. Testaus koostui yksikkötestauksesta, integraatiotestauksesta sekä end-to-end-testauksesta. Näiden kolmen testausmenetelmän yhdistelmällä varmistettiin, että sekä sovelluksen pienimmät komponentit että koko järjestelmä toimivat suunnitellulla tavalla.
+
+Yksikkötesteillä varmistuttiin yksittäisten metodien ja luokkien toimivuus erillään muusta ohjelmistosta. Integraatiotestauksella varmistuttiin muun muassa controller-luokat ja repositoriot toimivat odotetusti yhdessä ja tieto tallentuu suunnitellusti tietokantaan. End-to-end testit puolestaan testasivat nimensä mukaisesti ohjelmiston toiminnan alusta loppuun.
