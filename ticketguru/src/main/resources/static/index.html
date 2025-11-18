@@ -203,6 +203,9 @@
 
         const totalPrice = updateTotalPrice(eventId);
         
+        // Haetaan ostajan sähköposti lomakkeesta
+        const buyerEmail = form.elements.buyerEmail.value;
+        
         // Luodaan TÄYDELLINEN payload
         const payload = {
             "dateTime": new Date().toISOString().slice(0, 19), // Varmistetaan, että formaatti on oikein (YYYY-MM-DDTHH:MM:SS)
@@ -215,7 +218,7 @@
         console.log("Lähetettävä JSON:", payload);
 
         try {
-            const response = await fetch(`${API_BASE_URL}/ticketsales`, {
+            const response = await fetch(`${API_BASE_URL}/ticketsales?buyerEmail=${encodeURIComponent(buyerEmail)}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)

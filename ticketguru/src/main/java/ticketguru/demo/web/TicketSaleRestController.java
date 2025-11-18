@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import ticketguru.demo.domain.*;
 import ticketguru.demo.repositories.*;
+import ticketguru.demo.service.TicketsToEmailService;
 
 @RestController
 @RequestMapping("/api/ticketsales")
@@ -31,6 +32,9 @@ public class TicketSaleRestController {
     @Autowired
     private TicketRepository ticketRepository;
 
+    @Autowired
+    private TicketsToEmailService emailService;
+
     // ===== GET all sales =====
     @GetMapping
     public List<TicketSale> getAllSales() {
@@ -48,7 +52,7 @@ public class TicketSaleRestController {
     // ===== CREATE new sale =====
     @PostMapping
     @Transactional
-    public ResponseEntity<?> createSale(@Valid @RequestBody TicketSale ticketSale) {
+    public ResponseEntity<?> createSale(@Valid @RequestBody TicketSale ticketSale, @RequestParam(required = false) String buyerEmail) {
 
         // 1️⃣ Validate user
         if (ticketSale.getUser() == null || ticketSale.getUser().getId() == null) {
@@ -94,6 +98,21 @@ public class TicketSaleRestController {
             }
 
             ticketRepository.save(ticket);
+        }
+
+        // Refresh the sale to get all tickets with their IDs
+        savedSale = ticketSaleRepository.findById(savedSale.getSaleId()).orElse(savedSale);
+
+        // Send email with ticket codes to customer
+        // Use buyerEmail parameter if provided, otherwise fall back to user's email
+        String emailAddress = (buyerEmail != null && !buyerEmail.isEmpty()) ? buyerEmail : user.getEmail();
+        System.out.println("Attempting to send email to: " + emailAddress);
+        System.out.println("Tickets in sale: " + (savedSale.getTickets() != null ? savedSale.getTickets().size() : 0));
+        
+        if (emailAddress != null && !emailAddress.isEmpty()) {
+            emailService.sendTicketEmail(savedSale, emailAddress);
+        } else {
+            System.err.println("No email address provided for sending tickets!");
         }
 
         return ResponseEntity.ok(savedSale);
