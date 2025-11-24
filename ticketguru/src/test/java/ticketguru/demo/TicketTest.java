@@ -1,34 +1,43 @@
-
 package ticketguru.demo;
-import ticketguru.demo.domain.Ticket;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Test;
-import ticketguru.demo.domain.Ticket;
-public class TicketTest {
-@Test
-void testGetTicketId() {
-var first = new Ticket(1, 1, 1, 1, 1);
-assertEquals(11111111111, first.getTicketId());
-}
-@Test
-void testGetTicketCode() {
-var second = new Ticket(2, 2, 2, 2, 2);
-assertEquals(2, second.getTicketCode());
-}
-@Test
-void testGetTicketTypeId() {
-var third = new Ticket(3, 3, 3, 3, 3);
-assertEquals(3, third.getTicketTypeId());
-}
-@Test
-void testGetEventId() {
-var fourth = new Ticket(4, 4, 4, 4, 4);
-assertEquals(4, fourth.getEventId());
-}
-@Test
-void testGetTicketSale() {
-var fifth = new Ticket(5, 5, 5, 5, 5);
-assertEquals(5, fifth.getTicketSale());
-}
-}
 
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import ticketguru.demo.domain.Ticket;
+import ticketguru.demo.domain.TicketType;
+import ticketguru.demo.domain.Event;
+
+public class TicketTest {
+
+    @Test
+    public void testDefaultConstructor() {
+        Ticket ticket = new Ticket();
+        assertNotNull(ticket);
+        assertFalse(ticket.isUsed());
+    }
+
+    @Test
+    public void testUsedConstructor() {
+        Ticket ticket = new Ticket(true);
+        assertTrue(ticket.isUsed());
+    }
+
+    @Test
+    public void testSettersAndGetters() {
+        Ticket ticket = new Ticket();
+
+        ticket.setTicketCode(123L);
+        assertEquals(123L, ticket.getTicketCode());
+
+        TicketType type = new TicketType("Adult", 10.0);
+        ticket.setTicketTypeId(type);
+        assertEquals(type, ticket.getTicketTypeId());
+
+        Event event = new Event();
+        ticket.setEventId(event);
+        assertEquals(event, ticket.getEventId());
+
+        ticket.setUsed(true);
+        assertTrue(ticket.isUsed());
+    }
+}
