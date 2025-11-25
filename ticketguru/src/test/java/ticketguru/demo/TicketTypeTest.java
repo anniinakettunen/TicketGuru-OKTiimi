@@ -1,33 +1,18 @@
 package ticketguru.demo;
-
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
 import ticketguru.demo.domain.TicketType;
-
 public class TicketTypeTest {
-
-    @Test
-    public void testDefaultConstructor() {
-        TicketType tt = new TicketType();
-        assertNotNull(tt);
-    }
-
-    @Test
-    public void testParameterizedConstructor() {
-        TicketType tt = new TicketType("Adult", 10.0);
-        assertEquals("Adult", tt.getTicketName());
-        assertEquals(10.0, tt.getPrice());
-    }
-
-    @Test
-    public void testSetters() {
-        TicketType tt = new TicketType();
-
-        tt.setTicketName("Child");
-        tt.setPrice(5.0);
-
-        assertEquals("Child", tt.getTicketName());
-        assertEquals(5.0, tt.getPrice());
-    }
+public final TicketType childsticket = new TicketType(1, "childsticket", 5.0);
+@Test
+void getTicketTypeIdIsPresentAndReturnsTheTicketTypeId() throws Exception {
+checkMethod(childsticket, "getTicketTypeId", 1);
+}
+@Test
+void getTicketNameIsPresentAndReturnsTheTicketName() throws Exception {
+checkMethod(childsticket, "getTicketName", "childsticket");
+}
+@Test
+void getPriceIsPresentAndReturnsThePrice() throws Exception {
+checkMethod(childsticket, "getPrice", 5.0);
+}
 }
