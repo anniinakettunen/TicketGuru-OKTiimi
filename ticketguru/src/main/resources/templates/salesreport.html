@@ -9,6 +9,7 @@
 
     <h2 class="mb-4">Myyntiraportti</h2>
 
+  
     <div class="card mb-4">
         <div class="card-header bg-success text-white">Yhteenveto</div>
         <div class="card-body">
@@ -16,29 +17,74 @@
             <p><strong>Kokonaislipputulo:</strong> <span th:text="${#numbers.formatDecimal(totalRevenue, 1, 2)}">0.00</span> €</p>
         </div>
     </div>
-    
-    <h3>Myyntitapahtumat</h3>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Päivämäärä</th>
-                <th>Myyjä</th>
-                <th>Lippuja (kpl)</th>
-                <th>Hinta (€)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="sale : ${sales}">
-                <td th:text="${sale.saleId}">1</td>
-                <td th:text="${#temporals.format(sale.dateTime, 'dd.MM.yyyy HH:mm')}">01.01.2025 12:00</td>
-                <td th:text="${sale.user.username}">oskari</td>
-                <td th:text="${sale.tickets.size()}">2</td>
-                <td th:text="${#numbers.formatDecimal(sale.price, 1, 2)}">50.00</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <a href="/" class="btn btn-secondary">Takaisin etusivulle</a>
+    
+    <div class="card mb-4">
+    <div class="card-header bg-primary text-white">Myyntitapahtumat – Oskari</div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Päivämäärä</th>
+                    <th>Lippuja (kpl)</th>
+                    <th>Myynnin hinta (€)</th>
+                    <th>Tapahtuma</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="sale : ${sales}" th:if="${sale.user.username == 'oskari'}">
+                    <td th:text="${sale.saleId}">1</td>
+                    <td th:text="${#temporals.format(sale.dateTime, 'dd.MM.yyyy HH:mm')}">24.11.2025 19:32</td>
+                    <td th:text="${sale.tickets.size()}">2</td>
+                    <td th:text="${#numbers.formatDecimal(sale.price, 1, 2)}">60.00</td>
+                    <td th:text="${sale.tickets[0].eventId.eventName}">Rock Night</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="table-secondary">
+                    <td colspan="3"><strong>Oskarin myynti yhteensä:</strong></td>
+                    <td colspan="2" th:text="${#numbers.formatDecimal(oskariTotal, 1, 2)}">0.00 €</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+
+    <div class="card mb-4">
+    <div class="card-header bg-info text-white">Myyntitapahtumat – Jaska</div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Päivämäärä</th>
+                    <th>Lippuja (kpl)</th>
+                    <th>Myynnin hinta (€)</th>
+                    <th>Tapahtuma</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="sale : ${sales}" th:if="${sale.user.username == 'jaska'}">
+                    <td th:text="${sale.saleId}">2</td>
+                    <td th:text="${#temporals.format(sale.dateTime, 'dd.MM.yyyy HH:mm')}">24.11.2025 19:32</td>
+                    <td th:text="${sale.tickets.size()}">2</td>
+                    <td th:text="${#numbers.formatDecimal(sale.price, 1, 2)}">45.00</td>
+                    <td th:text="${sale.tickets[0].eventId.eventName}">Jazz Sunday</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="table-secondary">
+                    <td colspan="3"><strong>Jaskan myynti yhteensä:</strong></td>
+                    <td colspan="2" th:text="${#numbers.formatDecimal(jaskaTotal, 1, 2)}">0.00 €</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+
+    <a href="/" class="btn btn-secondary mt-4">Takaisin etusivulle</a>
 </body>
 </html>
