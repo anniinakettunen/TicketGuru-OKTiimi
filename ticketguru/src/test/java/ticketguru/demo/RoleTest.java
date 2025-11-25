@@ -1,16 +1,18 @@
-package ticketguru.demo.domain;
-
+package ticketguru.demo;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-class RoleTest {
-
-    @Test
-    void testRole() {
-        Role role = new Role(1L, "ADMIN", "Administrator role");
-
-        assertEquals(1L, role.getRoleId());
-        assertEquals("ADMIN", role.getRoleName());
-        assertEquals("Administrator role", role.getNotes());
-    }
+import ticketguru.demo.domain.Role;
+public class RoleTest {
+public final Role designer = new Role(1, "designer", "makes instructions for actions in the project");
+@Test
+void getRoleIdIsPresentAndReturnsTheRoleId() throws Exception {
+checkMethod(designer, "getRoleId", 1);
+}
+@Test
+void getRoleNameIsPresentAndReturnsTheRoleName() throws Exception {
+checkMethod(designer, "getRoleName", "designer");
+}
+@Test
+void getNotesIsPresentAndReturnsTheNotes() throws Exception {
+checkMethod(designer, "getNotes", "makes instructions for actions in the project");
+}
 }
