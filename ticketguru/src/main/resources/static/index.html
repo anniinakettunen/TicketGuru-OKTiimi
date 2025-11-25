@@ -22,11 +22,11 @@
     <h1>🎫 Tapahtumien Lipunmyynti</h1>
 
     <div style="margin-bottom: 20px;">
-        <a href="http://localhost:8080/salesreport" target="_blank" class="buy-button" style="background-color: #333;">
+        <a href="/salesreport" target="_blank" class="buy-button" style="background-color: #333;">
     Avaa Myyntiraportti
 </a>
     </div>
-    
+
     <hr>
 
     <div id="event-list">
@@ -38,8 +38,9 @@
 <script>
     // HUOM: KÄYTÄ ABSOLUUTTISTA URL-osoitetta LOCALHOSTISSA!
     // KORVAA TÄMÄ, KUN JULKAISET RAHTIIN!
+    //const API_BASE_URL = 'https://demo-2-ticketguru-oktiimi.2.rahtiapp.fi/api'; 
     const API_BASE_URL = "http://localhost:8080/api";
-    
+
     let allTicketTypes = []; 
     let sellerUserId = 1; // Oletusarvo, joka täytyy muuttaa
 
@@ -69,7 +70,7 @@
                 }
             }
             */
-            
+
             // Jos myyjän ID on edelleen 1, mutta se ei toimi:
             if (sellerUserId === 1) {
                  console.warn("Käytetään oletusarvoa Myyjä ID: 1. Varmista, että AppUser ID:llä 1 on olemassa DB:ssä.");
@@ -95,7 +96,7 @@
         events.forEach(event => {
             const card = document.createElement('div');
             card.className = 'event-card';
-            
+
             // HUOM: Käytetään tapahtuman eventId:tä, koska se on pakollinen Foreign Key
             card.innerHTML = `
                 <h3>${event.eventName} (${event.eventCity})</h3>
@@ -153,11 +154,11 @@
     function updateTotalPrice(eventId) {
         let total = 0;
         const form = document.querySelector(`.purchase-form[data-event-id="${eventId}"]`);
-        
+
         form.querySelectorAll('input[type="number"]').forEach(input => {
             const quantity = parseInt(input.value, 10) || 0;
             const price = parseFloat(input.dataset.price);
-            
+
             if (price && quantity > 0) {
                 total += quantity * price;
             }
@@ -168,89 +169,88 @@
     }
 
     // --- POST MYYNTITAPAHTUMA ---
-    async function handlePurchase(e) {
-        e.preventDefault();
-        const form = e.target;
-        const eventId = form.dataset.eventId;
-        const messageArea = document.getElementById('message-area');
-        messageArea.textContent = 'Käsitellään ostoa...';
-        messageArea.className = 'error'; 
+   async function handlePurchase(e) {
+    e.preventDefault();
+    const form = e.target;
+    const eventId = form.dataset.eventId;
+    const messageArea = document.getElementById('message-area');
+    messageArea.textContent = 'Käsitellään ostoa...';
+    messageArea.className = 'error'; 
 
-        const quantityInputs = form.querySelectorAll('input[data-type-id]');
-        const userId = form.elements.userId.value;
-        
-        const tickets = [];
-        let totalTickets = 0;
-        
-        quantityInputs.forEach(input => {
-            const quantity = parseInt(input.value, 10) || 0;
-            const ticketTypeId = input.dataset.typeId;
-            totalTickets += quantity;
+    const quantityInputs = form.querySelectorAll('input[data-type-id]');
+    const userId = form.elements.userId.value;
 
-            for (let i = 0; i < quantity; i++) {
-                tickets.push({
-                    // Lähetämme vain Foreign Key ID:t, Back-end tekee lookupin:
-                    "eventId": { "eventId": eventId }, 
-                    "ticketTypeId": { "ticketTypeId": ticketTypeId }
-                });
-            }
-        });
+    const tickets = [];
+    let totalTickets = 0;
 
-        if (totalTickets === 0) {
-            messageArea.textContent = 'Valitse ostettava lippumäärä.';
-            return;
-        }
+    quantityInputs.forEach(input => {
+        const quantity = parseInt(input.value, 10) || 0;
+        const ticketTypeId = input.dataset.typeId;
+        totalTickets += quantity;
 
-        const totalPrice = updateTotalPrice(eventId);
-        
-        // Haetaan ostajan sähköposti lomakkeesta
-        const buyerEmail = form.elements.buyerEmail.value;
-        
-        // Luodaan TÄYDELLINEN payload
-        const payload = {
-            "dateTime": new Date().toISOString().slice(0, 19), // Varmistetaan, että formaatti on oikein (YYYY-MM-DDTHH:MM:SS)
-            "price": totalPrice.toFixed(2),
-            "user": { "id": userId }, 
-            "tickets": tickets
-        };
-        
-        // Tarkista konsolista, millaisen JSON:n lähetät
-        console.log("Lähetettävä JSON:", payload);
-
-        try {
-            const response = await fetch(`${API_BASE_URL}/ticketsales?buyerEmail=${encodeURIComponent(buyerEmail)}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+        for (let i = 0; i < quantity; i++) {
+            tickets.push({
+                eventId: { eventId: parseInt(eventId, 10) },
+                ticketTypeId: { ticketTypeId: parseInt(ticketTypeId, 10) }
             });
-
-            const responseData = await response.json();
-
-            if (response.ok) {
-                messageArea.className = 'success';
-                messageArea.innerHTML = `Osto onnistui! Myynti ID: ${responseData.saleId}. 
-                    Lippuja ostettu: ${totalTickets} kpl. Hinta: €${totalPrice.toFixed(2)}. 
-                    `;
-                
-                // Tyhjennä lomake
-                form.reset();
-                updateTotalPrice(eventId);
-
-            } else {
-                // Näytetään tarkka virhe, jonka Back-end antaa
-                messageArea.className = 'error';
-                messageArea.textContent = `❌ Ostovirhe (Status ${response.status}): ${responseData.message || JSON.stringify(responseData)}`;
-            }
-
-        } catch (error) {
-            messageArea.className = 'error';
-            messageArea.textContent = `❌ Verkkovirhe: ${error.message}`;
         }
+    });
+
+    if (totalTickets === 0) {
+        messageArea.textContent = 'Valitse ostettava lippumäärä.';
+        return;
     }
 
-    // Käynnistä sovellus
+    const totalPrice = updateTotalPrice(eventId);
+
+    // --- LOCAL dateTime ---
+    const dateTimeLocal = new Date()
+        .toLocaleString("sv-SE", {
+            timeZone: "Europe/Helsinki",
+            hour12: false
+        })
+        .replace(" ", "T");
+
+        const payload = {
+        dateTime: dateTimeLocal,
+        price: totalPrice.toFixed(2),
+        user: { id: parseInt(userId, 10) },
+        tickets: tickets
+        };
+
+   
+    console.log("Payload to send to backend:");
+    console.log(JSON.stringify(payload, null, 2));
+
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/ticketsales`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        const responseData = await response.json();
+
+        if (response.ok) {
+            messageArea.className = 'success';
+            messageArea.innerHTML = `Osto onnistui! Myynti ID: ${responseData.saleId}. 
+                Lippuja ostettu: ${totalTickets} kpl. Hinta: €${totalPrice.toFixed(2)}.`;
+
+            form.reset();
+            updateTotalPrice(eventId);
+        } else {
+            messageArea.className = 'error';
+            messageArea.textContent = `❌ Ostovirhe (Status ${response.status}): ${responseData.message || JSON.stringify(responseData)}`;
+        }
+
+    } catch (error) {
+        messageArea.className = 'error';
+        messageArea.textContent = `❌ Verkkovirhe: ${error.message}`;
+    }
+}
+
     fetchData();
 
 </script>
 </body>
-</html>
