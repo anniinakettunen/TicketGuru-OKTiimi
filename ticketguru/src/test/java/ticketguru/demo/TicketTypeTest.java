@@ -1,33 +1,33 @@
 package ticketguru.demo;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import ticketguru.demo.domain.TicketType;
 
 public class TicketTypeTest {
 
-    @Test
-    public void testDefaultConstructor() {
-        TicketType tt = new TicketType();
-        assertNotNull(tt);
+    private TicketType childsticket;
+
+    @BeforeEach
+    void setUp() {
+        childsticket = new TicketType("childsticket", 5.0);
     }
 
     @Test
-    public void testParameterizedConstructor() {
-        TicketType tt = new TicketType("Adult", 10.0);
-        assertEquals("Adult", tt.getTicketName());
-        assertEquals(10.0, tt.getPrice());
+    void getTicketTypeIdIsPresentAndReturnsTheTicketTypeId() {
+        assertEquals(null, childsticket.getTicketTypeId());
     }
 
     @Test
-    public void testSetters() {
-        TicketType tt = new TicketType();
+    void getTicketNameIsPresentAndReturnsTheTicketName() {
+        assertEquals("childsticket", childsticket.getTicketName());
+    }
 
-        tt.setTicketName("Child");
-        tt.setPrice(5.0);
-
-        assertEquals("Child", tt.getTicketName());
-        assertEquals(5.0, tt.getPrice());
+    @Test
+    void getPriceIsPresentAndReturnsThePrice() {
+        assertEquals(5.0, childsticket.getPrice());
     }
 }

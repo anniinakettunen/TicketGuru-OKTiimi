@@ -15,6 +15,8 @@
         .error { color: red; }
         .success { color: green; font-weight: bold; }
         .warning { color: orange; font-weight: bold; }
+        #event-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 20px; }
+        .event-card { border: 1px solid #ddd; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07); transition: transform 0.2s ease, box-shadow 0.2s ease; border: 1px solid rgba(0, 0, 0, 0.05); }
     </style>
 </head>
 <body>
@@ -29,9 +31,9 @@
 
     <hr>
 
-    <div id="event-list">
-        Ladataan tapahtumia...
-    </div>
+   <p id="loading">Ladataan tapahtumia...</p>
+   <div id="event-list"></div>
+
 
     <p id="message-area" class="error"></p>
 
@@ -74,7 +76,10 @@
             // Jos myyjän ID on edelleen 1, mutta se ei toimi:
             if (sellerUserId === 1) {
                  console.warn("Käytetään oletusarvoa Myyjä ID: 1. Varmista, että AppUser ID:llä 1 on olemassa DB:ssä.");
+
             }
+
+            document.getElementById("loading").style.display = "none";
 
             renderEvents(events);
 

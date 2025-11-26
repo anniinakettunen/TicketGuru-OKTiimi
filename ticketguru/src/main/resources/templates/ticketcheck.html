@@ -26,18 +26,32 @@
 
     #useButton {
       margin-top: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
+      display: block;
     }
 
     .success {
       color: blue;
       font-weight: bold;
       margin-top: 15px;
+      margin-bottom: 15px;
     }
 
     .error {
       color: red;
       font-weight: bold;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+    .back-button { 
+      background-color: rgb(76, 83, 76); 
+      color: white; 
+      padding: 10px 20px; 
+      border: 1px solid #333; 
+      cursor: pointer; 
+      border-radius: 4px;
+      text-decoration: none;
+      display: inline-block;
       margin-top: 15px;
     }
   </style>
@@ -46,13 +60,18 @@
   <h2>Check Ticket</h2>
 
   <input type="text" id="ticketCode" placeholder="Enter ticket code" />
-  <button onclick="fetchTicket()">Hae tiedot</button>
+  <button onclick="fetchTicket()" class="back-button">Hae tiedot</button>
 
   <div id="ticketInfo"></div>
-  <button id="useButton" style="display:none" onclick="markUsed()">Merkitse käytetyksi</button>
+  <div>
+    <button id="useButton" style="display:none" class="back-button" onclick="markUsed()">Merkitse käytetyksi</button>
+  </div>
+  <div>
+    <a href="http://localhost:8080/" class="back-button">Takaisin etusivulle</a>
+  </div>
 
   <script>
-    let currentTicketCode = null;
+      let currentTicketCode = null;
 
     async function fetchTicket() {
       const code = document.getElementById("ticketCode").value;

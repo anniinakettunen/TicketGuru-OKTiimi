@@ -1,31 +1,72 @@
-package ticketguru.demo.domain;
+package ticketguru.demo;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class AppUserTest {
+import ticketguru.demo.domain.AppUser;
+import ticketguru.demo.domain.Role;
 
+public class AppUserTest {
+    
+    private AppUser donaldtrump;
+    private Role testRole;
+    
+    @BeforeEach
+    void setUp() {
+        testRole = new Role();
+        testRole.setRoleId(1L);
+        testRole.setRoleName("USER");
+        testRole.setNotes("Test role");
+        
+        donaldtrump = new AppUser();
+        donaldtrump.setId(1L);
+        donaldtrump.setUsername("donaldtrump");
+        donaldtrump.setPasswordHash("Abc12345");
+        donaldtrump.setFirstname("Donald");
+        donaldtrump.setLastname("Trump");
+        donaldtrump.setEmail("donald.trump@gmail.com");
+        donaldtrump.setPhone("+358406285791");
+        donaldtrump.setRole(testRole);
+    }
+    
     @Test
-    void testSettersAndGetters() {
-        AppUser user = new AppUser();
-        Role role = new Role(1L, "ADMIN", null);
-
-        user.setId(1L);
-        user.setUsername("joku");
-        user.setPasswordHash("hashed");
-        user.setFirstname("Joku");
-        user.setLastname("Jokulainen");
-        user.setEmail("joku@example.com");
-        user.setPhone("12345678");
-        user.setRole(role);
-
-        assertEquals(1L, user.getId());
-        assertEquals("joku", user.getUsername());
-        assertEquals("hashed", user.getPasswordHash());
-        assertEquals("Joku", user.getFirstname());
-        assertEquals("Jokulainen", user.getLastname());
-        assertEquals("joku@example.com", user.getEmail());
-        assertEquals("12345678", user.getPhone());
-        assertEquals(role, user.getRole());
+    void getIdIsPresentAndReturnsTheId() {
+        assertEquals(1L, donaldtrump.getId());
+    }
+    
+    @Test
+    void getUsernameIsPresentAndReturnsTheUsername() {
+        assertEquals("donaldtrump", donaldtrump.getUsername());
+    }
+    
+    @Test
+    void getPasswordHashIsPresentAndReturnsThePasswordHash() {
+        assertEquals("Abc12345", donaldtrump.getPasswordHash());
+    }
+    
+    @Test
+    void getFirstnameIsPresentAndReturnsTheFirstname() {
+        assertEquals("Donald", donaldtrump.getFirstname());
+    }
+    
+    @Test
+    void getLastnameIsPresentAndReturnsTheLastname() {
+        assertEquals("Trump", donaldtrump.getLastname());
+    }
+    
+    @Test
+    void getEmailIsPresentAndReturnsTheEmail() {
+        assertEquals("donald.trump@gmail.com", donaldtrump.getEmail());
+    }
+    
+    @Test
+    void getPhoneIsPresentAndReturnsThePhone() {
+        assertEquals("+358406285791", donaldtrump.getPhone());
+    }
+    
+    @Test
+    void getRoleIsPresentAndReturnsTheRole() {
+        assertEquals(testRole, donaldtrump.getRole());
     }
 }

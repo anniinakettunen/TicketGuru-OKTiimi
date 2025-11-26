@@ -1,29 +1,63 @@
-package ticketguru.demo.domain;
+package ticketguru.demo;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.LocalDate;
-import static org.junit.jupiter.api.Assertions.*;
 
-class EventTest {
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import ticketguru.demo.domain.Event;
+public class EventTest {
+
+    private Event lightcarnival;
+
+    @BeforeEach
+    void setUp() {
+        lightcarnival = new Event();
+        lightcarnival.setId(1L);
+        lightcarnival.setEventName("lightcarnival");
+        lightcarnival.setEventLocation("Finland");
+        lightcarnival.setEventCity("Helsinki");
+        lightcarnival.setEventDate(LocalDate.of(2026, 9, 1));
+        lightcarnival.setEventDescription("Occasion in Linnanmäki at the evening where there are everywhere lights like christmas lights");
+        lightcarnival.setMaxNumberOfTickets(500);
+    }
 
     @Test
-    void testEventCreation() {
-        LocalDate date = LocalDate.now();
-
-        Event event = new Event(
-                "Test Event",
-                "Operaatalo",
-                "Helsinki",
-                date,
-                "Jazz event",
-                100
-        );
-
-        assertEquals("Test Event", event.getEventName());
-        assertEquals("Operaatalo", event.getEventLocation());
-        assertEquals("Helsinki", event.getEventCity());
-        assertEquals(date, event.getEventDate());
-        assertEquals("Jazz event", event.getEventDescription());
-        assertEquals(100, event.getMaxNumberOfTickets());
+    void getEventIdIsPresentAndReturnsTheEventId() {
+        assertEquals(1L, lightcarnival.getEventId());
     }
+
+    @Test
+    void getEventNameIsPresentAndReturnsTheEventName() {
+        assertEquals("lightcarnival", lightcarnival.getEventName());
+    }
+
+    @Test
+    void getEventLocationIsPresentAndReturnsTheEventLocation() {
+        assertEquals("Finland", lightcarnival.getEventLocation());
+    }
+
+    @Test
+    void getEventCityIsPresentAndReturnsTheEventCity() {
+        assertEquals("Helsinki", lightcarnival.getEventCity());
+    }
+
+    @Test
+    void getEventDateIsPresentAndReturnsTheEventDate() {
+        assertEquals(LocalDate.of(2026, 9, 1), lightcarnival.getEventDate());
+    }
+
+    @Test
+    void getEventDescriptionIsPresentAndReturnsTheEventDescription() {
+        assertEquals("Occasion in Linnanmäki at the evening where there are everywhere lights like christmas lights", lightcarnival.getEventDescription());
+    }
+
+    @Test
+    void getMaxNumberOfTicketsIsPresentAndReturnsTheMaxNumberOfTickets() {
+        assertEquals(500, lightcarnival.getMaxNumberOfTickets());
+    }
+    
 }
+ 
