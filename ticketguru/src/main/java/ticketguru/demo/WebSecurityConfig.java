@@ -24,32 +24,45 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+   @Bean
+public SecurityFilterChain configure(HttpSecurity http) throws Exception {
     http
         .cors().and()
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(authorize -> authorize
-                
-                // Salli POST-pyynnöt myyntitapahtuman luontiin
-                .requestMatchers(HttpMethod.POST, "/api/ticketsales").permitAll()
+            // Julkiset API-pyynnöt
+            .requestMatchers(HttpMethod.POST, "/api/ticketsales").permitAll()
+            .requestMatchers(HttpMethod.GET, "/api/events").permitAll()
+            .requestMatchers(HttpMethod.GET, "/api/tickettypes").permitAll()
 
-                // Salli GET-pyynnöt tapahtumille ja lipputyypeille (tapahtumien listaus)
-                .requestMatchers(HttpMethod.GET, "/api/events").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/tickettypes").permitAll()
-                
-                // Salli POST-pyynnöt myyntitapahtuman luontiin
-                .requestMatchers(HttpMethod.POST, "/api/ticketsales").permitAll()
-            
-            .requestMatchers("/api/users/**", "/api/roles").hasRole("ADMIN") // admin only
-            .requestMatchers("/", "/status").permitAll() // public
-            .anyRequest().authenticated()                         // all others require login
+            // Admin-only API
+            .requestMatchers("/api/users/**", "/api/roles").hasRole("ADMIN")
+
+            // Julkiset sivut
+            .requestMatchers("/", "/status", "/css/**", "/js/**").permitAll()
+
+            // Index vaatii kirjautumisen (voit halutessasi rajata vain ADMINille)
+            .requestMatchers("/").authenticated()
+
+            // Kaikki muut vaativat kirjautumisen
+            .anyRequest().authenticated()
         )
-        .httpBasic();
+        .formLogin(form -> form
+            .loginPage("/login")                // Thymeleaf login.html
+            .defaultSuccessUrl("/", true)  // onnistuneen loginin jälkeen index
+            .permitAll()
+        )
+        .logout(logout -> logout
+            .logoutSuccessUrl("/login?logout")
+            .permitAll()
+        );
+
     return http.build();
 }
 
-  @Bean
+
+
+    @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of("*"));
@@ -62,5 +75,3 @@ public class WebSecurityConfig {
         return new CorsFilter(source);
     }
 }
-
-

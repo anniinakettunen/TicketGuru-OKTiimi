@@ -1,114 +1,189 @@
 <!DOCTYPE html>
 <html lang="fi">
+
 <head>
     <meta charset="UTF-8">
     <title>TicketGuru MVP - Lipunmyynti Client</title>
     <style>
-        body { font-family: sans-serif; max-width: 900px; margin: auto; padding: 20px; }
-        .event-card { border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-radius: 5px; }
-        .event-card h3 { color: #007bff; }
-        .ticket-selection { margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px; }
-        .ticket-type-item { margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .quantity-control { display: flex; gap: 10px; }
-        .buy-button { background-color: green; color: white; padding: 10px 20px; border: none; cursor: pointer; border-radius: 4px; }
-        .total { font-weight: bold; font-size: 1.2em; margin-top: 15px; }
-        .error { color: red; }
-        .success { color: green; font-weight: bold; }
-        .warning { color: orange; font-weight: bold; }
-        #event-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 20px; }
-        .event-card { border: 1px solid #ddd; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07); transition: transform 0.2s ease, box-shadow 0.2s ease; border: 1px solid rgba(0, 0, 0, 0.05); }
+        body {
+            font-family: sans-serif;
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .event-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .event-card h3 {
+            color: #007bff;
+        }
+
+        .ticket-selection {
+            margin-top: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        .ticket-type-item {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .quantity-control {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buy-button {
+            background-color: green;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .total {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-top: 15px;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+
+        .warning {
+            color: orange;
+            font-weight: bold;
+        }
+
+        #event-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 20px;
+        }
+
+        .event-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
     </style>
 </head>
+
 <body>
 
     <h1>🎫 Tapahtumien Lipunmyynti</h1>
 
-    <div style="margin-bottom: 20px;">
-        <a href="http://localhost:8080/salesreport" target="_self" class="buy-button" style="background-color: #333;">
-    Myyntiraportit
-        </a>
-        <a href="http://localhost:8080/tickets/check" target="_self" class="buy-button" style="background-color: #555; margin-left: 5px;">
-    Lipun Tarkistus
-        </a>
-        <a  href="http://localhost:8080/events/new" target="_self" class="buy-button" style="background-color: #007bff; margin-left: 5px;">
-    Luo uusi Tapahtuma
-        </a>
+    <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 5px;">
+    <a href="http://localhost:8080/salesreport" target="_self" class="buy-button" style="background-color: #333;">
+        Myyntiraportit
+    </a>
+    <a href="http://localhost:8080/tickets/check" target="_self" class="buy-button" style="background-color: #555;">
+        Lipun Tarkistus
+    </a>
+    <a href="http://localhost:8080/events/new" target="_self" class="buy-button" style="background-color: #007bff;">
+        Luo uusi Tapahtuma
+    </a>
+
+    <form action="/logout" method="post" style="display: inline-block; margin-left: auto;">
+        <button type="submit" class="buy-button" style="background-color: #dc3545;">
+            Kirjaudu ulos 
+        </button>
+    </form>
     </div>
-    
+
     <hr>
 
-   <p id="loading">Ladataan tapahtumia...</p>
-   <div id="event-list"></div>
+    <p id="loading">Ladataan tapahtumia...</p>
+    <div id="event-list"></div>
 
 
     <p id="message-area" class="error"></p>
 
-<script>
-    // HUOM: KÄYTÄ ABSOLUUTTISTA URL-osoitetta LOCALHOSTISSA!
-    // KORVAA TÄMÄ, KUN JULKAISET RAHTIIN!
-    const API_BASE_URL = "http://localhost:8080/api";
-    
-    let allTicketTypes = []; 
-    let sellerUserId = 1; // Oletusarvo, joka täytyy muuttaa
+    <script>
+        // HUOM: KÄYTÄ ABSOLUUTTISTA URL-osoitetta LOCALHOSTISSA!
+        // KORVAA TÄMÄ, KUN JULKAISET RAHTIIN!
+        const API_BASE_URL = "http://localhost:8080/api";
 
-    // --- HAKEE KAIKEN DATAN JA KÄYTTÄJÄT ---
-    async function fetchData() {
-        const eventListDiv = document.getElementById('event-list');
-        try {
-            // 1. Hakee Lipputyypit
-            const typesResponse = await fetch(`${API_BASE_URL}/tickettypes`);
-            if (!typesResponse.ok) throw new Error(`Lipputyyppien haku epäonnistui. Status: ${typesResponse.status}`);
-            allTicketTypes = await typesResponse.json();
+        let allTicketTypes = [];
+        let sellerUserId = 1; // Oletusarvo, joka täytyy muuttaa
 
-            // 2. Hakee Tapahtumat
-            const eventsResponse = await fetch(`${API_BASE_URL}/events`); 
-            if (!eventsResponse.ok) throw new Error(`Tapahtumien haku epäonnistui. Status: ${eventsResponse.status}`);
-            const events = await eventsResponse.json();
+        // --- HAKEE KAIKEN DATAN JA KÄYTTÄJÄT ---
+        async function fetchData() {
+            const eventListDiv = document.getElementById('event-list');
+            try {
+                // 1. Hakee Lipputyypit
+                const typesResponse = await fetch(`${API_BASE_URL}/tickettypes`);
+                if (!typesResponse.ok) throw new Error(`Lipputyyppien haku epäonnistui. Status: ${typesResponse.status}`);
+                allTicketTypes = await typesResponse.json();
 
-            // 3. (VALINNAINEN) Etsii olemassa olevan Myyjän ID:n, jotta ostos onnistuu
-            // HUOM: Jos sinulla on /api/users tai /api/appusers polku, voit käyttää sitä:
-            /*
-            const userResponse = await fetch(`${API_BASE_URL}/users`);
-            if (userResponse.ok) {
-                const users = await userResponse.json();
-                if (users.length > 0) {
-                    // Olettaen, että JSON palauttaa ID:n heti juuritasolla
-                    sellerUserId = users[0].id; 
+                // 2. Hakee Tapahtumat
+                const eventsResponse = await fetch(`${API_BASE_URL}/events`);
+                if (!eventsResponse.ok) throw new Error(`Tapahtumien haku epäonnistui. Status: ${eventsResponse.status}`);
+                const events = await eventsResponse.json();
+
+                // 3. (VALINNAINEN) Etsii olemassa olevan Myyjän ID:n, jotta ostos onnistuu
+                // HUOM: Jos sinulla on /api/users tai /api/appusers polku, voit käyttää sitä:
+                /*
+                const userResponse = await fetch(`${API_BASE_URL}/users`);
+                if (userResponse.ok) {
+                    const users = await userResponse.json();
+                    if (users.length > 0) {
+                        // Olettaen, että JSON palauttaa ID:n heti juuritasolla
+                        sellerUserId = users[0].id; 
+                    }
                 }
+                */
+
+                // Jos myyjän ID on edelleen 1, mutta se ei toimi:
+                if (sellerUserId === 1) {
+                    console.warn("Käytetään oletusarvoa Myyjä ID: 1. Varmista, että AppUser ID:llä 1 on olemassa DB:ssä.");
+
+                }
+
+                document.getElementById("loading").style.display = "none";
+
+                renderEvents(events);
+
+            } catch (error) {
+                eventListDiv.innerHTML = `<p class="error">Virhe datan latauksessa: ${error.message}. Kokeile korjata URL tai AppUser ID.</p>`;
             }
-            */
-            
-            // Jos myyjän ID on edelleen 1, mutta se ei toimi:
-            if (sellerUserId === 1) {
-                 console.warn("Käytetään oletusarvoa Myyjä ID: 1. Varmista, että AppUser ID:llä 1 on olemassa DB:ssä.");
-
-            }
-
-            document.getElementById("loading").style.display = "none";
-
-            renderEvents(events);
-
-        } catch (error) {
-            eventListDiv.innerHTML = `<p class="error">Virhe datan latauksessa: ${error.message}. Kokeile korjata URL tai AppUser ID.</p>`;
-        }
-    }
-
-    // --- RENDERÖI TAPAHTUMALISTAN ---
-    function renderEvents(events) {
-        const eventListDiv = document.getElementById('event-list');
-        eventListDiv.innerHTML = ''; 
-
-        if (events.length === 0) {
-            eventListDiv.innerHTML = '<p class="warning">Ei myynnissä olevia tapahtumia tällä hetkellä (DB tyhjä).</p>';
-            return;
         }
 
-        events.forEach(event => {
-            const card = document.createElement('div');
-            card.className = 'event-card';
-            
-            // HUOM: Käytetään tapahtuman eventId:tä, koska se on pakollinen Foreign Key
-            card.innerHTML = `
+        // --- RENDERÖI TAPAHTUMALISTAN ---
+        function renderEvents(events) {
+            const eventListDiv = document.getElementById('event-list');
+            eventListDiv.innerHTML = '';
+
+            if (events.length === 0) {
+                eventListDiv.innerHTML = '<p class="warning">Ei myynnissä olevia tapahtumia tällä hetkellä (DB tyhjä).</p>';
+                return;
+            }
+
+            events.forEach(event => {
+                const card = document.createElement('div');
+                card.className = 'event-card';
+
+                // HUOM: Käytetään tapahtuman eventId:tä, koska se on pakollinen Foreign Key
+                card.innerHTML = `
                 <h3>${event.eventName} (${event.eventCity})</h3>
                 <p>Paikka: ${event.eventLocation} | Päivämäärä: ${event.eventDate}</p>
                 <form class="purchase-form" data-event-id="${event.eventId}" onsubmit="handlePurchase(event)">
@@ -130,21 +205,21 @@
                     <button type="submit" class="buy-button">Osta & Luo Myynti</button>
                 </form>
             `;
-            eventListDiv.appendChild(card);
+                eventListDiv.appendChild(card);
 
-            // Asetetaan kuuntelijat
-            card.querySelectorAll('input[type="number"]').forEach(input => {
-                input.addEventListener('input', () => updateTotalPrice(event.eventId));
+                // Asetetaan kuuntelijat
+                card.querySelectorAll('input[type="number"]').forEach(input => {
+                    input.addEventListener('input', () => updateTotalPrice(event.eventId));
+                });
+                updateTotalPrice(event.eventId);
             });
-            updateTotalPrice(event.eventId); 
-        });
-    }
+        }
 
-    // --- RENDERÖI LIPPUTYYPIT ---
-    function renderTicketTypes(eventId) {
-        let html = '';
-        allTicketTypes.forEach(type => {
-            html += `
+        // --- RENDERÖI LIPPUTYYPIT ---
+        function renderTicketTypes(eventId) {
+            let html = '';
+            allTicketTypes.forEach(type => {
+                html += `
                 <div class="ticket-type-item">
                     <span>${type.ticketName} (€${type.price.toFixed(2)})</span>
                     <div class="quantity-control">
@@ -156,113 +231,113 @@
                     </div>
                 </div>
             `;
-        });
-        return html;
-    }
-
-    // --- HINNAN PÄIVITYS ---
-    function updateTotalPrice(eventId) {
-        let total = 0;
-        const form = document.querySelector(`.purchase-form[data-event-id="${eventId}"]`);
-        
-        form.querySelectorAll('input[type="number"]').forEach(input => {
-            const quantity = parseInt(input.value, 10) || 0;
-            const price = parseFloat(input.dataset.price);
-            
-            if (price && quantity > 0) {
-                total += quantity * price;
-            }
-        });
-
-        document.getElementById(`total-price-${eventId}`).textContent = total.toFixed(2);
-        return total;
-    }
-
-    // --- POST MYYNTITAPAHTUMA ---
-    async function handlePurchase(e) {
-        e.preventDefault();
-        const form = e.target;
-        const eventId = form.dataset.eventId;
-        const messageArea = document.getElementById('message-area');
-        messageArea.textContent = 'Käsitellään ostoa...';
-        messageArea.className = 'error'; 
-
-        const quantityInputs = form.querySelectorAll('input[data-type-id]');
-        const userId = form.elements.userId.value;
-        
-        const tickets = [];
-        let totalTickets = 0;
-        
-        quantityInputs.forEach(input => {
-            const quantity = parseInt(input.value, 10) || 0;
-            const ticketTypeId = input.dataset.typeId;
-            totalTickets += quantity;
-
-            for (let i = 0; i < quantity; i++) {
-                tickets.push({
-                    // Lähetämme vain Foreign Key ID:t, Back-end tekee lookupin:
-                    "eventId": { "eventId": eventId }, 
-                    "ticketTypeId": { "ticketTypeId": ticketTypeId }
-                });
-            }
-        });
-
-        if (totalTickets === 0) {
-            messageArea.textContent = 'Valitse ostettava lippumäärä.';
-            return;
+            });
+            return html;
         }
 
-        const totalPrice = updateTotalPrice(eventId);
-        
-        // Haetaan ostajan sähköposti lomakkeesta
-        const buyerEmail = form.elements.buyerEmail.value;
-        
-        // Luodaan TÄYDELLINEN payload
-        const payload = {
-            "dateTime": new Date().toISOString().slice(0, 19), // Varmistetaan, että formaatti on oikein (YYYY-MM-DDTHH:MM:SS)
-            "price": totalPrice.toFixed(2),
-            "user": { "id": userId }, 
-            "tickets": tickets
-        };
-        
-        // Tarkista konsolista, millaisen JSON:n lähetät
-        console.log("Lähetettävä JSON:", payload);
+        // --- HINNAN PÄIVITYS ---
+        function updateTotalPrice(eventId) {
+            let total = 0;
+            const form = document.querySelector(`.purchase-form[data-event-id="${eventId}"]`);
 
-        try {
-            const response = await fetch(`${API_BASE_URL}/ticketsales?buyerEmail=${encodeURIComponent(buyerEmail)}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+            form.querySelectorAll('input[type="number"]').forEach(input => {
+                const quantity = parseInt(input.value, 10) || 0;
+                const price = parseFloat(input.dataset.price);
+
+                if (price && quantity > 0) {
+                    total += quantity * price;
+                }
             });
 
-            const responseData = await response.json();
+            document.getElementById(`total-price-${eventId}`).textContent = total.toFixed(2);
+            return total;
+        }
 
-            if (response.ok) {
-                messageArea.className = 'success';
-                messageArea.innerHTML = `Osto onnistui! Myynti ID: ${responseData.saleId}. 
-                    Lippuja ostettu: ${totalTickets} kpl. Hinta: €${totalPrice.toFixed(2)}. 
-                    `;
-                
-                // Tyhjennä lomake
-                form.reset();
-                updateTotalPrice(eventId);
+        // --- POST MYYNTITAPAHTUMA ---
+        async function handlePurchase(e) {
+            e.preventDefault();
+            const form = e.target;
+            const eventId = form.dataset.eventId;
+            const messageArea = document.getElementById('message-area');
+            messageArea.textContent = 'Käsitellään ostoa...';
+            messageArea.className = 'error';
 
-            } else {
-                // Näytetään tarkka virhe, jonka Back-end antaa
-                messageArea.className = 'error';
-                messageArea.textContent = `❌ Ostovirhe (Status ${response.status}): ${responseData.message || JSON.stringify(responseData)}`;
+            const quantityInputs = form.querySelectorAll('input[data-type-id]');
+            const userId = form.elements.userId.value;
+
+            const tickets = [];
+            let totalTickets = 0;
+
+            quantityInputs.forEach(input => {
+                const quantity = parseInt(input.value, 10) || 0;
+                const ticketTypeId = input.dataset.typeId;
+                totalTickets += quantity;
+
+                for (let i = 0; i < quantity; i++) {
+                    tickets.push({
+                        // Lähetämme vain Foreign Key ID:t, Back-end tekee lookupin:
+                        "eventId": { "eventId": eventId },
+                        "ticketTypeId": { "ticketTypeId": ticketTypeId }
+                    });
+                }
+            });
+
+            if (totalTickets === 0) {
+                messageArea.textContent = 'Valitse ostettava lippumäärä.';
+                return;
             }
 
-        } catch (error) {
-            messageArea.className = 'error';
-            messageArea.textContent = `❌ Verkkovirhe: ${error.message}`;
+            const totalPrice = updateTotalPrice(eventId);
+
+            // Haetaan ostajan sähköposti lomakkeesta
+            const buyerEmail = form.elements.buyerEmail.value;
+
+            // Luodaan TÄYDELLINEN payload
+            const payload = {
+                "dateTime": new Date().toISOString().slice(0, 19), // Varmistetaan, että formaatti on oikein (YYYY-MM-DDTHH:MM:SS)
+                "price": totalPrice.toFixed(2),
+                "user": { "id": userId },
+                "tickets": tickets
+            };
+
+            // Tarkista konsolista, millaisen JSON:n lähetät
+            console.log("Lähetettävä JSON:", payload);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/ticketsales?buyerEmail=${encodeURIComponent(buyerEmail)}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const responseData = await response.json();
+
+                if (response.ok) {
+                    messageArea.className = 'success';
+                    messageArea.innerHTML = `Osto onnistui! Myynti ID: ${responseData.saleId}. 
+                    Lippuja ostettu: ${totalTickets} kpl. Hinta: €${totalPrice.toFixed(2)}. 
+                    `;
+
+                    // Tyhjennä lomake
+                    form.reset();
+                    updateTotalPrice(eventId);
+
+                } else {
+                    // Näytetään tarkka virhe, jonka Back-end antaa
+                    messageArea.className = 'error';
+                    messageArea.textContent = `❌ Ostovirhe (Status ${response.status}): ${responseData.message || JSON.stringify(responseData)}`;
+                }
+
+            } catch (error) {
+                messageArea.className = 'error';
+                messageArea.textContent = `❌ Verkkovirhe: ${error.message}`;
+            }
         }
-    }
 
-    // Käynnistä sovellus
-    fetchData();
+        // Käynnistä sovellus
+        fetchData();
 
-</script>
+    </script>
 </body>
-</html>
 
+</html>
