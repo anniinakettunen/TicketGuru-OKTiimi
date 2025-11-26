@@ -59,4 +59,5 @@ public class EventTest {
     void getMaxNumberOfTicketsIsPresentAndReturnsTheMaxNumberOfTickets() {
         assertEquals(500, lightcarnival.getMaxNumberOfTickets());
     }
+    
 }
