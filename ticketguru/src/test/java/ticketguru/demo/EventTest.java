@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ticketguru.demo.domain.Event;
-
 public class EventTest {
 
     private Event lightcarnival;
@@ -61,3 +60,4 @@ public class EventTest {
     }
     
 }
+ 
