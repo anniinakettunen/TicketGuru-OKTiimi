@@ -1,31 +1,41 @@
 # TicketGuru
-OK-Tiimi: Anniina, Erkka, Teppo, Thu, Ville
 
-## Johdanto
-Kehitettävä ohjelmisto on lippujenmyyntijärjestelmä, johon voi lisätä tapahtumia, määritellä niihin lipputyyppejä ja myydä lippuja tapahtumiin. Järjestelmä rekisteröi myös myytyjen lippujen tiedot tapahtumakohtaisesti. Järjestelmä kehitetään niin, että siihen voidaan jatkokehityksessä lisätä myös verkkokauppa, josta lipputoimiston asiakkaat voivat ostaa itse lippuja.
-Asiakas on lipputoimisto, joka on tilannut lipunmyyntijärjestelmän myyntipisteeseensä. 
-Projekti toteutetaan Scrum-mallin mukaisesti.
+**Projektin nimi:** TicketGuru - lippumyyntijärjestelmä
 
-### Toteutus- ja toimintaympäristö
-Ohjelmisto toteutetaan Javalla käyttäen Spring Boot -kehystä. 
-Päätelaitteena on pääasiassa desktop, koska aluksi ohjelmaa käytetään vain lipunmyyntipisteessä. Jatkokehitystä varten ohjelmiston tulee olla laajennettavissa myös mobiilikäyttöön.
+**OK-Tiimi**: Anniina, Erkka, Teppo, Thu, Ville
 
-## Järjestelmän määrittely
+------------------
 
-### Käyttäjäryhmät
+## **1. Johdanto**
 
-**Admin**
-- tapahtumien tietojen muokkaaminen
-- tapahtumien lippujen määrien muokkaaminen
-- tapahtumien lipputyyppien muokkaaminen
+### **1.1 TickeGuru**
+TicketGuru on lipunmyyntijärjestelmä, joka on kehitetty lipputoimiston käyttöön tapahtumalippujen myyntiä varten. Järjestelmän avulla lipputoimisto voi luoda tapahtumia, määritellä niihin lipputyyppejä sekä myydä ja tulostaa lippuja myyntipisteessä. Järjestelmä on tarkoitettu ensisijaisesti lipunmyyjien ja tapahtumien sisäänkäyntihenkilökunnan käyttöön.
 
-**Lipunmyyjä**
-- lippujen myyminen ja tulostaminen
-- lippujen määrien ja hintojen tarkastelu
+Asiakkaana toimii lipputoimisto, joka haluaa keskitetyn ja helppokäyttöisen ratkaisun tapahtumien ja lipunmyynnin hallintaan. Järjestelmä tarjoaa asiakkaalle mahdollisuuden seurata myytyjä lippuja tapahtumakohtaisesti sekä tarkastaa ja merkitä liput käytetyiksi tapahtuman sisäänkäynnillä. Projektin päättyessä järjestelmä sisältää toiminnallisen myyntipistekäyttöön tarkoitetun lipunmyyntijärjestelmän.
 
-**Lipunostaja**
+### **1.2 Toteutus- ja toimintaympäristö**
+Järjestelmä on toteutettu palvelinpohjaisena web-sovelluksena käyttäen Java-kieltä ja Spring Boot -kehystä. Palvelinpuolen rajapinnat on toteutettu REST-API-periaatteiden mukaisesti.
 
-## Käyttäjätarinat
+Järjestelmä käyttää kahta eri tietokantaratkaisua: tuotantoympäristössä käytössä on PostgreSQL-pohjainen pysyvä tietokanta, kun taas testausvaiheessa hyödynnetään H2-muistitietokantaa.
+
+Käyttöliittymä on toteutettu selainpohjaisena käyttöliittymänä Thymeleaf-templateja hyödyntäen. Päätelaitteena toimii pääasiassa desktop-työasema, sillä järjestelmää käytetään ensivaiheessa lipunmyyntipisteessä. Järjestelmän arkkitehtuuri on suunniteltu siten, että sitä voidaan jatkokehityksessä laajentaa myös muihin päätelaitteisiin, kuten mobiilikäyttöön.
+
+Järjestelmän rakennetta on suunniteltu laajennettavaksi, ja siihen on mahdollista lisätä jatkokehityksessä esimerkiksi verkkokauppatoiminnallisuus loppuasiakkaiden itsenäistä lipunostoa varten.
+
+-----------------
+
+## **2. Järjestelmän määrittely**
+
+TicketGurun tarkoituksena on tarjota lipputoimistolle keskitetty järjestelmä tapahtumien, lipputyyppien ja lipunmyynnin hallintaan.
+
+### **2.1 Käyttäjäryhmät**
+
+**Järjestelmän ylläpitäjä (Admin)** hallitsee koko järjestelmää ja sen sisältöä, mukaan lukien tapahtumat, lipputyypit ja käyttäjät.
+
+**Lipunmyyjä** voivat myydä ja tulostaa lippuja sekä tarkastella lippujen määriä ja hintoja.
+
+
+### **2.2 Käyttäjätarinat**
 > **1.**
 > Lipunmyyntitoimistona haluan myydä lippuja eri asiakasryhmille (esim. aikuiset ja lapset), jotta voin tarjota asiakkaille sopivat lippuvaihtoehdot ja hinnoittelun.
 
@@ -43,20 +53,23 @@ Päätelaitteena on pääasiassa desktop, koska aluksi ohjelmaa käytetään vai
 
 
 >**6.** 
-> Tapahtumanjärjestäjänä haluan luoda uuden tapahtuman järjestelmään (nimi, kuvaus, aika, paikka, kaupunki), jotta voin aloittaa lipunmyynnin ajoissa.
+> Lipunmyyntitoimistona haluan luoda uuden tapahtuman järjestelmään (nimi, kuvaus, aika, paikka, kaupunki), jotta voin aloittaa lipunmyynnin ajoissa.
 
+---------------
 
-
-### Käyttöliittymä
+## **3. Käyttöliittymä**
 
 ![Kayttoliittymakuva](ticketguru/public/kayttoliittymakuva.jpg)
-![Kayttoliittymakuva2](ticketguru/public/kayttoliityma2.jpg)
 
-## Tietokantamalli
+
+-----------------------------
+## **4. Tietokanta** 
+
+### **4.1 Tietokantamalli**
 
 ![Tietokanta](ticketguru/public/Tietokanta.jpg)
 
-## Tietohakemistokuvaukset
+### **4.2 Tietohakemistokuvaukset**
 
 ![tk_kayttaja](ticketguru/public/tk_kayttaja.jpg)
 ![tk_rooli](ticketguru/public/tk_rooli.jpg)
@@ -65,23 +78,97 @@ Päätelaitteena on pääasiassa desktop, koska aluksi ohjelmaa käytetään vai
 ![tk_lipunmyynti](ticketguru/public/tk_lipunmyynti.jpg)
 ![tk_tapahtumat](ticketguru/public/tk_tapahtumat.jpg)
 
+### **4.3 Tietokannan ratkaisu**
 
-## API 
------------------------------------
+--------------------------------------
 
-### ROOLIT API
+- Sovelluken pysyvä tietokanta on toteutettu käyttäen **PostgreSQL**, koska se integroituu sujuvasti Springbootin/JPA:n kanssa.
 
-#### Base-URL:
-https://demo-ticketguru-oktiimi.2.rahtiapp.fi
+- Kehitysvaiheessa käytämme edelleen **H2-tietokantaa**, jotta datan tallennusta ja sovelluksen toimintaa voidaan testata helposti.
+
+- Sovellus hyödyntää Springin profiileja eri ympäristöissä:
+
+    - **dev** : H2-tietokanta (kehitys)
+
+    - **test** :  PostgreSQL paikallisesti (testaus)
+
+    - **prod** : PostgreSQL Rahti-palvelimella (tuotanto)
+
+  Profiilien avulla voidaan vaihtaa tietokantaa ympäristökohtaisesti muuttamatta sovelluksen koodia.
 
 
-#### Endpointit
+--------------------------------
+
+## **5.Tekninen kuvaus**
+
+### **5.1 Järjestelmän yleiskuva**
+
+  TicketGuru on toteutettu client-server-arkkitehtuurilla web-sovelluksena.
+
+  Järjestelmä koostuu seuraavista pääkomponenteista:
+
+  - Client (käyttöliittymä)
+
+      - Selainpohjainen käyttöliittymä, toteutettu Thymeleaf-templaatteja hyödyntäen.
+
+      - Käyttö päätelaitteella, pääasiassa desktop-työasema.
+
+  - Server (palvelin)
+
+      - Java + Spring Boot -palvelin, ajettuna Rahti-palvelimella tuotantoympäristössä.
+
+      - Käsittelee clientin REST API -pyynnöt ja kommunikoi tietokannan kanssa.
+
+  - Tietokanta
+
+      - PostgreSQL tuotannossa ja H2 kehitysympäristössä.
+
+      - Palvelin kommunikoi tietokannan kanssa JPA/Hibernate-rajapintojen kautta.
+
+
+Komponenttien väliset yhteydet:
+
+  - Client ja Server kommunikoivat REST API-rajapinnan kautta.
+
+  - Server ja tietokanta kommunikoivat JPA/Hibernate -yhteyksin.
+
+
+-----------------
+
+### **5.2 Palvelintoteutus** 
+
+- Teknologiat: Java, Spring Boot, JPA/Hibernate, Maven.
+
+- Deployment:
+
+    - Dev-profiili: H2-tietokanta, kehitysympäristö.
+
+    - Test-profiili: PostgreSQL paikallisesti.
+
+    - Prod-profiili: PostgreSQL Rahti-palvelimella.
+
+- Sovelluksen toiminta:
+
+   - Serveri vastaanottaa clientin REST API -pyynnöt, käsittelee ne liiketoimintalogiikan mukaisesti ja tallentaa/hae tiedot tietokannasta.
+
+
+### **5.3 REST- rajapinta**
+
+TicketGuru hyödyntää REST API -rajapintoja, joiden avulla client ja server kommunikoivat.
+
+-------
+#### **Base-URL**:
+https://demo-2-ticketguru-oktiimi.2.rahtiapp.fi/api
+
+---------
+
+#### **ROOLIT API**
 
 **1. Hae kaikki roolit**
 
   - **Metodi**: GET
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/roles
+  - **URL**: /roles
 
   - **Vastaus: 200 OK**
 
@@ -98,7 +185,7 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi
     
   - **Metodi**: GET
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/roles/{id}
+  - **URL**: /roles/{id}
 
   - **Parametrit**: id = roleId (Long)
   
@@ -121,7 +208,7 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi
     
   - **Metodi**: POST
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/roles
+  - **URL**: /roles
 
   - **Request Body (JSON)**: 
 
@@ -154,7 +241,7 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi
     
   - **Metodi**: PUT
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/roles/{id}
+  - **URL**: /roles/{id}
 
   - **Parametrit**: id = roleId (Long)
 
@@ -185,37 +272,32 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi
 }
   ```
   - **Virhe**: 
-    - **404 Not Found**
-    - **400 Bad Request** 
+    - 404 Not Found
+    - 400 Bad Request
 
 **5. Poista roolin ID:llä**
 
   - **Metodi**: DELETE
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/users/{id}
+  - **URL**: /roles/{id}
 
-  - **Parametrit**: id = käyttäjän Id (Long)
+  - **Parametrit**: id = roolin Id (Long)
 
   - **Vastaus: 204 No Content**
 
   - **Virhe**: 
-    - **404 Not Found**
+    - 404 Not Found
 
------------------------------------
+
 
 ### KÄYTTÄJÄT API
 
-#### Base-URL:
-https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/users
-
-
-#### Endpointit
 
 **1. Hae kaikki käyttäjät**
 
   - **Metodi**: GET
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/users
+  - **URL**: /users
 
   - **Vastaus: 200 OK**
 
@@ -251,7 +333,7 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/users
     
   - **Metodi**: GET
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/users/{id}
+  - **URL**: /users/{id}
 
   - **Parametrit**: id = käyttäjän id (Long)
   
@@ -281,7 +363,7 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/users
     
   - **Metodi**: POST
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/users
+  - **URL**: /users
 
   - **Request Body (JSON)**: 
 
@@ -329,7 +411,7 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/users
     
   - **Metodi**: PUT
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/users/{id}
+  - **URL**: /users/{id}
 
   - **Parametrit**: id = käyttäjän Id (Long)
 
@@ -381,30 +463,24 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/users
 
   - **Metodi**: DELETE
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/users/{id}
+  - **URL**: /users/{id}
 
   - **Parametrit**: id = käyttäjän Id (Long)
 
-  - **Vastaus: 204 No Content**
+  - **Vastaus**: 204 No Content
 
   - **Virhe**: 
-    - **404 Not Found**
+    - 404 Not Found
 
------------------------------------
 
 ### LIPUNTYYPIT API
 
-#### Base-URL:
-https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/ticketTypes
-
-
-#### Endpointit
 
 **1. Hae kaikki lipuntyypit**
 
   - **Metodi**: GET
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickettypes
+  - **URL**: /tickettypes
 
   - **Vastaus: 200 OK**
 
@@ -431,7 +507,7 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/ticketTypes
     
   - **Metodi**: GET
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickettypes/{id}
+  - **URL**: /tickettypes/{id}
 
   - **Parametrit**: id = ticketTypeId (Long)
   
@@ -447,14 +523,14 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/ticketTypes
 ```
 
   - **virhe**:
-     - **404 Not Found**
+     - 404 Not Found
   
 
 **3. Luo uusi lipuntyyppi**
     
   - **Metodi**: POST
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickettypes
+  - **URL**: /tickettypes
 
   - **Request Body (JSON)**: 
 
@@ -482,13 +558,13 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/ticketTypes
     }
   ```
   - **virhe**:
-     - esim. **400 Bad request**
+     - esim. 400 Bad request
 
 **4. Päivitä lipuntyypin ID:llä**
     
   - **Metodi**: PUT
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickettypes/{id}
+  - **URL**: /tickettypes/{id}
 
   - **Parametrit**: id = ticketTypeId (Long)
 
@@ -519,34 +595,29 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/ticketTypes
 }
   ```
   - **Virhe**: 
-    - **400 Bad Request** 
+    - 400 Bad Request 
 
 **5. Poista lipuntyypin ID:llä**
 
   - **Metodi**: DELETE
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickettypes/{id}
+  - **URL**: /tickettypes/{id}
 
   - **Parametrit**: id = ticketTypeId (Long)
 
   - **Vastaus: 204 No Content**
 
   - **Virhe**: 
-    - **404 Not Found**
+    - 404 Not Found
 
-
------------------------------------------------
 
 ### TAPAHTUMAT API
 
-#### Base-URL:
-http://localhost:8080/api/events
-
 #### Huomio päivämärästä:
 
-- Päivämäärä**: YYYY-MM-DD (esim. "2025-10-05")
+- **Päivämäärä**: YYYY-MM-DD (esim. "2025-10-05")
 
-- Päivämäärä ja aika**: YYYY-MM-DDTHH:MM:SS (esim. "2025-10-10T18:00:00")
+- **Päivämäärä ja aika**: YYYY-MM-DDTHH:MM:SS (esim. "2025-10-10T18:00:00")
 
 #### Endpointit
 
@@ -554,7 +625,7 @@ http://localhost:8080/api/events
 
   - **Metodi**: GET
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/events
+  - **URL**: /events
 
   - **Vastaus: 200 OK**
 
@@ -584,7 +655,7 @@ http://localhost:8080/api/events
     
   - **Metodi**: GET
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/events/{id}
+  - **URL**: /events/{id}
 
   - **Parametrit**: id = tapahtuman Id (Long)
 
@@ -608,7 +679,7 @@ http://localhost:8080/api/events
     
   - **Metodi**: POST
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/events
+  - **URL**: /events
 
   - **Request Body (JSON)**: 
 
@@ -656,7 +727,7 @@ http://localhost:8080/api/events
     
   - **Metodi**: PUT
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/events/{id}
+  - **URL**: /events/{id}
 
   - **Parametrit**: id = tapahtuman Id (Long)
 
@@ -694,36 +765,31 @@ http://localhost:8080/api/events
 
   - **Metodi**: DELETE
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/events/api/{id}
+  - **URL**: /events/{id}
 
   - **Parametri**: id = tapahtuman Id (Long)
 
   - **Vastaus: 204 No Content**
 
   - **Virhe:**
-    - **404 Not Found** 
+    - 404 Not Found
 
 
 -----------------------------------
 
 ### LIPUNMYYNTI API
 
-#### Base-URL:
-https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/ticketsales
-
 #### Huomio päivämärästä:
 
-- Päivämäärä: YYYY-MM-DD (esim. "2025-10-05")
+- **Päivämäärä**: YYYY-MM-DD (esim. "2025-10-05")
 
-- Päivämäärä ja aika: YYYY-MM-DDTHH:MM:SS (esim. "2025-10-10T18:00:00")
-
-#### Endpointit
+- **Päivämäärä ja aika**: YYYY-MM-DDTHH:MM:SS (esim. "2025-10-10T18:00:00")
 
 **1. Hae kaikki lipunmynnit**
 
   - **Metodi**: GET
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/ticketsales
+  - **URL**: /ticketsales
 
   - **Vastaus: 200 OK**
 
@@ -790,7 +856,7 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/ticketsales
     
   - **Metodi**: GET
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/ticketsales/api/{id}
+  - **URL**: /ticketsales/{id}
 
   - **Parametrit**: id = saleId (Long)
   
@@ -873,13 +939,13 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/ticketsales
 
 ```
   - **Virhe**: 
-    - **404 Not Found**
+    - 404 Not Found
 
 **3. Luo uusi lipunmyynti**
     
   - **Metodi**: POST
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/ticketsales/api
+  - **URL**: /ticketsales
 
   - **Request Body (JSON)**: 
 
@@ -982,9 +1048,9 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/ticketsales
     
   - **Metodi**: PUT
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/ticketsales/api/{id}
+  - **URL**:/ticketsales/{id}
 
-  - **Parametrit**: id = tapahtuman Id (Long)
+  - **Parametrit**: id = saleId (Long)
 
   - **Request Body (JSON)**: 
 
@@ -1075,78 +1141,75 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/ticketsales
 
   - **Metodi**: DELETE
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/ticketsales/api/{id}
+  - **URL**:ticketsales/{id}
 
   - **Parametrit**: id = saleId (Long)
 
-  - **Vastaus: 204 No Content**
+  - **Vastaus**: 
+      - 204 No Content
 
   - **Virhe**: 
-    - **404 Not Found**
+    - 404 Not Found
 
------------------------------------
 
 ### LIPUT API
 
-#### Base-URL:
-https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickets
-
-
-#### Endpointit
 
 **1. Hae kaikki myydyt liput**
 
   - **Metodi**: GET
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickets
+  - **URL**: /tickets
 
   - **Vastaus: 200 OK**
 
 ```json
 [
-     {
-        "ticketId": 1,
-        "ticketCode": 1001,
-        "ticketTypeId": {
-            "ticketTypeId": 3,
-            "ticketName": "Senior",
-            "price": 20.0
-        },
-        "eventId": {
-            "eventId": 1,
-            "eventName": "Rock Night",
-            "eventLocation": "Päivitetty uusi arena",
-            "eventCity": "Helsinki",
-            "eventDate": "2025-10-31",
-            "eventDescription": "Live rock music",
-            "maxNumberOfTickets": 500
-        }
-    },
     {
-        "ticketId": 2,
-        "ticketCode": 1002,
-        "ticketTypeId": {
-            "ticketTypeId": 1,
-            "ticketName": "Adult",
-            "price": 30.0
-        },
-        "eventId": {
-            "eventId": 1,
-            "eventName": "Rock Night",
-            "eventLocation": "Päivitetty uusi arena",
-            "eventCity": "Helsinki",
-            "eventDate": "2025-10-31",
-            "eventDescription": "Live rock music",
-            "maxNumberOfTickets": 500
-        }
+      "ticketId": 1,
+      "ticketCode": 1001,
+      "ticketTypeId": {
+      "ticketTypeId": 1,
+      "ticketName": "Adult",
+      "price": 30
+      },
+      "eventId": {
+      "eventId": 1,
+      "eventName": "Rock Night",
+      "eventLocation": "Arena",
+      "eventCity": "Helsinki",
+      "eventDate": "2026-10-10",
+      "eventDescription": "Live rock music",
+      "maxNumberOfTickets": 500
+      },
+      "used": false
+      },
+    {
+      "ticketId": 2,
+      "ticketCode": 1002,
+      "ticketTypeId": {
+      "ticketTypeId": 1,
+      "ticketName": "Adult",
+      "price": 30
+      },
+      "eventId": {
+      "eventId": 1,
+      "eventName": "Rock Night",
+      "eventLocation": "Arena",
+      "eventCity": "Helsinki",
+      "eventDate": "2026-10-10",
+      "eventDescription": "Live rock music",
+      "maxNumberOfTickets": 500
+      },
+      "used": false
     }
-]
+  ]
 ```
 **2. Hae myydyn lipun ID:llä**
     
   - **Metodi**: GET
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickets/{id}
+  - **URL**: tickets/{id}
 
   - **Parametrit**: id = ticketId (Long)
   
@@ -1154,42 +1217,114 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickets
 
 ```json
 
- {
-    "ticketId": 1,
-    "ticketCode": 1001,
-    "ticketTypeId": {
-        "ticketTypeId": 1,
-        "ticketName": "Adult",
-        "price": 30.0
-    },
-    "eventId": {
-        "eventId": 1,
-        "eventName": "Rock Night",
-        "eventLocation": "Päivitetty uusi arena",
-        "eventCity": "Helsinki",
-        "eventDate": "2025-10-31",
-        "eventDescription": "Live rock music",
-        "maxNumberOfTickets": 500
+    {
+      "ticketId": 1,
+      "ticketCode": 1001,
+      "ticketTypeId": {
+      "ticketTypeId": 1,
+      "ticketName": "Adult",
+      "price": 30
+      },
+      "eventId": {
+      "eventId": 1,
+      "eventName": "Rock Night",
+      "eventLocation": "Arena",
+      "eventCity": "Helsinki",
+      "eventDate": "2026-10-10",
+      "eventDescription": "Live rock music",
+      "maxNumberOfTickets": 500
+      },
+      "used": false
     }
-}
 ```
   - **Virhe**: 
 
-    - **null**
+    - null
 
-**3. Etsi lippu ticketCodella**
-  - **URL**: api/tickets/check?ticketCode={ticketCode}
-  - **Vastaus** 200 OK
-  - **Virhe** 404 Not Found
+**3. Hae lippu lipunkoodilla**
+
+  - **Metodi**: GET
+
+  - **URL**: /tickets/check?ticketCode={ticketCode}
+
+  - **Vastaus:** 200 OK
+  
+
+```json
+
+    {
+      "ticketId": 1,
+      "ticketCode": 1001,
+      "ticketTypeId": {
+      "ticketTypeId": 1,
+      "ticketName": "Adult",
+      "price": 30
+      },
+      "eventId": {
+      "eventId": 1,
+      "eventName": "Rock Night",
+      "eventLocation": "Arena",
+      "eventCity": "Helsinki",
+      "eventDate": "2026-10-10",
+      "eventDescription": "Live rock music",
+      "maxNumberOfTickets": 500
+      },
+      "used": false
+    }
+```
+
+
+  - **Virhe:** 404 Not Found
+
 
 **. Merkitse lippu käytetyksi**
-  - **URL**: /api/tickets/use?ticketCode={ticketCode} 
+  - **Metodi**: PATCH
+
+  - **URL**: /tickets/use?ticketCode={ticketCode} 
+
+  - **Parametrit**: ticketCode (Long)
+
+  - **Vastaus** : 200OK
+
+```json
+
+    {
+    "status": "SUCCESS",
+    "message": "Ticket marked as used successfully",
+    "ticket": {
+        "ticketId": 1,
+        "ticketCode": 1001,
+        "ticketTypeId": {
+            "ticketTypeId": 1,
+            "ticketName": "Adult",
+            "price": 30
+        },
+        "eventId": {
+            "eventId": 1,
+            "eventName": "Rock Night",
+            "eventLocation": "Arena",
+            "eventCity": "Helsinki",
+            "eventDate": "2026-10-10",
+            "eventDescription": "Live rock music",
+            "maxNumberOfTickets": 500
+        },
+        "used": true
+    }
+}
+```
+
+  - **Virheet**:
+    - 400 ERROR: Lipun koodi ei ole numeromuodossa
+
+    - 400 ALREADY_USED: Lippu on jo merkitty käytetyksi
+
+    - 404 NOT FOUND : Lipun koodilla ei löytynyt lippua.
 
 **4. Luo uusi myyty lippu**
     
   - **Metodi**: POST
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickets
+  - **URL**: /tickets
 
   - **Request Body (JSON)**: 
 
@@ -1241,7 +1376,7 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickets
     
   - **Metodi**: PUT
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickets/{id}
+  - **URL**: /tickets/{id}
 
   - **Parametrit**: id = ticketId (Long)
 
@@ -1290,30 +1425,25 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickets
 
   - **Metodi**: DELETE
 
-  - **URL**: https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickets/{id}
+  - **URL**: /tickets/{id}
 
   - **Parametrit**: id = ticketId (Long)
 
   - **Vastaus: 204 No Content**
 
   - **Virhe**: 
-    - **404 Not Found**
+    - 404 Not Found
    
 
 
-**8. Merkitse lippu käytetyksi**
-  - **URL**: /api/tickets/use?ticketCode={ticketCode} 
+### **5.4 Turvallisuusratkaisu**
 
-
-## Turvallisuusratkaisu
-
---------------------------------------
 
 - Sovelluksen tietoturva on toteutettu **Spring Security -kirjastolla (WebSecurityConfig)**.
 
 - Käytössä on **HTTP Basic -autentikointi**, jossa käyttäjät tunnistautuvat **käyttäjätunnuksella ja salasanalla**.
 
-- Salasanat turvallisesti **BCryptPasswordEncoder**:lla.
+- Salasanat tallennetaan turvallisesti **BCryptPasswordEncoder**:lla.
 
 - Kaikki API-endpointit vaativat **autentikoinnin**.
 
@@ -1352,20 +1482,168 @@ https://demo-ticketguru-oktiimi.2.rahtiapp.fi/api/tickets
         - Käyttäjä yrittää avata /api/events ilman tunnistautumista.
 
 
-
-## Tietokannan pysyvä ratkaisu
-
---------------------------------------
-
-- Sovelluken pysyvä tietokanta on toteutettu käyttäen **PostgreSQL**, koska se integroituu sujuvasti Springbootin/JPA:n kanssa.
-- Ohjelmistomme aikaisempi H2-tietokanta on jätetty myös käytettäväksi kehitysvaiheessa, jotta datan tallennusta voidaan testata.
-
-
-
-## Testaus
+## **6. Testaus**
 
 --------------------------------------
 
 TicketGuru-ohjelmiston testaus toteutettiin monitasoisesti, jotta järjestelmän toimivuus, luotettavuus ja laadukkuus voitiin varmistaa kaikilla tasoilla. Testaus koostui yksikkötestauksesta, integraatiotestauksesta sekä end-to-end-testauksesta. Näiden kolmen testausmenetelmän yhdistelmällä varmistettiin, että sekä sovelluksen pienimmät komponentit että koko järjestelmä toimivat suunnitellulla tavalla.
 
-Yksikkötesteillä varmistuttiin yksittäisten metodien ja luokkien toimivuus erillään muusta ohjelmistosta. Integraatiotestauksella varmistuttiin muun muassa controller-luokat ja repositoriot toimivat odotetusti yhdessä ja tieto tallentuu suunnitellusti tietokantaan. End-to-end testit puolestaan testasivat nimensä mukaisesti ohjelmiston toiminnan alusta loppuun.
+ - **Yksikkötestaus** testaa yksittäisten metodien ja luokkien toiminnan erillään muusta sovelluksesta. Sovelluksessa suoritettiin **JUnit-testit** kaikille entiteeteille, varmistaen niiden oikean toiminnan ja validoinnit.
+ 
+ - **Integraatiotestaus** varmistaa eri komponenttien, kuten controllerien ja repositoryjen, yhteistoiminnan sekä tietojen tallentumisen oikein tietokantaan.
+ 
+ - **End-to-end testaus** testaa koko järjestelmän toiminnan käyttäjän näkökulmasta alusta loppuun, esimerkiksi lipun luonti, tarkistus ja käytetyksi merkitseminen.
+
+ Kaikki testit suoritettiin onnistuneesti.Testauksen avulla varmistettiin järjestelmän luotettavuus, virheettömyys ja käyttövalmius tuotantoympäristöön.
+
+## **7. Asennustiedot**
+
+  ### 7.1 Tarvittavat ohjelmistot ja työkalut:
+
+  - Java JDK 17 tai uudempi
+
+  - Maven
+
+  - IDE: VS Code ( tai IntelliJ IDEA)
+
+  - PostgreSQL ( v.18 tai uusin)
+
+  - Git
+
+  ### 7.2 Projektin  kloonaaminen
+
+   - Avaa terminaali tai komentorivi
+
+  - Kloona Git-repositorio 
+
+          git clone https://github.com/anniinakettunen/TicketGuru-OKTiimi.git
+
+   - Siirry projektihakemistoon komennolla 
+        
+          cd ticketguru
+
+
+### 7.3 Spring Boot -profiili
+
+- Sovellus käyttää eri Spring Boot -profiileja tietokannan ja konfiguraation hallintaan:
+
+    | Profiili | Kuvaus | Tietokanta |
+    |----------|--------|------------|
+    | dev     | Kehitysympäristö | H2 (in-memory) |
+    | prod      | Kehitysympäristö paikallisessa koneessa | PostgreSQL (paikallinen) |
+    | test    | Tuotantoympäristö | PostgreSQL |
+
+- Profiilit määritellään `application-{profiili}.properties` -tiedostoissa.  
+
+- Sovelluksen profiili aktivoidaan ympäristömuuttujalla `SPRING_PROFILES_ACTIVE`.  
+  
+- Esimerkiksi
+
+        export SPRING_PROFILES_ACTIVE=prod
+        mvn spring-boot:run
+
+- jos muuttujaa ei ole asetettu, käytetään oletuksena `dev`-profiilia.
+
+### 7.3 Kehitysympäristö:
+
+Tässä osassa kuvataan, miten sovelluksen kehitysympäristö voidaan rakentaa uudelle koneelle.
+
+  ### 7.3.1 PostgreSQL -tietokannan luonti paikallisesti( PostgreSQL sovelluksella)
+  
+  - Avaa PostgreSQL-sovellus
+
+  - Luo uusi PostgreSQl -tietokanta `ticketguru`.
+
+  - Luo uusi käyttäjä ja salasana:
+
+        Käyttäjätunnus : ticketguru
+
+        Salasana : okTiimi
+  
+  - Anna käyttäjälle käyttöoikeudet tietokantaan
+
+  - Varmista, että `application-test.properties` tiedostossa on oikeat tiedot.
+
+        spring.datasource.url=jdbc:postgresql://localhost:5432/ticketguru
+        spring.datasource.username=ticketguru
+        spring.datasource.password=okTiimi
+        spring.datasource.driver-class-name=org.postgresql.Driver
+        spring.jpa.hibernate.ddl-auto=none
+        spring.jpa.show-sql=true
+        spring.jpa.properties.hibernate.format_sql=true
+        spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+
+### 7.3.2 Sovelluksen käynnistäminen
+    
+- Sovellus voidaan käynnistää Mavenilla valitulla profiililla (`dev`, `test` tai `prod`)
+
+-  Esimerkki: 
+
+        # Linux / macOS
+          export SPRING_PROFILES_ACTIVE=test 
+          mvn spring-boot:run
+
+        # Windows PowerShell
+          $env:SPRING_PROFILES_ACTIVE="prod" 
+          mvn spring-boot:run
+
+- Tämä varmistaa, että sovellus käyttää oikeaa tietokantaa ja asetuksia valitun profiilin mukaisesti.
+
+
+### 7.4 Tuotantoympäristö ( CSC Rahti)
+
+   #### 7.4.1 PostgreSQL -tietokannan luonti ( Rahti)
+
+ - Luo PostgreSQl-tietokannan
+
+        Esimerkiksi:
+
+        - Käyttäjätunnus : ticketguru
+
+        - Salasana : okTiimi
+
+ - Tietokannan tiedot (osoite, käyttäjätunnus ja salasana) tulee määritellä `application-prod.properties` tiedostossa:
+
+        spring.datasource.url=jdbc:postgresql://<PALVELIN_OSOITE>:5432/ticketguru
+        spring.datasource.username=ticketguru
+        spring.datasource.password=okTiimi
+        spring.datasource.driver-class-name=org.postgresql.Driver
+
+        # Disable Hibernate automatic schema creation/update
+        spring.jpa.hibernate.ddl-auto=none
+
+        # Show SQL in console for debugging
+        spring.jpa.show-sql=true
+        spring.jpa.properties.hibernate.format_sql=true
+
+
+        spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+
+        spring.sql.init.mode=never
+        spring.sql.init.schema-locations=classpath:data.sql
+        spring.sql.init.data-locations=classpath:data.sql
+  
+#### 7.4.2 JAR-tiedoston rakentaminen
+
+- Paikallisesti koneella
+
+    mvn clean package
+
+- Tämä luo `target/ticketguru-0.0.1-SNAPSHOT.jar tiedoston`
+
+
+#### 7.4.3 Sovelluksen kännyistys CSC Rahtiin:
+
+- Lataa JAR-tiedosto Rahtiin
+
+- Määritä profiili : 
+
+     Optional Java arguments -kenttään seuraava komento:
+
+      --spring.profiles.active=test // PostgreSQl 
+
+      --spring.profiles.active=dev // H2-tietokanta
+
+- Rahti käynnistää sovelluksen automaattisesti JAR-tiedoston ja profiilin asetusten mukaisesti.
+
+
