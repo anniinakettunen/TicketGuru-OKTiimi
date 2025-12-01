@@ -80,7 +80,6 @@ TicketGurun tarkoituksena on tarjota lipputoimistolle keskitetty järjestelmä t
 
 ### **4.3 Tietokannan ratkaisu**
 
---------------------------------------
 
 - Sovelluken pysyvä tietokanta on toteutettu käyttäen **PostgreSQL**, koska se integroituu sujuvasti Springbootin/JPA:n kanssa.
 
@@ -99,7 +98,7 @@ TicketGurun tarkoituksena on tarjota lipputoimistolle keskitetty järjestelmä t
 
 --------------------------------
 
-## **5.Tekninen kuvaus**
+## **5. Tekninen kuvaus**
 
 ### **5.1 Järjestelmän yleiskuva**
 
@@ -132,8 +131,6 @@ Komponenttien väliset yhteydet:
 
   - Server ja tietokanta kommunikoivat JPA/Hibernate -yhteyksin.
 
-
------------------
 
 ### **5.2 Palvelintoteutus** 
 
@@ -775,7 +772,6 @@ https://demo-2-ticketguru-oktiimi.2.rahtiapp.fi/api
     - 404 Not Found
 
 
------------------------------------
 
 ### LIPUNMYYNTI API
 
@@ -1482,9 +1478,10 @@ https://demo-2-ticketguru-oktiimi.2.rahtiapp.fi/api
         - Käyttäjä yrittää avata /api/events ilman tunnistautumista.
 
 
+
+-------------------
 ## **6. Testaus**
 
---------------------------------------
 
 TicketGuru-ohjelmiston testaus toteutettiin monitasoisesti, jotta järjestelmän toimivuus, luotettavuus ja laadukkuus voitiin varmistaa kaikilla tasoilla. Testaus koostui yksikkötestauksesta, integraatiotestauksesta sekä end-to-end-testauksesta. Näiden kolmen testausmenetelmän yhdistelmällä varmistettiin, että sekä sovelluksen pienimmät komponentit että koko järjestelmä toimivat suunnitellulla tavalla.
 
@@ -1495,6 +1492,8 @@ TicketGuru-ohjelmiston testaus toteutettiin monitasoisesti, jotta järjestelmän
  - **End-to-end testaus** testaa koko järjestelmän toiminnan käyttäjän näkökulmasta alusta loppuun, esimerkiksi lipun luonti, tarkistus ja käytetyksi merkitseminen.
 
  Kaikki testit suoritettiin onnistuneesti.Testauksen avulla varmistettiin järjestelmän luotettavuus, virheettömyys ja käyttövalmius tuotantoympäristöön.
+
+---------------------
 
 ## **7. Asennustiedot**
 
