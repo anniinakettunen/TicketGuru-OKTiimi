@@ -8,7 +8,7 @@
 
 ## **1. Johdanto**
 
-### **1.1 TickeGuru**
+### **1.1 TicketGuru**
 TicketGuru on lipunmyyntijärjestelmä, joka on kehitetty lipputoimiston käyttöön tapahtumalippujen myyntiä varten. Järjestelmän avulla lipputoimisto voi luoda tapahtumia, määritellä niihin lipputyyppejä sekä myydä ja tulostaa lippuja myyntipisteessä. Järjestelmä on tarkoitettu ensisijaisesti lipunmyyjien ja tapahtumien sisäänkäyntihenkilökunnan käyttöön.
 
 Asiakkaana toimii lipputoimisto, joka haluaa keskitetyn ja helppokäyttöisen ratkaisun tapahtumien ja lipunmyynnin hallintaan. Järjestelmä tarjoaa asiakkaalle mahdollisuuden seurata myytyjä lippuja tapahtumakohtaisesti sekä tarkastaa ja merkitä liput käytetyiksi tapahtuman sisäänkäynnillä. Projektin päättyessä järjestelmä sisältää toiminnallisen myyntipistekäyttöön tarkoitetun lipunmyyntijärjestelmän.
