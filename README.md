@@ -95,6 +95,21 @@ TicketGurun tarkoituksena on tarjota lipputoimistolle keskitetty järjestelmä t
 
   Profiilien avulla voidaan vaihtaa tietokantaa ympäristökohtaisesti muuttamatta sovelluksen koodia.
 
+### **4.4 Testidata kehitystä varten**
+
+- Sovelluksen kehitystä ja testausta varten on luotu erillinen testidata. Testidatan avulla voidaan varmistaa, että sovellus toimii odotetusti eri tilanteissa.
+
+- Kehitysympäristössä käytämme H2-tietokantaa, joka ajetaan paikallisesti (localhost).
+
+- Testidata luodaan kahdella eri tavalla:
+
+    - Kovakodattu testidata DemoApplication.java -tiedostossa.
+
+    - SQL-tiedostot PostGreSQL:lle
+
+         1. **data-localPotgreSQL.sql** sisältää testidatan paikalliseen PostgreSQL-tietokantaan.
+         2. **data.sql** sisältää testidatan tuotantokäyttöön Rahti-palvelimella sijaitsevaan PostgreSQL-tietokantaan.
+
 
 --------------------------------
 
@@ -148,8 +163,55 @@ Komponenttien väliset yhteydet:
 
    - Serveri vastaanottaa clientin REST API -pyynnöt, käsittelee ne liiketoimintalogiikan mukaisesti ja tallentaa/hae tiedot tietokannasta.
 
+### **5.3 Turvallisuusratkaisu**
 
-### **5.3 REST- rajapinta**
+
+- Sovelluksen tietoturva on toteutettu **Spring Security -kirjastolla (WebSecurityConfig)**.
+
+- Käytössä on **HTTP Basic -autentikointi**, jossa käyttäjät tunnistautuvat **käyttäjätunnuksella ja salasanalla**.
+
+- Salasanat tallennetaan turvallisesti **BCryptPasswordEncoder**:lla.
+
+- Kaikki API-endpointit vaativat **autentikoinnin**.
+
+- **Käyttöoikeudet** määritellään käyttäjäroolien mukaan:
+
+    - **Admin**: käyttäjä, jolla on täydet oikeudet.
+
+    - **Myyjä**: käyttäjä, jolla on rajatut oikeudet.
+
+          | API Endpoint | Käyttöoikeudet |
+          |---------------|----------------|
+          | /api/users/** | vain ADMIN     |
+          | /api/roles/** | vain ADMIN     |
+          | Muut /api/**  | ADMIN ja MYYJÄ |
+
+- **Odotetut vastaukset**:
+
+    - **200 OK**: kirjautuminen onnistuu ja käyttäjällä on riittävät käyttöoikeudet kyseiseen endpointiin.
+
+        Esim.
+
+        - Myyjä-käyttäjä kirjautuu endpointiin /api/events
+
+        - Admin-käyttäjä kirjautuu onnistuneesti kaikkiin endpointteihin
+
+    - **403 Forbidden**: kirjautuminen onnistuu, mutta käyttöoikeudet eivät riitä kyseiseen endpointiin.
+
+        Esim.
+
+        - Myyjä-käyttäjä yrittää kirjautua endpointiin /api/roles tai /api/users
+
+    - **401 Unauthorized**: käyttäjä ei ole kirjautunut, tai kirjautuminen epäonnistuu. 
+
+        Esim.
+
+        - Käyttäjä yrittää avata /api/events ilman tunnistautumista.
+
+
+
+
+### **5.4 REST- rajapinta**
 
 TicketGuru hyödyntää REST API -rajapintoja, joiden avulla client ja server kommunikoivat.
 
@@ -1432,52 +1494,6 @@ https://demo-2-ticketguru-oktiimi.2.rahtiapp.fi/api
    
 
 
-### **5.4 Turvallisuusratkaisu**
-
-
-- Sovelluksen tietoturva on toteutettu **Spring Security -kirjastolla (WebSecurityConfig)**.
-
-- Käytössä on **HTTP Basic -autentikointi**, jossa käyttäjät tunnistautuvat **käyttäjätunnuksella ja salasanalla**.
-
-- Salasanat tallennetaan turvallisesti **BCryptPasswordEncoder**:lla.
-
-- Kaikki API-endpointit vaativat **autentikoinnin**.
-
-- **Käyttöoikeudet** määritellään käyttäjäroolien mukaan:
-
-    - **Admin**: käyttäjä, jolla on täydet oikeudet.
-
-    - **Myyjä**: käyttäjä, jolla on rajatut oikeudet.
-
-   | API Endpoint | Käyttöoikeudet |
-  |---------------|----------------|
-  | /api/users/** | vain ADMIN     |
-  | /api/roles/** | vain ADMIN     |
-  | Muut /api/**  | ADMIN ja MYYJÄ |
-
-- **Odotetut vastaukset**:
-
-    - **200 OK**: kirjautuminen onnistuu ja käyttäjällä on riittävät käyttöoikeudet kyseiseen endpointiin.
-
-        Esim.
-
-        - Myyjä-käyttäjä kirjautuu endpointiin /api/events
-
-        - Admin-käyttäjä kirjautuu onnistuneesti kaikkiin endpointteihin
-
-    - **403 Forbidden**: kirjautuminen onnistuu, mutta käyttöoikeudet eivät riitä kyseiseen endpointiin.
-
-        Esim.
-
-        - Myyjä-käyttäjä yrittää kirjautua endpointiin /api/roles tai /api/users
-
-    - **401 Unauthorized**: käyttäjä ei ole kirjautunut, tai kirjautuminen epäonnistuu. 
-
-        Esim.
-
-        - Käyttäjä yrittää avata /api/events ilman tunnistautumista.
-
-
 
 -------------------
 ## **6. Testaus**
@@ -1529,8 +1545,8 @@ TicketGuru-ohjelmiston testaus toteutettiin monitasoisesti, jotta järjestelmän
     | Profiili | Kuvaus | Tietokanta |
     |----------|--------|------------|
     | dev     | Kehitysympäristö | H2 (in-memory) |
-    | prod      | Kehitysympäristö paikallisessa koneessa | PostgreSQL (paikallinen) |
-    | test    | Tuotantoympäristö | PostgreSQL |
+    | test      | Kehitysympäristö paikallisessa koneessa | PostgreSQL (paikallinen) |
+    | prod    | Tuotantoympäristö | PostgreSQL |
 
 - Profiilit määritellään `application-{profiili}.properties` -tiedostoissa.  
 
@@ -1551,10 +1567,12 @@ Tässä osassa kuvataan, miten sovelluksen kehitysympäristö voidaan rakentaa u
   
   - Avaa PostgreSQL-sovellus
 
-  - Luo uusi PostgreSQl -tietokanta `ticketguru`.
+  - Luo uusi PostgreSQl -tietokanta esim. `ticketguru`.
 
   - Luo uusi käyttäjä ja salasana:
 
+        Esimerkki:
+        
         Käyttäjätunnus : ticketguru
 
         Salasana : okTiimi
@@ -1564,13 +1582,17 @@ Tässä osassa kuvataan, miten sovelluksen kehitysympäristö voidaan rakentaa u
   - Varmista, että `application-test.properties` tiedostossa on oikeat tiedot.
 
         spring.datasource.url=jdbc:postgresql://localhost:5432/ticketguru
-        spring.datasource.username=ticketguru
-        spring.datasource.password=okTiimi
+        spring.datasource.username=<käyttätunnus>
+        spring.datasource.password=<salasana>
         spring.datasource.driver-class-name=org.postgresql.Driver
         spring.jpa.hibernate.ddl-auto=none
         spring.jpa.show-sql=true
         spring.jpa.properties.hibernate.format_sql=true
         spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+
+        spring.sql.init.mode=always
+        spring.sql.init.data-locations=classpath:data-localPostgreSQL.sql
+
 
 ### 7.3.2 Sovelluksen käynnistäminen
     
@@ -1583,7 +1605,7 @@ Tässä osassa kuvataan, miten sovelluksen kehitysympäristö voidaan rakentaa u
           mvn spring-boot:run
 
         # Windows PowerShell
-          $env:SPRING_PROFILES_ACTIVE="prod" 
+          $env:SPRING_PROFILES_ACTIVE="test" 
           mvn spring-boot:run
 
 - Tämä varmistaa, että sovellus käyttää oikeaa tietokantaa ja asetuksia valitun profiilin mukaisesti.
@@ -1604,8 +1626,8 @@ Tässä osassa kuvataan, miten sovelluksen kehitysympäristö voidaan rakentaa u
  - Tietokannan tiedot (osoite, käyttäjätunnus ja salasana) tulee määritellä `application-prod.properties` tiedostossa:
 
         spring.datasource.url=jdbc:postgresql://<PALVELIN_OSOITE>:5432/ticketguru
-        spring.datasource.username=ticketguru
-        spring.datasource.password=okTiimi
+        spring.datasource.username=<käyttäjätunnus>
+        spring.datasource.password=<salasana>
         spring.datasource.driver-class-name=org.postgresql.Driver
 
         # Disable Hibernate automatic schema creation/update
@@ -1626,7 +1648,7 @@ Tässä osassa kuvataan, miten sovelluksen kehitysympäristö voidaan rakentaa u
 
 - Paikallisesti koneella
 
-    mvn clean package
+       mvn clean package
 
 - Tämä luo `target/ticketguru-0.0.1-SNAPSHOT.jar tiedoston`
 
@@ -1639,9 +1661,10 @@ Tässä osassa kuvataan, miten sovelluksen kehitysympäristö voidaan rakentaa u
 
      Optional Java arguments -kenttään seuraava komento:
 
-      --spring.profiles.active=test // PostgreSQl 
+      --spring.profiles.active=prod // PostgreSQl 
 
       --spring.profiles.active=dev // H2-tietokanta
+
 
 - Rahti käynnistää sovelluksen automaattisesti JAR-tiedoston ja profiilin asetusten mukaisesti.
 
