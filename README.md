@@ -149,7 +149,7 @@ Komponenttien väliset yhteydet:
 
 ### **5.2 Palvelintoteutus** 
 
-- Teknologiat: Java, Spring Boot, JPA/Hibernate, Maven.
+- Teknologiat: Java/Spring Boot, JPA/Hibernate, Maven.
 
 - Deployment:
 
