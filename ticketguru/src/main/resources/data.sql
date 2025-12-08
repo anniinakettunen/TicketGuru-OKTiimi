@@ -79,6 +79,9 @@
 -- =========================================
 -- Insert initial roles
 -- =========================================
+-- =========================================
+-- Insert roles
+-- =========================================
 INSERT INTO role (role_name) VALUES 
 ('MYYJÄ'),
 ('ADMIN')
@@ -100,7 +103,13 @@ INSERT INTO event (event_name, event_location, event_city, event_date, event_des
 VALUES 
 ('Rock Night', 'Arena', 'Helsinki', '2026-10-10', 'Live rock music', 500),
 ('Jazz Sunday', 'Jazz Club', 'Tampere', '2026-11-02', 'Smooth jazz evening', 150),
-('Tech Expo', 'Messukeskus', 'Espoo', '2026-12-20', 'Technology and innovation fair', 1000)
+('Tech Expo', 'Messukeskus', 'Espoo', '2026-12-20', 'Technology and innovation fair', 1000),
+('Rap Festial', 'Myyrmanni', 'Vantaa', '2026-09-15', 'Rapping show in the lounge', 750),
+('Pop Explosion', 'Hartwall Arena', 'Helsinki', '2026-08-20', 'Top pop artists performing live', 1200),
+('Classical Evening', 'Finnish National Opera', 'Helsinki', '2026-09-05', 'Orchestra and solo performances', 300),
+('EDM Beats', 'Ratinan Stadion', 'Tampere', '2026-07-15', 'Electronic music festival with DJs', 2000),
+('Shakespeare in Action', 'Espoo City Theatre', 'Espoo', '2026-11-18', 'Classic Shakespeare play performed live', 250),
+('Disney on Ice', 'Veikkaus Arena', 'Helsinki', '2026-12-05', 'Magical Disney on Ice show for all ages', 3000)
 ON CONFLICT (event_name, event_date) DO NOTHING;
 
 -- =========================================
@@ -110,7 +119,8 @@ INSERT INTO ticket_type (ticket_name, price)
 VALUES 
 ('Adult', 30.0),
 ('Child', 15.0),
-('Senior', 20.0)
+('Senior', 20.0),
+('Student', 25.0)
 ON CONFLICT (ticket_name) DO NOTHING;
 
 -- =========================================
@@ -118,25 +128,58 @@ ON CONFLICT (ticket_name) DO NOTHING;
 -- =========================================
 INSERT INTO ticket_sale (user_id, date_time, price)
 VALUES 
-((SELECT id FROM app_user WHERE username='oskari'), NOW(), 60.0),
-((SELECT id FROM app_user WHERE username='jaska'), NOW(), 45.0)
+((SELECT id FROM app_user WHERE username='oskari'), NOW(), 60.0),  -- Sale 1
+((SELECT id FROM app_user WHERE username='jaska'), NOW(), 45.0),   -- Sale 2
+((SELECT id FROM app_user WHERE username='oskari'), NOW(), 90.0),  -- Sale 3
+((SELECT id FROM app_user WHERE username='jaska'), NOW(), 35.0)    -- Sale 4
 ON CONFLICT DO NOTHING;
 
 -- =========================================
 -- Insert tickets
 -- =========================================
-INSERT INTO ticket (ticket_code, ticket_type_id, event_id, sale_id)
+INSERT INTO ticket (ticket_code, ticket_type_id, event_id, sale_id, used)
 VALUES 
-(1001,(SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Adult'),
-      (SELECT event_id FROM event WHERE event_name='Rock Night'),
-      (SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='oskari') ORDER BY date_time DESC LIMIT 1)),
-(1002,(SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Adult'),
-      (SELECT event_id FROM event WHERE event_name='Rock Night'),
-      (SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='oskari') ORDER BY date_time DESC LIMIT 1)),
-(2001,(SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Adult'),
-      (SELECT event_id FROM event WHERE event_name='Jazz Sunday'),
-      (SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='jaska') ORDER BY date_time DESC LIMIT 1)),
-(2002,(SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Child'),
-      (SELECT event_id FROM event WHERE event_name='Jazz Sunday'),
-      (SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='jaska') ORDER BY date_time DESC LIMIT 1))
+-- Sale 1 (oskari)
+(1001, (SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Adult'),
+       (SELECT event_id FROM event WHERE event_name='Rock Night'),
+       (SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='oskari') ORDER BY date_time DESC LIMIT 4 OFFSET 3),
+       false),
+(1002, (SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Adult'),
+       (SELECT event_id FROM event WHERE event_name='Rock Night'),
+       (SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='oskari') ORDER BY date_time DESC LIMIT 4 OFFSET 3),
+       false),
+
+-- Sale 2 (jaska)
+(2001, (SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Adult'),
+       (SELECT event_id FROM event WHERE event_name='Jazz Sunday'),
+       (SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='jaska') ORDER BY date_time DESC LIMIT 4 OFFSET 2),
+       false),
+(2002, (SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Child'),
+       (SELECT event_id FROM event WHERE event_name='Jazz Sunday'),
+       (SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='jaska') ORDER BY date_time DESC LIMIT 4 OFFSET 2),
+       false),
+
+-- Sale 3 (oskari)
+(1003, (SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Adult'),
+       (SELECT event_id FROM event WHERE event_name='Tech Expo'),
+       (SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='oskari') ORDER BY date_time DESC LIMIT 4 OFFSET 1),
+       false),
+(1004, (SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Adult'),
+       (SELECT event_id FROM event WHERE event_name='Tech Expo'),
+       (SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='oskari') ORDER BY date_time DESC LIMIT 4 OFFSET 1),
+       false),
+(1005, (SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Adult'),
+       (SELECT event_id FROM event WHERE event_name='Tech Expo'),
+       (SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='oskari') ORDER BY date_time DESC LIMIT 4 OFFSET 1),
+       false),
+
+-- Sale 4 (jaska)
+(2003, (SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Adult'),
+       (SELECT event_id FROM event WHERE event_name='Rap Festial'),
+       (SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='jaska') ORDER BY date_time DESC LIMIT 4 OFFSET 0),
+       false),
+(2004, (SELECT ticket_type_id FROM ticket_type WHERE ticket_name='Student'),
+       (SELECT event_id FROM event WHERE event_name='Rap Festial'),
+       (SELECT sale_id FROM ticket_sale WHERE user_id=(SELECT id FROM app_user WHERE username='jaska') ORDER BY date_time DESC LIMIT 4 OFFSET 0),
+       false)
 ON CONFLICT (ticket_code) DO NOTHING;

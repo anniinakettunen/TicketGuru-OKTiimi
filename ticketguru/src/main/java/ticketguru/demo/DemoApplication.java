@@ -37,13 +37,37 @@ TicketRepository ticketRepository) {
 return (args) -> {
 // --- Create events ---
 Event rockEvent = eventRepository.save(new Event("Rock Night", "Arena", "Helsinki",
-LocalDate.of(2026, 10, 10), "Live rock music", 500));
+        LocalDate.of(2026, 10, 10), "Live rock music", 500));
+
 Event jazzEvent = eventRepository.save(new Event("Jazz Sunday", "Jazz Club", "Tampere",
-LocalDate.of(2026, 11, 2), "Smooth jazz evening", 150));
+    LocalDate.of(2026, 11, 2), "Smooth jazz evening", 150));
+
 Event techEvent = eventRepository.save(new Event("Tech Expo", "Messukeskus", "Espoo",
-LocalDate.of(2026, 12,20), "Technology and innovation fair", 1000));
+    LocalDate.of(2026, 12,20), "Technology and innovation fair", 1000));
+
 Event rapFestival = eventRepository.save(new Event("Rap Festial", "Myyrmanni", "Vantaa",
-LocalDate.of(2026, 9, 15), "Rapping show in the lounge", 750))
+    LocalDate.of(2026, 9, 15), "Rapping show in the lounge", 750));
+
+Event popConcert = eventRepository.save(new Event(
+    "Pop Explosion", "Hartwall Arena", "Helsinki",
+    LocalDate.of(2026, 8, 20), "Top pop artists performing live", 1200));
+
+Event classicalEvening = eventRepository.save(new Event(
+    "Classical Evening", "Finnish National Opera", "Helsinki",
+    LocalDate.of(2026, 9, 5), "Orchestra and solo performances", 300));
+
+Event edmFestival = eventRepository.save(new Event(
+    "EDM Beats", "Ratinan Stadion", "Tampere",
+    LocalDate.of(2026, 7, 15), "Electronic music festival with DJs", 2000));
+
+Event theatrePlay = eventRepository.save(new Event(
+    "Shakespeare in Action", "Espoo City Theatre", "Espoo",
+    LocalDate.of(2026, 11, 18), "Classic Shakespeare play performed live", 250));
+Event disneyOnIce = eventRepository.save(new Event(
+    "Disney on Ice", "Veikkaus Arena", "Helsinki",
+    LocalDate.of(2026, 12, 5), "Magical Disney on Ice show for all ages", 3000));
+
+
 // --- Create roles ---
 Role sellerRole = new Role();
 sellerRole.setRoleName("MYYJÄ");
@@ -51,13 +75,9 @@ roleRepository.save(sellerRole);
 Role adminRole = new Role();
 adminRole.setRoleName("ADMIN");
 roleRepository.save(adminRole);
-Role customerRole = new Role();
-customerRole.setRoleName("ASIAKAS");
-roleRepository.save(customerRole);
-Role leaderRole = new Role();
-leaderRole.setRoleName("JOHTAJA");
-rolerepository.save(leaderRole);
+
 PasswordEncoder encoder = new BCryptPasswordEncoder();
+
 // --- Create users ---
 AppUser demoUser1 = new AppUser();
 demoUser1.setUsername("oskari");
@@ -77,24 +97,7 @@ demoUser2.setEmail("jaska.jokunen@hotmail.com");
 demoUser2.setPhone("87654321");
 demoUser2.setRole(adminRole);
 userRepository.save(demoUser2);
-AppUser demoUser3 = new AppUser();
-demoUser3.setUsername("donald");
-demoUser3.setPasswordHash(encoder.encode("demo3"));
-demoUser3.setFirstName("Donald");
-demoUser3.setLastName("Trump");
-demoUser3.setEmail("donald.trump@gmail.com");
-demoUser3.setPhone("11223344");
-demoUser3.setRole(customerRole);
-userRepository.save(demoUser3);
-AppUser demoUser4 = new AppUser();
-demoUser4.setUsername("cristiano");
-demoUser4.setPasswordHash(encoder.encode("demo4"));
-demoUser4.setFirstname("Cristiano");
-demoUser4.setLastname("Ronaldo");
-demoUser4.setEmail("cristiano.ronaldo@gmail.com");
-demoUser4.setPhone("55667788");
-demoUser4.setRole(leaderRole);
-userRepository.save(demoUser4);
+
 // --- Create ticket types ---
 TicketType adult = ticketTypeRepository.save(new TicketType("Adult", 30.0));
 TicketType child = ticketTypeRepository.save(new TicketType("Child", 15.0));
@@ -142,6 +145,62 @@ ticket4.setEventId(jazzEvent);
 ticket4.setTicketSale(sale2);
 ticket4.setUsed(false);
 ticketRepository.save(ticket4);
+
+// --- Sale 3 for demoUser1 ---
+TicketSale sale3 = new TicketSale();
+sale3.setUser(demoUser1);
+sale3.setDateTime(LocalDateTime.now());
+sale3.setPrice(BigDecimal.valueOf(90.0)); // 3 adult tickets
+ticketSaleRepository.save(sale3);
+
+Ticket ticket5 = new Ticket();
+ticket5.setTicketCode(1003L);
+ticket5.setTicketTypeId(adult);
+ticket5.setEventId(techEvent);
+ticket5.setTicketSale(sale3);
+ticket5.setUsed(false);
+ticketRepository.save(ticket5);
+
+Ticket ticket6 = new Ticket();
+ticket6.setTicketCode(1004L);
+ticket6.setTicketTypeId(adult);
+ticket6.setEventId(techEvent);
+ticket6.setTicketSale(sale3);
+ticket6.setUsed(false);
+ticketRepository.save(ticket6);
+
+Ticket ticket7 = new Ticket();
+ticket7.setTicketCode(1005L);
+ticket7.setTicketTypeId(adult);
+ticket7.setEventId(techEvent);
+ticket7.setTicketSale(sale3);
+ticket7.setUsed(false);
+ticketRepository.save(ticket7);
+
+// --- Sale 4 for demoUser2 ---
+TicketSale sale4 = new TicketSale();
+sale4.setUser(demoUser2);
+sale4.setDateTime(LocalDateTime.now());
+sale4.setPrice(BigDecimal.valueOf(55.0)); // 1 adult + 1 child
+ticketSaleRepository.save(sale4);
+
+Ticket ticket8 = new Ticket();
+ticket8.setTicketCode(2003L);
+ticket8.setTicketTypeId(adult);
+ticket8.setEventId(rapFestival);
+ticket8.setTicketSale(sale4);
+ticket8.setUsed(false);
+ticketRepository.save(ticket8);
+
+Ticket ticket9 = new Ticket();
+ticket9.setTicketCode(2004L);
+ticket9.setTicketTypeId(student);
+ticket9.setEventId(rapFestival);
+ticket9.setTicketSale(sale4);
+ticket9.setUsed(false);
+ticketRepository.save(ticket9);
+
+
 };
 }
 }
