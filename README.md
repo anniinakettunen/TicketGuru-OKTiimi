@@ -1338,7 +1338,7 @@ https://demo-2-ticketguru-oktiimi.2.rahtiapp.fi/api
 **. Merkitse lippu käytetyksi**
   - **Metodi**: PATCH
 
-  - **URL**: /tickets/use?ticketCode={ticketCode} 
+  - **URL**: /tickets/use/{ticketCode} 
 
   - **Parametrit**: ticketCode (Long)
 

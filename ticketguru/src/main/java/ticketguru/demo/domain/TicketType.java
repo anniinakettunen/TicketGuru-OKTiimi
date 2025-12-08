@@ -15,7 +15,6 @@ public class TicketType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ticketTypeId;
 
-    @NotBlank(message = "Ticket name cannot be blank")
     private String ticketName;
 
     @NotNull(message = "Price cannot be null")

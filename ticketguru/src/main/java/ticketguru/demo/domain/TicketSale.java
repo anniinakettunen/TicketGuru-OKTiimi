@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.CascadeType;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,7 +40,8 @@ public class TicketSale {
     @JoinColumn(name = "user_id", nullable = false) 
     private AppUser user; 
 
-    @OneToMany(mappedBy = "ticketSale")  // Yksi TicketSale voi sisältää useita lippuja
+    @OneToMany(mappedBy = "ticketSale",cascade = CascadeType.ALL, 
+    orphanRemoval = true)  // Yksi TicketSale voi sisältää useita lippuja
     @JsonManagedReference
     private List<Ticket> tickets;
 

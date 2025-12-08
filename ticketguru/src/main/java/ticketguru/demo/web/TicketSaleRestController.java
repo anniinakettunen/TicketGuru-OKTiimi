@@ -51,73 +51,73 @@ public class TicketSaleRestController {
 
     // ===== CREATE new sale =====
     @PostMapping
-    @Transactional
-    public ResponseEntity<?> createSale(@Valid @RequestBody TicketSale ticketSale, @RequestParam(required = false) String buyerEmail) {
+@Transactional
+public ResponseEntity<?> createSale(@RequestBody TicketSale ticketSale,
+                                    @RequestParam(required = false) String buyerEmail) {
 
-        // 1️⃣ Validate user
-        if (ticketSale.getUser() == null || ticketSale.getUser().getId() == null) {
-            return ResponseEntity.badRequest().body("TicketSale must have a valid user");
-        }
-        AppUser user = userRepository.findById(ticketSale.getUser().getId()).orElse(null);
-        if (user == null) return ResponseEntity.badRequest().body("User not found");
-        ticketSale.setUser(user);
+    // 1️⃣ Validate user
+    if (ticketSale.getUser() == null || ticketSale.getUser().getId() == null) {
+        return ResponseEntity.badRequest().body("TicketSale must have a valid user");
+    }
+    AppUser user = userRepository.findById(ticketSale.getUser().getId()).orElse(null);
+    if (user == null) return ResponseEntity.badRequest().body("User not found");
+    ticketSale.setUser(user);
 
-        // 2️⃣ Validate tickets
-        if (ticketSale.getTickets() == null || ticketSale.getTickets().isEmpty()) {
-            return ResponseEntity.badRequest().body("TicketSale must have at least one ticket");
-        }
-
-        // 3️⃣ Save sale first
-        TicketSale savedSale = ticketSaleRepository.save(ticketSale);
-
-        // 4️⃣ Validate & save tickets
-        for (Ticket ticket : ticketSale.getTickets()) {
-
-            // Validate event
-            if (ticket.getEventId() == null || ticket.getEventId().getEventId() == null) {
-                return ResponseEntity.badRequest().body("Ticket must have an eventId");
-            }
-            Event event = eventRepository.findById(ticket.getEventId().getEventId()).orElse(null);
-            if (event == null) return ResponseEntity.badRequest().body("Event not found");
-            ticket.setEventId(event);
-
-            // Validate ticket type
-            if (ticket.getTicketTypeId() == null || ticket.getTicketTypeId().getTicketTypeId() == null) {
-                return ResponseEntity.badRequest().body("Ticket must have a ticketTypeId");
-            }
-            TicketType type = ticketTypeRepository.findById(ticket.getTicketTypeId().getTicketTypeId()).orElse(null);
-            if (type == null) return ResponseEntity.badRequest().body("TicketType not found");
-            ticket.setTicketTypeId(type);
-
-            // Associate with sale
-            ticket.setTicketSale(savedSale);
-
-            // Generate ticket code if missing
-            if (ticket.getTicketCode() == null) {
-                ticket.setTicketCode(System.currentTimeMillis());
-            }
-
-            ticketRepository.save(ticket);
-        }
-
-        // Refresh the sale to get all tickets with their IDs
-        savedSale = ticketSaleRepository.findById(savedSale.getSaleId()).orElse(savedSale);
-
-        // Send email with ticket codes to customer
-        // Use buyerEmail parameter if provided, otherwise fall back to user's email
-        String emailAddress = (buyerEmail != null && !buyerEmail.isEmpty()) ? buyerEmail : user.getEmail();
-        System.out.println("Attempting to send email to: " + emailAddress);
-        System.out.println("Tickets in sale: " + (savedSale.getTickets() != null ? savedSale.getTickets().size() : 0));
-        
-        if (emailAddress != null && !emailAddress.isEmpty()) {
-            emailService.sendTicketEmail(savedSale, emailAddress);
-        } else {
-            System.err.println("No email address provided for sending tickets!");
-        }
-
-        return ResponseEntity.ok(savedSale);
+    // 2️⃣ Validate tickets
+    if (ticketSale.getTickets() == null || ticketSale.getTickets().isEmpty()) {
+        return ResponseEntity.badRequest().body("TicketSale must have at least one ticket");
     }
 
+    // 3️⃣ Save sale first (tickets will be updated after)
+    TicketSale savedSale = ticketSaleRepository.save(ticketSale);
+
+    // 4️⃣ Loop through tickets
+    for (Ticket ticket : ticketSale.getTickets()) {
+
+        // Fetch Event by ID
+        if (ticket.getEventId() == null) return ResponseEntity.badRequest().body("Ticket must have eventId");
+        Event event = eventRepository.findById(ticket.getEventId().getEventId()).orElse(null);
+        if (event == null) return ResponseEntity.badRequest().body("Event not found");
+        ticket.setEventId(event);
+
+        // Fetch TicketType by ID
+        if (ticket.getTicketTypeId() == null) return ResponseEntity.badRequest().body("Ticket must have ticketTypeId");
+        TicketType type = ticketTypeRepository.findById(ticket.getTicketTypeId().getTicketTypeId()).orElse(null);
+        if (type == null) return ResponseEntity.badRequest().body("TicketType not found");
+        ticket.setTicketTypeId(type);
+
+        // Associate ticket with sale
+        ticket.setTicketSale(savedSale);
+
+        // Generate ticketCode if missing
+        if (ticket.getTicketCode() == null) {
+            ticket.setTicketCode(System.currentTimeMillis());
+        }
+
+        ticketRepository.save(ticket);
+    }
+
+    // Refresh sale to include tickets
+    savedSale = ticketSaleRepository.findById(savedSale.getSaleId()).orElse(savedSale);
+
+   // Send email (NON-CRITICAL)
+    String emailAddress = (buyerEmail != null && !buyerEmail.isEmpty())
+        ? buyerEmail
+        : user.getEmail();
+
+    if (emailAddress != null && !emailAddress.isEmpty()) {
+        try {
+            emailService.sendTicketEmail(savedSale, emailAddress);
+        } catch (Exception e) {
+            System.out.println("Email failed, sale still successful: " + e.getMessage());
+        }
+    }
+
+
+    return ResponseEntity.ok(savedSale);
+}
+
+    
     // ===== UPDATE sale =====
     @PutMapping("/{saleId}")
     @Transactional
