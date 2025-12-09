@@ -217,7 +217,7 @@ TicketGuru hyödyntää REST API -rajapintoja, joiden avulla client ja server ko
 
 -------
 #### **Base-URL**:
-https://demo-2-ticketguru-oktiimi.2.rahtiapp.fi/api
+https://demo-0-ticketguru-oktiimi.2.rahtiapp.fi/api
 
 ---------
 
@@ -1559,11 +1559,11 @@ TicketGuru-ohjelmiston testaus toteutettiin monitasoisesti, jotta järjestelmän
 
 - jos muuttujaa ei ole asetettu, käytetään oletuksena `dev`-profiilia.
 
-### 7.3 Kehitysympäristö:
+### 7.4 Kehitysympäristö:
 
 Tässä osassa kuvataan, miten sovelluksen kehitysympäristö voidaan rakentaa uudelle koneelle.
 
-  ### 7.3.1 PostgreSQL -tietokannan luonti paikallisesti( PostgreSQL sovelluksella)
+  ### 7.4.1 PostgreSQL -tietokannan luonti paikallisesti( PostgreSQL sovelluksella)
   
   - Avaa PostgreSQL-sovellus
 
@@ -1594,7 +1594,7 @@ Tässä osassa kuvataan, miten sovelluksen kehitysympäristö voidaan rakentaa u
         spring.sql.init.data-locations=classpath:data-localPostgreSQL.sql
 
 
-### 7.3.2 Sovelluksen käynnistäminen
+### 7.4.2 Sovelluksen käynnistäminen
     
 - Sovellus voidaan käynnistää Mavenilla valitulla profiililla (`dev`, `test` tai `prod`)
 
@@ -1611,9 +1611,31 @@ Tässä osassa kuvataan, miten sovelluksen kehitysympäristö voidaan rakentaa u
 - Tämä varmistaa, että sovellus käyttää oikeaa tietokantaa ja asetuksia valitun profiilin mukaisesti.
 
 
-### 7.4 Tuotantoympäristö ( CSC Rahti)
+### 7.4.3 Index.html - API osoitteen vaihto 
 
-   #### 7.4.1 PostgreSQL -tietokannan luonti ( Rahti)
+
+- Projektin index.html-tiedostossa backendin API-osoite on valmiiksi asetettu tuotantoympäristöön (H2 / Rahti).
+
+- Paikallista kehitystä ja testausta varten API-osoite tulee vaihtaa localhostiin.
+
+        <script>
+          // paikallinen kehitysympäristö
+           const API_BASE_URL = "http://localhost:8080/api"; 
+
+          // tuotantoympäristö
+          const API_BASE_URL = "https://demo-0-ticketguru-oktiimi.2.rahtiapp.fi/api"; 
+
+- Kun projekti kloonataan ja ajetaan paikallisesti, varmista että:
+
+    - Spring Boot on käynnissä portissa 8080
+
+    - Oikea Spring-profiili (dev tai test) on valittu
+
+    - Muutoksen jälkeen frontend käyttää paikallista backendia.
+
+### 7.5 Tuotantoympäristö ( CSC Rahti)
+
+   #### 7.5.1 PostgreSQL -tietokannan luonti ( Rahti)
 
  - Luo PostgreSQl-tietokannan
 
@@ -1644,16 +1666,18 @@ Tässä osassa kuvataan, miten sovelluksen kehitysympäristö voidaan rakentaa u
         spring.sql.init.schema-locations=classpath:data.sql
         spring.sql.init.data-locations=classpath:data.sql
   
-#### 7.4.2 JAR-tiedoston rakentaminen
+#### 7.5.2 JAR-tiedoston rakentaminen
 
 - Paikallisesti koneella
 
        mvn clean package
 
-- Tämä luo `target/ticketguru-0.0.1-SNAPSHOT.jar tiedoston`
+- Tämä luo 
+
+       target/ticketguru-0.0.1-SNAPSHOT.jar tiedoston
 
 
-#### 7.4.3 Sovelluksen kännyistys CSC Rahtiin:
+#### 7.5.3 Sovelluksen kännyistys CSC Rahtiin:
 
 - Lataa JAR-tiedosto Rahtiin
 
@@ -1668,4 +1692,5 @@ Tässä osassa kuvataan, miten sovelluksen kehitysympäristö voidaan rakentaa u
 
 - Rahti käynnistää sovelluksen automaattisesti JAR-tiedoston ja profiilin asetusten mukaisesti.
 
+**Huomio** Muista varmistaa, että index.html-tiedostossa käytössä oleva API_BASE_URL vastaa valittua ympäristöä.
 
